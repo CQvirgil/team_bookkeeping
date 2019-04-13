@@ -1,0 +1,12 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="box box1">
+  
+  </view>
+  <view class="box box2">
+  
+  </view>
+  <view class="box box3">
+  
+  </view>
+</view>
