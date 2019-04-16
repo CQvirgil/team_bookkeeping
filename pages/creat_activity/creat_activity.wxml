@@ -1,0 +1,9 @@
+<!--pages/creat_activity/creat_activity.wxml-->
+<view class='container creat-activity'>
+  <view>
+    <input maxlength='10' value='我的活动1' bindinput='gettext' placeholder="请输入活动名称"/>
+    <text class='{{text_amount_style}}'>{{text_amount}}/10</text>
+  </view>
+
+  <button class='{{btn_creat_activity_style}}' bindtap='gotoInvite'>创建活动</button>
+</view>

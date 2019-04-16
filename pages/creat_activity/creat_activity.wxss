@@ -1,0 +1,53 @@
+/* pages/creat_activity/creat_activity.wxss */
+
+view input{
+  height: 61rpx;
+  width: 556rpx;
+  font-size: 56rpx;
+  color: #000000;
+  font-weight: bolder;
+  border-bottom: 0.1rpx solid #e2e5e7;
+  margin-top: 112rpx;
+  padding-bottom: 9rpx;
+}
+
+.creat-activity{
+  background: #ffffff;
+}
+
+.text-amount{
+  margin-top: 24rpx;
+  font-size: 24rpx;
+  color: #bbbbbb;
+}
+
+.text-amount-red{
+  margin-top: 24rpx;
+  font-size: 24rpx;
+  color: #eb4c4c;
+}
+
+.btn-creat-activity{
+  width: 280rpx;
+	height: 112rpx;
+  background: #f7c429;
+  border-radius: 56rpx;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 132rpx;
+}
+
+.btn-creat-activity-opacity{
+  width: 280rpx;
+	height: 112rpx;
+  background: #f7c429;
+  border-radius: 56rpx;
+  font-size: 28rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 132rpx;
+  opacity: 0.7;
+}

@@ -1,12 +1,14 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/creat_activity/creat_activity",
+    "pages/invite/invite"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "团体记账",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }

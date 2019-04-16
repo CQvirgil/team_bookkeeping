@@ -1,18 +1,127 @@
 /**index.wxss**/
-.box{
-  width: 100rpx;
-  height: 100rpx;
-  margin-top: 20rpx;
+.bg{
+  background: #ededed;
 }
 
-.box1{
-  background: #00ff00;
+.text{
+  font-size: 28rpx;
+	letter-spacing: 0rpx;
+	color: #bbbbbb;
+  position: absolute;
+  top: 484rpx;
 }
 
-.box2{
-  background: #ffff00;
+.buttons{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 120rpx;
 }
 
-.box3{
-  background: #00ffff;
+.button{
+  width: 280rpx;
+	height: 112rpx;
+  background-color: #ffffff;
+	border-radius: 56px;
+}
+
+.join-activity{
+  color: #000000;
+  border: solid 1px #000000;
+  margin-left: 32rpx;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  justify-content: center;
+}
+
+.create-activity{
+  background-color: #f7c429;
+  margin-right: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-activity image{
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.create-activity text{
+  font-size: 28rpx;
+  font-weight: bolder;
+}
+
+.img-container{
+  width: 64rpx;
+  height: 64rpx;
+  background: #ffffff;
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15rpx;
+}
+
+.list-container{
+  width: 100%;
+  height: 100vh;
+}
+
+.list-item{
+  height: 312rpx;
+  width: 100%;
+  background: #ffffff;
+  margin-bottom: 16rpx;
+}
+
+.item-title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.activity-name{
+  font-weight: bolder;
+  font-size: 48rpx;
+  margin-top: 56rpx;
+  margin-left: 31rpx;
+}
+
+.activity-money{
+  color: #000000;
+  font-size: 48rpx;
+  font-weight: bolder;
+  margin-top: 60rpx;
+  margin-right: 31rpx;
+}
+
+.activity-underway{
+  font-size: 28rpx;
+  color: #f7c429;
+  margin-left: 30rpx;
+  margin-top: 40rpx;
+}
+
+.activity-sum{
+  font-size: 28rpx;
+  color: #bbbbbb;
+  margin-right: 32rpx;
+  margin-top: 40rpx;
+}
+
+.item-headimgs{
+  margin-left: 16rpx;
+  margin-top: 40rpx;
+}
+
+.headimgs{
+  width: 48rpx;
+  height: 48rpx;
+  background: #dfdfdf;
+  margin-left: 16rpx;
+  border-radius: 8rpx;
 }

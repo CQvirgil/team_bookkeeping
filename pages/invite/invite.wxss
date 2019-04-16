@@ -1,0 +1,147 @@
+/* pages/invite/invite.wxss */
+.title{
+  font-weight: bolder;
+  font-size: 56rpx;
+  margin-left: 31rpx;
+  color: #000000;
+}
+
+.top{
+  width: 100%;
+  margin-top: 67rpx;
+}
+
+.tip{
+  width: 100%;
+  margin-top: 95rpx;
+}
+
+.tip text{
+  margin-left: 31rpx;
+}
+
+.main{
+  width: 100%;
+  margin-top: 39rpx;
+  display: flex;
+  align-items: center
+}
+
+.wxfriend{
+  font-size: 28rpx;
+  color: #000000;
+  margin-left: 15rpx;
+}
+
+.img{
+  width: 24rpx;
+	height: 24rpx;
+}
+
+.img-bg{
+  width: 72rpx;
+	height: 72rpx;
+	background-color: #f7c429;
+  margin-left: 0rpx;
+	border-radius: 8rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 31rpx;
+}
+
+.QRcode-container{
+  width: 200rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  right: 31rpx;
+}
+
+.icon-qr-code{
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.text-qr-code{
+  font-size: 28rpx;
+  color: #999999;
+  margin-left: 14rpx;
+}
+
+.mine{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 31rpx;
+  margin-bottom: 56rpx;
+  justify-content: flex-start;
+}
+
+.list-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 31rpx;
+  margin-bottom: 56rpx;
+  justify-content: flex-start;
+}
+
+.headimg{
+  width: 72rpx;
+  height: 72rpx;
+  background: #dfdfdf;
+  border-radius: 8rpx;
+}
+
+.username{
+  color: #000000;
+  margin-left: 31rpx;
+}
+
+.list{
+  width: 100%;
+  height: 800rpx;
+  margin-top: 56rpx;
+  margin-left: 0rpx;
+}
+
+.buttons{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 120rpx;
+}
+
+.button{
+  width: 280rpx;
+	height: 112rpx;
+  background-color: #ffffff;
+	border-radius: 56px;
+}
+
+.left-button{
+  color: #000000;
+  border: solid 1px #000000;
+  margin-left: 32rpx;
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  justify-content: center;
+}
+
+.right-button{
+  background-color: #fdedbe;
+  margin-right: 32rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
