@@ -35,9 +35,9 @@ Page({
       }
     })
   },
-  gotoInvite: function(e){
-    // wx.navigateTo({
-    //   url: '../invite/invite',
-    // })
+  gotoDetails: function(e){
+    wx.navigateTo({
+      url: '../details/details',
+    })
   }
 })

@@ -3,7 +3,7 @@
   <text class='text' wx:if="{{hasActivity}}">暂无活动</text>
 
   <scroll-view scroll-y class='list-container'>
-    <view class='list-item' wx:for='{{list}}' bindtap='gotoInvite'> 
+    <view class='list-item' wx:for='{{list}}' bindtap='gotoDetails'> 
       <view class='item-title'>
         <text class='activity-name'>{{item.name}}</text>
         <text class='activity-money'>¥{{item.money}}</text>

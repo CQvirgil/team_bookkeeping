@@ -1,0 +1,46 @@
+<!--pages/details/details.wxml-->
+<view class='container details'>
+  <view class='top-view'>
+    <view class='title-container'>
+      <text class='title'>美丽海岛五日游五日游</text>
+      <image class='title-image' src='/res/btn_rename_normal.png'></image>
+    </view>
+    
+    <image class='btn-menu-normal' src='/res/btn_menu_normal.png'></image>
+  </view>
+  
+  <view class='state'>
+    <text class='text text-gray'>进行中</text>
+    <text class='text text-gray state-right'>共8人参与</text>
+  </view>
+
+  <view class='person-headimgs'>
+    <image class='headimg'></image>
+    <image class='btn-start-normal' src='/res/btn_start_normal.png'></image>
+  </view>
+  
+  <view class='mine-acount'>
+    <text class='text'>我的总消费</text>
+    <text class='title'>¥1446.2</text>
+  </view>
+
+  <view class='all-acount'>
+    <text class='text'>全员总消费</text>
+    <text class='text text-gray'>¥1446.2</text>
+  </view>
+
+  <view class='all-acount'>
+    <text class='text'>我已支出</text>
+    <text class='text text-gray'>¥1446.2</text>
+  </view>
+
+  <view class='buttons'>
+    <view class='endtally'>
+      <image class='button-icon'></image>
+      <text class='text'>结束记账</text>
+    </view>
+    <view class='detail'>
+      <text class='text'>收支明细</text>
+    </view>
+  </view>
+</view>

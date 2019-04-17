@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/creat_activity/creat_activity",
-    "pages/invite/invite"
+    "pages/invite/invite",
+    "pages/details/details"
   ],
   "window": {
     "backgroundTextStyle": "light",

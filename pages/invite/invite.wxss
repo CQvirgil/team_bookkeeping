@@ -89,7 +89,47 @@
   align-items: center;
   margin-left: 31rpx;
   margin-bottom: 56rpx;
-  justify-content: flex-start;
+  justify-content: space-between;
+}
+
+.bg-color-bbbbbb{
+  background: #bbbbbb;  
+}
+
+#bg-color-f7c429{
+  background: #f7c429;
+}
+
+#bg-color-fdedbe{
+  background: #fdedbe;
+}
+
+#color-bbbbbb{
+  color: #bbbbbb;
+}
+
+.border-color-999999{
+  color: #999999;
+  border: solid 1px #999999;
+}
+
+.border-color-000000{
+  color: #000000;
+  border: solid 1px #000000;
+}
+
+.lucid{
+  opacity: 0.7;
+}
+
+.transverse{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.delete{
+  margin-right: 31rpx;
 }
 
 .headimg{
@@ -101,13 +141,20 @@
 
 .username{
   color: #000000;
-  margin-left: 31rpx;
+  margin-left: 16rpx;
 }
 
 .list{
   width: 100%;
   height: 800rpx;
   margin-top: 56rpx;
+  margin-left: 0rpx;
+}
+
+.list2{
+  width: 100%;
+  height: 800rpx;
+  margin-top: 39rpx;
   margin-left: 0rpx;
 }
 
@@ -128,8 +175,6 @@
 }
 
 .left-button{
-  color: #000000;
-  border: solid 1px #000000;
   margin-left: 32rpx;
   display: flex;
   align-items: center;
@@ -138,10 +183,88 @@
 }
 
 .right-button{
-  background-color: #fdedbe;
   margin-right: 32rpx;
   font-size: 28rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.image-button::after{
+  border: none;
+}
+
+.image-button{
+  padding-right: 31rpx;
+  padding-left: 48rpx;
+  background: #ffffff;
+}
+
+.button-image{
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.wait{
+  font-size: 24rpx;
+  color: #bbbbbb;
+}
+
+.wx-friend-big{
+  width: 187rpx;
+  height: 278rpx;
+  position: absolute;
+  top: 485rpx;
+  text-align: center;
+}
+
+.wx-friend-big-image{
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.wx-friend-big-button{
+  width: 144rpx;
+  height: 144rpx;
+  background: #f7c429;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wx-friend-big-qr-icon{
+  margin-left: 0rpx;
+}
+
+.wx-friend-big-button-qr::after{
+  border: none;
+  padding: 0 0;
+}
+
+.wx-friend-big-button-qr{
+  padding: 0 0;
+  background: #ffffff;
+}
+
+#start-tally-image{
+  width: 12rpx;
+  height: 22rpx;
+  margin-left: 16rpx;
+}
+
+.qr_invite{
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-close{
+  width: 40rpx;
+  height: 104rpx;
 }

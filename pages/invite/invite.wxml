@@ -1,41 +1,67 @@
 <!--pages/invite/invite.wxml-->
 <view class='container'>
   <view class='top'>
-    <text class='title'>美丽海岛五日游五日游</text>
+    <text class='title'>{{activity_name}}</text>
   </view>
   <view  class='tip'>
     <text class='text'>活动成员</text>
   </view>
 
   <view class='main' wx:if = "{{isWXFriendShow}}">
-    <view class='img-bg'>
+    <view class='img-bg {{img_bg_style}}'>
       <image class='img' src='/res/btn_invite_normal.png'></image>
     </view>
-    <text class='wxfriend'>邀请微信好友</text>
-    <view class='QRcode-container'>
+    <text class='wxfriend' id='{{wxfriend_style}}'>{{wxfriend}}</text>
+    <view bindtap='show_qr_invite' class='QRcode-container {{QRcode_container_style}}'>
       <image class='icon-qr-code' src='../../res/icon_qr_code.png'></image>
       <text class='text-qr-code'>二维码邀请</text>
     </view>
   </view>
 
-  <scroll-view class='list' scroll-y >
+  <scroll-view class='list {{list_style}}' scroll-y >
     <view class='mine'>
       <image class='headimg'/>
       <text class='text username'>音匀</text>
     </view>
-    <view class='list-item' wx:for='{{list}}'>
-      <image class='headimg'/>
-      <text class='text username'>音匀</text>
+    <view class='list-item {{list_item_style}}' wx:for='{{list}}'>
+      <view class='transverse'>
+        <image class='headimg'/>
+        <text class='text username {{username_style}}'>音匀</text>
+      </view>
+      
+      <view class='transverse delete'>
+        <text class='text wait' wx:if="{{isAccept}}">待接受邀请</text>
+        <button bindtap='deletePerson' class='image-button'><image class='button-image' src='../../res/icon_delete_normal.png'/></button>
+      </view>
     </view>
+    
     <view class='footview'></view>
   </scroll-view>
   
   <view class='buttons'>
-    <view class='button left-button'  bindtap = 'joinActivity'>
+    <view class='button left-button border-color-999999'  bindtap = 'outActivity'>
       <text class='btn-text'>退出活动</text>
     </view>
-    <view class='button right-button'  bindtap = 'joinActivity'>
-      <text class='btn-text'>开始记账 ></text>
+    <view class='button right-button' id='{{start_tally_style}}'  bindtap = 'joinActivity'>
+      <text class='btn-text'>开始记账</text>
+      <image id='start-tally-image' src='../../res/btn_start_normal.png'></image>
     </view>
   </view>
+
+  <view class='wx-friend-big' wx:if="{{isShowWXFriendBig}}">
+    <button bindtap='ShareToWX' class='wx-friend-big-button'>
+      <image class='wx-friend-big-image' src='../../res/btn_invite_normal.png'></image>
+    </button>
+    <text class='text'>邀请微信好友</text>
+    <button bindtap='show_qr_invite' class='wx-friend-big-button-qr'>
+      <image class='icon-qr-code wx-friend-big-qr-icon' src='../../res/icon_qr_code.png'></image>
+      <text class='text-qr-code wx-friend-big-qr-text'>二维码邀请</text>
+    </button>
+  </view>
+  
+  <view  class='qr_invite' bindtap='closeDialog' wx:if="{{is_show_qr_invite}}">
+    <qr_invite></qr_invite>
+    <image src='/res/btn_close.png' bindtap='closeDialog' class='dialog-close'></image>
+  </view>
+  
 </view>

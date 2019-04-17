@@ -1,0 +1,37 @@
+/* components/qr_invite/qr_invite.wxss */
+
+.dialog{
+  width: 686rpx;
+	height: 824rpx;
+  background-color: #ffffff;
+	border-radius: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title{
+  font-size: 48rpx;
+  color: #000000;
+} 
+
+.qr-code{
+  width: 496rpx;
+	height: 496rpx;
+  background: #dfdfdf;
+  margin-top: 40rpx;
+}
+
+.tips{
+  font-size: 28rpx;
+  margin-top: 40rpx;
+}
+
+.close-image{
+  width: 24rpx;
+	height: 24rpx;
+}
+
+.close-container{
+}

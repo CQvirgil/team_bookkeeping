@@ -9,6 +9,12 @@
   background: #ffffff;
 } 
 
+.title{
+  font-weight: bolder;
+  font-size: 56rpx;
+  color: #000000;
+}
+
 .text{
   font-size: 28rpx;
 }

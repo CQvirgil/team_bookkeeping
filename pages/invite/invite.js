@@ -5,8 +5,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: [1, 2, 3, 4, 5, 6,7,8,9],
-    isWXFriendShow: true
+    list: [1,2,3,4,5],              //用户列表
+    isWXFriendShow: false,                //是否显示小的微信好友邀请按钮
+    isShowWXFriendBig: false,             //是否显示大的微信好友邀请按钮
+    list_style: 'list3',             //列表样式，传入css类名
+    isAccept: false,            //是否接受邀请
+    list_item_style: '',            //列表item样式
+    QRcode_container_style:'',            //二维码邀请按钮样式
+    username_style: '',           //列表item中username样式
+    img_bg_style:'',            //小的邀请微信好友样式 
+    start_tally_style: 'bg-color-fdedbe',           //开始记账按钮样式
+    wxfriend: '邀请微信好友',
+    wxfriend_style: '',            //邀请微信好友样式
+    activity_name:'',
+    is_show_qr_invite: false
   },
 
   /**
@@ -15,6 +27,109 @@ Page({
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '邀请成员',
+    })
+    this.setData({
+      activity_name: options.activity_name
+    })
+    console.log("activity_name = "+options.activity_name);
+
+    //当列表满员时修改小的邀请微信好友按钮样式
+    if(this.data.list.length >= 20){
+      this.setData({
+        username_style: 'lucid',           //列表item中username样式
+        img_bg_style: 'bg-color-bbbbbb',            //小的邀请微信好友样式 
+        start_tally_style: 'bg-color-f7c429',           //开始记账按钮样式
+        wxfriend: '活动已满20人',
+        wxfriend_style: 'color-bbbbbb'
+      })
+    }else{
+      this.setData({
+        username_style: '',           //列表item中username样式
+        img_bg_style: '',            //小的邀请微信好友样式 
+        start_tally_style: 'bg-color-fdedbe',           //开始记账按钮样式
+        wxfriend: '邀请微信好友'
+      })
+    }
+
+    //判断列表是否为空，非空显示小的微信邀请按钮，空时显示大的微信邀请按钮
+    if(this.data.list.length > 0){
+      this.setData({
+        isWXFriendShow: true,
+        isShowWXFriendBig: false
+      })
+    }else
+    if (this.data.list.length <= 0) {
+      this.setData({
+        isWXFriendShow: false,
+        isShowWXFriendBig: true
+      })
+    }
+    //列表为空时调整列表上边距
+    if(!this.data.isWXFriendShow){
+      this.setData({
+        list_style: 'list2'
+      })
+    }else{
+      this.setData({
+        list_style: '',
+      })
+    }
+    //判断是否接受邀请，true为未接受，false为接受，未接受时修改列表item的透明度为0.7
+    if(this.data.isAccept){
+      this.setData({
+        list_item_style: 'lucid',
+        username_style: 'lucid'
+      })
+    } else {
+      this.setData({
+        list_style: '',
+      })
+    }
+  },
+
+  outActivity: function(event){
+    wx.showModal({
+      title: '',
+      content: '确定退出活动吗？',
+      confirmColor: '#eb4c4c',
+      confirmText: '退出',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+  deletePerson: function(e){
+    wx.showModal({
+      title: '',
+      content: '确定把该成员移出活动吗？',
+      confirmColor: '#eb4c4c',
+      confirmText: '移出',
+      success(res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+  closeDialog: function(e){
+    this.setData({
+      is_show_qr_invite: false
+    })
+  },
+  show_qr_invite: function(e){
+    this.setData({
+      is_show_qr_invite: true
+    })
+  },
+  ShareToWX: function(e){
+    wx.showShareMenu({
+      withShareTicket: true
     })
   },
 
