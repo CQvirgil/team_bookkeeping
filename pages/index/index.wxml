@@ -10,7 +10,7 @@
       </view>
 
       <view class='item-title'>
-        <text class='activity-underway'>进行中</text>
+        <text class='text-bolder activity-underway'>进行中</text>
         <text class='activity-sum'>8人共消费1446.2</text>
       </view>
       

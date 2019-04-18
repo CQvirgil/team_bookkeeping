@@ -29,7 +29,7 @@
 
 .join-activity{
   color: #000000;
-  border: solid 1px #000000;
+  border: solid 1rpx #bbbbbb;
   margin-left: 32rpx;
   display: flex;
   align-items: center;
@@ -72,7 +72,7 @@
 }
 
 .list-item{
-  height: 312rpx;
+  height: 344rpx;
   width: 100%;
   background: #ffffff;
   margin-bottom: 16rpx;

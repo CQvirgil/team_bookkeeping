@@ -1,0 +1,148 @@
+/* pages/people/people.wxss */
+
+.people{
+  padding: 0 0;
+}
+
+.mine{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 31rpx;
+  margin-bottom: 56rpx;
+  justify-content: flex-start;
+}
+
+.headimg{
+  width: 72rpx;
+  height: 72rpx;
+  background: #dfdfdf;
+  border-radius: 8rpx;
+  margin-right: 16rpx;
+}
+
+.list{
+  width: 100%;
+  height: 92vh;
+  margin-left: 0rpx;
+}
+
+.list-item{
+  width: 100%;
+  margin-bottom: 78rpx;
+}
+
+.image-button::after{
+  border: none;
+}
+
+.image-button{
+  padding-right: 31rpx;
+  padding-left: 48rpx;
+  background: #ffffff;
+}
+
+.button-image{
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.list-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 31rpx;
+  margin-bottom: 56rpx;
+  justify-content: space-between;
+}
+
+.transverse{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+.delete{
+  margin-right: 31rpx;
+}
+
+.wait{
+  font-size: 24rpx;
+  color: #bbbbbb;
+}
+
+.text-qr-code{
+  font-size: 28rpx;
+  color: #999999;
+  margin-left: 14rpx;
+}
+
+.QRcode-container{
+  width: 200rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  right: 31rpx;
+}
+
+
+.icon-qr-code{
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.wxfriend{
+  font-size: 28rpx;
+  color: #000000;
+  margin-left: 15rpx;
+}
+
+.main{
+  width: 100%;
+  margin-top: 39rpx;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 40rpx;
+}
+
+.img{
+  width: 24rpx;
+	height: 24rpx;
+}
+
+.img-bg{
+  width: 72rpx;
+	height: 72rpx;
+	background-color: #f7c429;
+  margin-left: 0rpx;
+	border-radius: 8rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 31rpx;
+}
+
+.qr_invite{
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.dialog-close{
+  width: 40rpx;
+  height: 104rpx;
+}

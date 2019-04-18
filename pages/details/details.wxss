@@ -72,18 +72,108 @@
   align-items: center;
 }
 
+#mypay{
+  margin-top: 52rpx;
+}
+
+#all-acount{
+  margin-top: 43rpx;
+}
+
 .buttons{
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   font-weight: bolder;
+  margin-top: 43rpx;
 }
 
 .detail{
-  margin-left: 118rpx;
+  display: flex;
+  align-items: center;
 }
 
 .endtally{
+  display: flex;
+  align-items: center;
   color: #f7c429;
+}
+
+.button-icon{
+  width: 32rpx;
+  height: 22rpx;
+  margin-right: 11rpx;
+}
+
+.button-icon2{
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 11rpx;
+}
+
+.line{
+  width: 1px;
+  height: 24rpx;
+  background: #e2e5e7;
+  margin-left: 61rpx;
+  margin-right: 56rpx;
+}
+
+.list{
+  width: 100%;
+  height: 500rpx;
+  margin-top: 69rpx;
+}
+
+.list-item{
+  width: 100%;
+  margin-bottom: 78rpx;
+}
+
+.text-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 56rpx;
+}
+
+.time{
+  width: 100%;
+}
+
+.tally{
+  position: absolute;
+  bottom: 120rpx;
+  right: 32rpx;
+}
+
+.create-activity{
+  background-color: #f7c429;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-container{
+  width: 64rpx;
+  height: 64rpx;
+  background: #ffffff;
+  border-radius: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15rpx;
+}
+
+.create-activity image{
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.create-activity text{
+  font-size: 28rpx;
+  font-weight: bolder;
 }

@@ -4,7 +4,9 @@
     "pages/logs/logs",
     "pages/creat_activity/creat_activity",
     "pages/invite/invite",
-    "pages/details/details"
+    "pages/details/details",
+    "pages/people/people",
+    "pages/financial/financial"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -118,11 +118,19 @@ Page({
     })
   },
   closeDialog: function(e){
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#ffffff',
+    })
     this.setData({
       is_show_qr_invite: false
     })
   },
   show_qr_invite: function(e){
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#7f7f7f',
+    })
     this.setData({
       is_show_qr_invite: true
     })

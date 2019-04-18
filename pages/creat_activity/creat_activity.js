@@ -1,4 +1,6 @@
 // pages/creat_activity/creat_activity.js
+const app = getApp()
+
 Page({
 
   /**
@@ -44,7 +46,6 @@ Page({
       })
     }
   },
-
   /**
    * 生命周期函数--监听页面加载
    */

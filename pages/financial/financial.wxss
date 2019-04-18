@@ -1,0 +1,58 @@
+/* pages/financial/financial.wxss */
+
+.financial{
+  background: #ededed;
+}
+
+scroll-view{
+  width: 100%;
+  height: 100vh;
+}
+
+.list-item{
+  width: 100%;
+  height: 264rpx;
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.money-icon{
+  width: 75rpx;
+	height: 14rpx;
+}
+
+.person{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.person-image{
+  width: 73rpx;
+  height: 73rpx;
+  background: #dfdfdf;
+  margin-bottom: 12rpx;
+  border-radius: 8rpx;
+}
+
+.item-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.money{
+  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  margin: 0 81rpx;
+}
+
+.left{
+  
+}

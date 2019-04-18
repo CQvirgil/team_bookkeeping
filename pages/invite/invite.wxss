@@ -113,6 +113,11 @@
   border: solid 1px #999999;
 }
 
+.border-color-bbb{
+  color: #bbb;
+  border: solid 1px #bbb;
+}
+
 .border-color-000000{
   color: #000000;
   border: solid 1px #000000;

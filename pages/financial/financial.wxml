@@ -1,0 +1,24 @@
+<!--pages/financial/financial.wxml-->
+<view class='container financial'>
+  <scroll-view scroll-y>
+  
+    <view class='list-item' wx:for="[1,2,3]">
+        <view class='person left'>
+          <image class='person-image'></image>
+          <text class='person-name text'>嘉怡</text>
+        </view>
+        
+        <view class='money'>
+          <text class='money-text title'>¥1452.85</text>
+          <image class='money-icon' src='/res/icon_arrow.png'></image>
+        </view>
+
+        <view class='person right'>
+          <image class='person-image'></image>
+          <text class='person-name text'>嘉怡</text>
+        </view>
+    </view>
+
+  </scroll-view>
+
+</view>

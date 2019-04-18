@@ -5,5 +5,5 @@
     <text class='{{text_amount_style}}'>{{text_amount}}/10</text>
   </view>
 
-  <button class='{{btn_creat_activity_style}}' bindtap='gotoInvite'>创建活动</button>
+  <button class='{{btn_creat_activity_style}} text-bolder' bindtap='gotoInvite'>创建活动</button>
 </view>

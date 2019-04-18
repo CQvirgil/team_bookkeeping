@@ -4,14 +4,14 @@
     <text class='title'>{{activity_name}}</text>
   </view>
   <view  class='tip'>
-    <text class='text'>活动成员</text>
+    <text class='text-bolder'>活动成员</text>
   </view>
 
   <view class='main' wx:if = "{{isWXFriendShow}}">
     <view class='img-bg {{img_bg_style}}'>
       <image class='img' src='/res/btn_invite_normal.png'></image>
     </view>
-    <text class='wxfriend' id='{{wxfriend_style}}'>{{wxfriend}}</text>
+    <text class='wxfriend text-bolder' id='{{wxfriend_style}}'>{{wxfriend}}</text>
     <view bindtap='show_qr_invite' class='QRcode-container {{QRcode_container_style}}'>
       <image class='icon-qr-code' src='../../res/icon_qr_code.png'></image>
       <text class='text-qr-code'>二维码邀请</text>
@@ -39,11 +39,11 @@
   </scroll-view>
   
   <view class='buttons'>
-    <view class='button left-button border-color-999999'  bindtap = 'outActivity'>
+    <view class='button left-button border-color-bbb'  bindtap = 'outActivity'>
       <text class='btn-text'>退出活动</text>
     </view>
     <view class='button right-button' id='{{start_tally_style}}'  bindtap = 'joinActivity'>
-      <text class='btn-text'>开始记账</text>
+      <text class='btn-text text-bolder'>开始记账</text>
       <image id='start-tally-image' src='../../res/btn_start_normal.png'></image>
     </view>
   </view>

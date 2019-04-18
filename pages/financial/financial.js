@@ -1,35 +1,11 @@
-// pages/details/details.js
-var util = require('../../utils/util.js')
-
+// pages/financial/financial.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    isShowTime: false,
-    isShowDetail: true,
-    Finish: '进行中'
-  },
 
-  gotoPeople: function (e) {
-    wx.navigateTo({
-      url: '../people/people',
-    })
-  },
-  gotoFinancial: function(e){
-    wx.navigateTo({
-      url: '../financial/financial',
-    })
-  },
-  EndTally:function(e){
-    console.log(util.formatTime())
-    this.setData({
-      Finish: util.formatTime()+ '已结束'
-    })
-    wx.navigateTo({
-      url: '../financial/financial',
-    })
   },
 
   /**

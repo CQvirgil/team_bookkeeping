@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "qr_invite": "/components/qr_invite/qr_invite"
+  }
+}
