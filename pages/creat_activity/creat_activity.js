@@ -41,6 +41,20 @@ Page({
   //点击创建活动按钮时触发
   gotoInvite: function(e){
     if (this.data.text_amount>0){
+
+      app.globalData.activity[app.globalData.activity.length] = {
+        activity_name: this.data.activity_name,
+        my_pay: 0,
+        my_consume: 0,
+        people_acount: 1,
+        people: [],
+        isunderway: true,
+        pay_acount: 0,
+        headimgs: [1],
+        end_time: null,
+        bill: [1]
+      }
+
       wx.navigateTo({
         url: '../invite/invite?activity_name=' + this.data.activity_name,
       })

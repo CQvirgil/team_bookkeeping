@@ -109,6 +109,7 @@
   align-items: center;
   position: absolute;
   bottom: 40rpx;
+  background: #ffffff;
 }
 
 .img{

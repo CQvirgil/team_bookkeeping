@@ -5,22 +5,32 @@ const app = getApp()
 Page({
   data: {
     hasActivity: true,
-    list: []
+    list: [],
+    Finish: '进行中'
   },
   onLoad(pageOptions){
     console.log('onLoad')
-    this.setData({
-      list: [
-        { name: '美丽海岛五日游', money: 180.78, headimgs: [1, 2, 3, 4, 5] },
-        { name: '成都4日', money: 868.3, headimgs: [1, 2, 3, 4, 5] },
-        { name: '云南6日游', money: 1423.33, headimgs: [1, 2, 3, 4, 5] },
-        { name: '云南6日游', money: 1423.33, headimgs: [1, 2, 3, 4, 5] },
-        { name: '云南6日游', money: 1423.33, headimgs: [1, 2, 3, 4, 5] },
-        { name: '云南6日游', money: 1423.33, headimgs: [1, 2, 3, 4, 5] },
-        { name: '云南6日游', money: 1423.33, headimgs: [1, 2, 3, 4, 5] },
-      ],
-      hasActivity: false
+  },
+  onShow(){
+    wx.getUserInfo({
+      
     })
+
+    this.setData({
+      list: app.globalData.activity,
+    })
+
+    if (app.globalData.activity.end_time != null) {
+      this.setData({
+        Finish: app.globalData.activity.end_time + '已结束'
+      })
+    }
+    console.log(this.data.list.length)
+    if (this.data.list.length > 0) {
+      this.setData({
+        hasActivity: false
+      })
+    }
   },
   gotoCreatActivity(event){
     console.log('gotoCreatActivity')
@@ -36,8 +46,9 @@ Page({
     })
   },
   gotoDetails: function(e){
+    console.log(e.currentTarget.dataset.index)
     wx.navigateTo({
-      url: '../details/details',
+      url: '../details/details?index=' + e.currentTarget.dataset.index,
     })
   }
 })

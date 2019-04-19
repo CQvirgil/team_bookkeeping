@@ -1,0 +1,63 @@
+/* pages/join_activity/join_activity.wxss */
+
+.join_activity{
+  padding: 0 32rpx;
+}
+
+.text-gray{
+  color: #bbbbbb;
+}
+
+#top{
+  width: 100%;
+  margin-top: 68rpx;
+}
+
+.top-content{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 39rpx;
+}
+
+.list-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 56rpx;
+}
+
+.people{
+  display: flex;
+  align-items: center;
+}
+
+.mlist{
+  width: 100%;
+  height: 78vh;
+  margin-top: 40rpx;
+}
+
+.people_name{
+  margin-left: 16rpx;
+}
+
+.people_headimg{
+  width: 72rpx;
+  height: 72rpx;
+  background: #00ff00;
+  border-radius: 8rpx;
+}
+
+.btn-join{
+  width: 686rpx;
+	height: 112rpx;
+  border-radius: 56px;
+  position: absolute;
+  bottom: 162rpx;
+  background: #f7c429;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

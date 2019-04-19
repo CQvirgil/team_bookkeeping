@@ -3,15 +3,15 @@
   <text class='text' wx:if="{{hasActivity}}">暂无活动</text>
 
   <scroll-view scroll-y class='list-container'>
-    <view class='list-item' wx:for='{{list}}' bindtap='gotoDetails'> 
+    <view class='list-item' wx:for='{{list}}' bindtap='gotoDetails' data-index='{{index}}'> 
       <view class='item-title'>
-        <text class='activity-name'>{{item.name}}</text>
-        <text class='activity-money'>¥{{item.money}}</text>
+        <text class='activity-name'>{{item.activity_name}}</text>
+        <text class='activity-money'>¥{{item.my_pay}}</text>
       </view>
 
       <view class='item-title'>
-        <text class='text-bolder activity-underway'>进行中</text>
-        <text class='activity-sum'>8人共消费1446.2</text>
+        <text class='text-bolder activity-underway'>{{Finish}}</text>
+        <text class='activity-sum'>{{item.people_acount}}人共消费¥{{item.pay_acount}}</text>
       </view>
       
       <view class='item-headimgs'>

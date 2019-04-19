@@ -20,13 +20,13 @@
 
   <scroll-view class='list {{list_style}}' scroll-y >
     <view class='mine'>
-      <image class='headimg'/>
-      <text class='text username'>音匀</text>
+      <image class='headimg' src='{{headimg_url}}'/>
+      <text class='text username'>{{user_name}}</text>
     </view>
     <view class='list-item {{list_item_style}}' wx:for='{{list}}'>
       <view class='transverse'>
         <image class='headimg'/>
-        <text class='text username {{username_style}}'>音匀</text>
+        <text class='text username {{username_style}}'>{{user_name}}</text>
       </view>
       
       <view class='transverse delete'>
@@ -42,7 +42,7 @@
     <view class='button left-button border-color-bbb'  bindtap = 'outActivity'>
       <text class='btn-text'>退出活动</text>
     </view>
-    <view class='button right-button' id='{{start_tally_style}}'  bindtap = 'joinActivity'>
+    <view class='button right-button' id='{{start_tally_style}}'  bindtap = 'gotoDetails'>
       <text class='btn-text text-bolder'>开始记账</text>
       <image id='start-tally-image' src='../../res/btn_start_normal.png'></image>
     </view>

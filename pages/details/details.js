@@ -1,5 +1,6 @@
 // pages/details/details.js
 var util = require('../../utils/util.js')
+var app = getApp()
 
 Page({
 
@@ -9,7 +10,15 @@ Page({
   data: {
     isShowTime: false,
     isShowDetail: true,
-    Finish: '进行中'
+    Finish: '进行中',
+    activity_name: '',
+    people_acount: '',
+    my_consume: '',
+    all_acount: '',
+    my_pay: '',
+    bill: [],
+    isEndTally:true,
+    isShowLine: true
   },
 
   gotoPeople: function (e) {
@@ -24,9 +33,22 @@ Page({
   },
   EndTally:function(e){
     console.log(util.formatTime())
-    this.setData({
-      Finish: util.formatTime()+ '已结束'
-    })
+    app.globalData.activity.end_time = util.formatTime()
+    app.globalData.activity.isunderway = false
+    if (app.globalData.activity.end_time != null){
+      this.setData({
+        Finish: app.globalData.activity.end_time + '已结束',
+        isShowLine: false
+      })
+    }else{
+      this.setData({
+        Finish: app.globalData.activity.end_time + '已结束',
+        isEndTally: false,
+        isShowDetail: true,
+        isShowLine: false
+      })
+    }
+   
     wx.navigateTo({
       url: '../financial/financial',
     })
@@ -37,8 +59,30 @@ Page({
    */
   onLoad: function (options) {
     wx.setNavigationBarTitle({
-      title: '我的活动',
+      title: app.globalData.activity[options.index].activity_name,
     })
+
+    if (app.globalData.activity.end_time != null){
+      this.setData({
+        Finish: app.globalData.activity.end_time + '已结束',
+      })
+    }
+
+    this.setData({
+      activity_name: app.globalData.activity[options.index].activity_name,
+      people_acount: app.globalData.activity[options.index].people_acount,
+      my_consume: app.globalData.activity[options.index].my_consume,
+      all_acount: app.globalData.activity[options.index].pay_acount,
+      my_pay: app.globalData.activity[options.index].my_pay,
+      bill: app.globalData.activity[options.index].bill
+    })
+
+    if (this.data.people_acount == 1){
+      this.setData({
+        isShowDetail: false,
+        isShowLine: false,
+      })
+    }
   },
 
   /**

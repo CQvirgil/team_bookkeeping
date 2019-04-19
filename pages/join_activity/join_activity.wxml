@@ -1,0 +1,25 @@
+<!--pages/join_activity/join_activity.wxml-->
+<view class='container join_activity'>
+  <view id='top'>
+
+    <text class='title'>美丽海岛五日游</text>
+    <view class='top-content'>
+      <text class='text text-gray'>活动人数：12人</text>
+      <text class='text text-gray'>创建于2019-01-28</text>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class='mlist'>
+
+    <view class='list-item' wx:for="1231232312131">
+      <view class='people'>
+        <image class='people_headimg'></image>
+        <text class='text people_name'>音匀</text>
+      </view>
+      <text class='text text-gray'>创建人</text>
+    </view>
+
+  </scroll-view>
+
+  <button class='text-bolder btn-join'>加入活动</button>
+</view>

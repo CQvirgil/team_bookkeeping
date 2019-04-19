@@ -6,7 +6,9 @@
     "pages/invite/invite",
     "pages/details/details",
     "pages/people/people",
-    "pages/financial/financial"
+    "pages/financial/financial",
+    "pages/billing_details/billing_details",
+    "pages/join_activity/join_activity"
   ],
   "window": {
     "backgroundTextStyle": "light",

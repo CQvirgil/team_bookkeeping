@@ -1,11 +1,13 @@
 // pages/invite/invite.js
+var app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    list: [1,2,3,4,5],              //用户列表
+    list: [],              //用户列表
     isWXFriendShow: false,                //是否显示小的微信好友邀请按钮
     isShowWXFriendBig: false,             //是否显示大的微信好友邀请按钮
     list_style: 'list3',             //列表样式，传入css类名
@@ -18,7 +20,9 @@ Page({
     wxfriend: '邀请微信好友',
     wxfriend_style: '',            //邀请微信好友样式
     activity_name:'',
-    is_show_qr_invite: false
+    is_show_qr_invite: false,
+    headimg_url: '',
+    user_name: ''
   },
 
   /**
@@ -27,6 +31,12 @@ Page({
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '邀请成员',
+    })
+    
+    this.setData({
+      list: app.globalData.activity[app.globalData.activity.length - 1].people,
+      headimg_url: app.globalData.userInfo.avatarUrl,
+      user_name: app.globalData.userInfo.nickName
     })
     this.setData({
       activity_name: options.activity_name
@@ -138,6 +148,12 @@ Page({
   ShareToWX: function(e){
     wx.showShareMenu({
       withShareTicket: true
+    })
+  },
+  gotoDetails: function(e){
+    var index = app.globalData.activity.length - 1
+    wx.navigateTo({
+      url: '../details/details?index=' + index,
     })
   },
 

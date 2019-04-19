@@ -1,0 +1,47 @@
+<!--pages/billing_details/billing_details.wxml-->
+<view class='container billing_details'>
+  <view class='top money'>
+    <text class='text-bolder'>海鲜</text>
+    <text class='title'>¥1334</text>
+  </view>
+
+  <view class='top date'>
+    <text class='text text-gray'>今天（02-01）</text>
+    <text class='text text-gray'>总消费</text>
+  </view>
+  <text class='text-bolder state'>6人具体</text>
+
+  <scroll-view class='mlist' scroll-y>
+  
+    <view class='list-item' wx:for="1231232312131">
+      <view class='people'>
+          <image class='people_headimg'></image>
+          <text class='text people_name'>音匀</text>
+          <text class='text text-gray payer'>付款人</text>
+        </view>
+        <text class='text'>¥166.75</text>
+      </view>
+    
+      <view class='list-item-log-container'>
+        <view class='list-item-log text-log' wx:for="1231232312131">
+            <text>19-02-01</text>
+            <text>13:30</text>
+            <text>natsu创建</text>
+      </view>
+    </view>
+    
+    <view class='buttons'>
+
+      <view><button class='button left text-bolder'>删除账单</button></view>
+      <view><button class='button right text-bolder'>修改账单</button></view>
+
+    </view>
+
+    <view class='text' id='bottom'>
+    
+      <text >修改、删除账单请联系账单创建人</text>
+
+    </view>
+    
+  </scroll-view>
+</view>

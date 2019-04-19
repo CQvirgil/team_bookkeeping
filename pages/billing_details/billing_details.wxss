@@ -1,0 +1,106 @@
+/* pages/billing_details/billing_details.wxss */
+.billing_details{
+  padding: 0 32rpx;
+  background: #ffffff;
+}
+
+.top{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-gray{
+  color: #bbbbbb;
+}
+
+.money{
+  margin-top: 68rpx;
+}
+
+.date{
+  margin-top: 24rpx;
+}
+
+.state{
+  width: 100%;
+  margin-top: 119rpx;
+}
+
+.list-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 56rpx;
+}
+
+.people{
+  display: flex;
+  align-items: center;
+}
+
+.mlist{
+  width: 100%;
+  height: 70vh;
+  margin-top: 40rpx;
+}
+
+.payer{
+  margin-left: 32rpx;
+}
+
+.people_name{
+  margin-left: 16rpx;
+}
+
+.people_headimg{
+  width: 72rpx;
+  height: 72rpx;
+  background: #00ff00;
+  border-radius: 8rpx;
+}
+
+.text-log{
+  font-size: 24rpx;
+  color: #bbbbbb
+}
+
+.list-item-log-container{
+  margin-top: 62rpx;
+}
+
+.list-item-log{
+  width: 100%;
+  margin-top: 19rpx;
+}
+
+.list-item-log text{
+  margin-right: 16rpx;
+}
+
+.buttons{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 100rpx;
+}
+
+.left{
+  border: 1rpx solid #000000
+}
+
+.right{
+  background: #f7c429;
+}
+
+#bottom{
+  width: 100%;
+  text-align: center;
+  margin-top: 40rpx;
+  margin-bottom: 77rpx;
+}
