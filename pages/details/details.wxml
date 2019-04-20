@@ -15,7 +15,7 @@
   </view>
 
   <view class='person-headimgs' bindtap='gotoPeople'>
-    <image class='headimg'></image>
+    <image class='headimg' src='{{head_img}}'></image>
     <image class='btn-start-normal' src='/res/btn_members_normal.png'></image>
   </view>
   
@@ -52,11 +52,11 @@
   
     <view class='list-item' wx:for="{{bill}}">
     
-      <text class='text time text-gray' wx:if="{{index == 0 || index == 1}}">02-01</text>
+      <text class='text time text-gray' wx:if="{{index == 0}}">{{item.date}}</text>
       <view class='text-container'>
-        <text class='text'>午饭午饭午饭午饭午饭午饭</text>
-        <text class='text text-gray'>20人 ¥9999.99</text>
-        <text class='text text-gray'>¥9999.99</text>
+        <text class='text'>{{item.bill_content}}</text>
+        <text class='text text-gray'>1人 ¥{{item.money}}</text>
+        <text class='text text-gray'>¥{{item.money}}</text>
       </view>
     </view>
 
@@ -64,7 +64,7 @@
 
   <view class='tally'>
 
-     <button class='button create-activity' bindtap = 'gotoCreatActivity'>
+     <button class='button create-activity' bindtap = 'gotoWrite_a_bill'>
         <view class='img-container'>
           <image src='../../res/btn_creat_normal.png'></image>
         </view>

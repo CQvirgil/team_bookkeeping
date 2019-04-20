@@ -46,14 +46,27 @@ Page({
         activity_name: this.data.activity_name,
         my_pay: 0,
         my_consume: 0,
-        people_acount: 1,
-        people: [],
+        people_acount: 0,
+        people: [
+        ],
         isunderway: true,
         pay_acount: 0,
         headimgs: [1],
         end_time: null,
-        bill: [1]
+        bill: []
       }
+
+      // wx.request({
+      //   url: 'http://www.lecaigogo.com:4998/v1/activity/create',
+      //   data: {
+      //     "act_name": "this.data.activity_name",
+      //     "user_id": app.globalData.userInfo.nickName
+      //   },
+      //   method: "POST",
+      //   success(res){
+      //     console.log(res.data)
+      //   }
+      // })
 
       wx.navigateTo({
         url: '../invite/invite?activity_name=' + this.data.activity_name,

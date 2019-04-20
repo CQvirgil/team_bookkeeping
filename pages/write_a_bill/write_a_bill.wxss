@@ -1,0 +1,170 @@
+/* pages/write_a_bill/write_a_bill.wxss */
+
+.container {
+  padding: 0 32rpx;
+}
+
+.date {
+  color: #999;
+}
+
+.text-acount {
+  width: 100%;
+  text-align: right;
+  color: #999;
+  margin-top: 15rpx;
+}
+
+.jiantou {
+  width: 12rpx;
+  height: 22rpx;
+  margin-left: 24rpx;
+}
+
+.top {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 64rpx;
+}
+#date-jiantou{
+  margin-left: 0rpx;
+}
+
+.title {
+  font-size: 104rpx;
+  padding-right: 12rpx;
+}
+
+.money {
+  height: 100rpx;
+  width: 285rpx;
+  border-right: 4rpx solid #f7c429;
+  padding: 0;
+}
+
+.conent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 95rpx;
+}
+
+.top-content {
+  margin-top: 119rpx;
+}
+
+.text-gray {
+  color: #999;
+}
+
+.headimg {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 8rpx;
+  background: #dfdfdf;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.perso-name {
+  margin-right: 12rpx;
+}
+
+.button-border {
+  padding-right: 12rpx;
+  padding-left: 12rpx;
+  padding-top: 11rpx;
+  padding-bottom: 11rpx;
+  background: none;
+  margin-right: 0;
+  margin-left: 0;
+  line-height: 0;
+  border-radius: 8rpx;
+}
+
+.btn1 {
+  margin-right: 29rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #f7c429;
+  color: #f7c429;
+}
+
+.btn2 {
+  border: 2rpx solid #999;
+  color: #999;
+}
+
+.button-border image {
+  margin-left: 14rpx;
+}
+
+.btn-write {
+  width: 100%;
+  height: 112rpx;
+  background: #f7c429;
+  border-radius: 56rpx;
+  margin-top: 120rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  background: none;
+}
+
+button::after {
+  border: none;
+}
+
+.input-container {
+  width: 310rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.yuan {
+  color: #bbb;
+}
+
+.dialog{
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+}
+
+.dialog-content{
+  width: 100%;
+  height: 98vh;
+  position: absolute;
+  bottom: 0rpx;
+}
+
+.radio-group{
+ padding: 0 65rpx;
+ margin-top: 80rpx;
+ background: #dfdfdf;
+ line-height: 56rpx;
+}
+
+.c{
+  margin-right: 62rpx;
+  margin-left: 62rpx;
+}

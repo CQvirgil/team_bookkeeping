@@ -24,7 +24,12 @@ Page({
     headimg_url: '',
     user_name: ''
   },
-
+  onShareAppMessage: function(res){
+    return {
+      title: "这个小程序真棒",
+      path: "pages/join_activity/join_activity?act_id" + "123456" 
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -146,9 +151,7 @@ Page({
     })
   },
   ShareToWX: function(e){
-    wx.showShareMenu({
-      withShareTicket: true
-    })
+    
   },
   gotoDetails: function(e){
     var index = app.globalData.activity.length - 1

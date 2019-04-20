@@ -8,10 +8,16 @@
   </view>
 
   <view class='main' wx:if = "{{isWXFriendShow}}">
-    <view class='img-bg {{img_bg_style}}'>
-      <image class='img' src='/res/btn_invite_normal.png'></image>
-    </view>
-    <text class='wxfriend text-bolder' id='{{wxfriend_style}}'>{{wxfriend}}</text>
+    <button class='share {{img_bg_style}}' open-type='share'>
+      <view class='img-bg'>
+
+        <image class='img' src='/res/btn_invite_normal.png'></image>
+
+      </view>
+      
+      <text class='wxfriend text-bolder' id='{{wxfriend_style}}'>{{wxfriend}}</text>
+    </button>
+    
     <view bindtap='show_qr_invite' class='QRcode-container {{QRcode_container_style}}'>
       <image class='icon-qr-code' src='../../res/icon_qr_code.png'></image>
       <text class='text-qr-code'>二维码邀请</text>
@@ -25,8 +31,8 @@
     </view>
     <view class='list-item {{list_item_style}}' wx:for='{{list}}'>
       <view class='transverse'>
-        <image class='headimg'/>
-        <text class='text username {{username_style}}'>{{user_name}}</text>
+        <image class='headimg' src='{{item.person_headimg}}' />
+        <text class='text username {{username_style}}'>{{item.person_name}}</text>
       </view>
       
       <view class='transverse delete'>
@@ -49,7 +55,7 @@
   </view>
 
   <view class='wx-friend-big' wx:if="{{isShowWXFriendBig}}">
-    <button bindtap='ShareToWX' class='wx-friend-big-button'>
+    <button bindtap='ShareToWX' open-type="share" class='wx-friend-big-button'>
       <image class='wx-friend-big-image' src='../../res/btn_invite_normal.png'></image>
     </button>
     <text class='text'>邀请微信好友</text>

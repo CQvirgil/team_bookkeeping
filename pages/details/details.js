@@ -18,9 +18,15 @@ Page({
     my_pay: '',
     bill: [],
     isEndTally:true,
-    isShowLine: true
+    isShowLine: true,
+    head_img: ''
   },
+  gotoWrite_a_bill: function(e){
+    wx.navigateTo({
+      url: '../write_a_bill/write_a_bill',
+    })
 
+  },
   gotoPeople: function (e) {
     wx.navigateTo({
       url: '../people/people',
@@ -74,7 +80,9 @@ Page({
       my_consume: app.globalData.activity[options.index].my_consume,
       all_acount: app.globalData.activity[options.index].pay_acount,
       my_pay: app.globalData.activity[options.index].my_pay,
-      bill: app.globalData.activity[options.index].bill
+      bill: app.globalData.activity[options.index].bill,
+      head_img: app.globalData.userInfo.avatarUrl,
+      
     })
 
     if (this.data.people_acount == 1){

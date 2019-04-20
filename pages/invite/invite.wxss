@@ -24,7 +24,9 @@
   width: 100%;
   margin-top: 39rpx;
   display: flex;
-  align-items: center
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .wxfriend{
@@ -48,7 +50,23 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-left: 31rpx;
+}
+
+.share{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 32rpx;
+}
+
+.share:hover{
+  
+}
+
+.share::after{
+  border: none
 }
 
 .QRcode-container{
@@ -57,8 +75,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  position: absolute;
-  right: 31rpx;
+  margin-right: 32rpx;
 }
 
 .icon-qr-code{
