@@ -1,4 +1,16 @@
 /* pages/write_a_bill/write_a_bill.wxss */
+#state-container{
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  color: #f7c429;
+}
+
+#state-container image{
+  width: 22rpx;
+  height: 12rpx;
+  margin-left: 15rpx;
+}
 
 .container {
   padding: 0 32rpx;
@@ -27,7 +39,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 64rpx;
+  margin-top: 44rpx;
 }
 #date-jiantou{
   margin-left: 0rpx;
@@ -60,6 +72,10 @@
 
 .text-gray {
   color: #999;
+}
+
+.text-bbb{
+  color: #bbbbbb
 }
 
 .headimg {
@@ -154,17 +170,96 @@ button::after {
   width: 100%;
   height: 98vh;
   position: absolute;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
   bottom: 0rpx;
 }
 
-.radio-group{
- padding: 0 65rpx;
- margin-top: 80rpx;
- background: #dfdfdf;
- line-height: 56rpx;
+.text-bolder{
+  text-align: center;
+}
+.que{
+  margin-right: 16rpx;
 }
 
-.c{
-  margin-right: 62rpx;
-  margin-left: 62rpx;
+.dialog-content button{
+  width: 280rpx;
+	height: 112rpx;
+	background-color: #f7c429;
+	border-radius: 56rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 399rpx;
+}
+
+.radio-group{
+ width:556rpx;
+ height: 223rpx; 
+ margin-top: 80rpx;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ flex-wrap: wrap;
+}
+
+.radio-button-check{
+  width: 144rpx;
+  height: 72rpx;
+  background: #ffffff;
+  border: 1rpx solid #f7c429;
+  color: #f7c429;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-button{
+  width: 144rpx;
+  height: 72rpx;
+  background: #ffffff;
+  border: 1rpx solid #000;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-input{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 50rpx; 
+  margin-top: 41rpx;
+}
+
+.dialog-input input{
+  width: 556rpx;
+  border-bottom: 1rpx solid #e2e5e7;
+  padding-bottom: 15rpx;
+}
+
+.fill-width{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#text-payer{
+  margin-top: 39rpx;
+}
+
+#dialog-people-list{
+  width: 100%;
+  margin-top: 36rpx;
+}
+
+#dialog-people-list-item{
+  display: flex;
+  align-items: center;
+}
+
+#dialog-people-list-item text{
+  margin-left: 16rpx;
 }

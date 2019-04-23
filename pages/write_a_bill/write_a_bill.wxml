@@ -1,6 +1,10 @@
 <!--pages/write_a_bill/write_a_bill.wxml-->
 <view class='container'>
-
+  <view id='state-container'>
+    <text class='text' id=''>平均分摊状态</text>
+    <image src='/res/btn_average_split.png'></image>
+  </view>
+  
   <view class='top'>
 
     <view class="section">
@@ -23,15 +27,15 @@
 
   <view class='conent top-content'>
     <text class='text'>账单内容</text>
-    <view class='right'>
-      <text class='text text-gray'>一般</text>
+    <view class='right' bindtap='clicktBillContent'>
+      <text class='text text-gray'>{{bill_content}}</text>
       <image class='jiantou' src='/res/btn_members_normal.png'></image>
     </view>
   </view>
 
   <view class='conent'>
     <text class='text'>付款人</text>
-    <view class='right'>
+    <view class='right' bindtap='clickPayer'>
       <text class='text text-gray perso-name'>{{person_name}}</text>
       <image class='headimg' src='{{person_headimg}}'></image>
       <image class='jiantou' src='/res/btn_members_normal.png'></image>
@@ -39,7 +43,7 @@
   </view>
 
   <view class='conent'>
-    <text class='text'>成员&分摊</text>
+    <text class='text'>参与成员</text>
     <view class='right'>
 
       <button class='text button-border btn1'>
@@ -57,16 +61,38 @@
 
   <button class='text-bolder btn-write' bindtap='write'>记一笔</button>
 
-  <view class='dialog' wx:if="{{!isShowInput}}">
-    <view class='container dialog-content'>
-      <radio-group class="radio-group text">
-        <radio>一般</radio>
-        <radio class='c'>餐饮</radio>
-        <radio>住宿</radio>
-        <radio>交通</radio>
-        <radio class='c'>门票</radio>
-        <radio>购物</radio>
-      </radio-group>
+  <view class='dialog container' wx:if="{{isShowDialog1}}">
+    <view class='container dialog-content' animation="{{dialgo_animation}}">
+      <view class='radio-group'>
+
+         <text class='text {{item.radio_button_style}}'
+          bindtap='radio_check' wx:for="{{radio_button_data}}"
+           wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
+         </text>
+
+      </view>
+
+      <view class='dialog-input'>
+        <input maxlength='10' class='text input' placeholder-class='text-bbb'
+         bindinput='dialog_input' placeholder = "点击这里输入自定义内容"></input>
+        <text class='text text-bbb'>{{dialog_input_length}}/10</text>
+      </view>
+
+      <button  bindtap='clickDialogQueding' class='text-bolder'><text class='que' >确</text> <text>定</text></button>
     </view>
   </view>
+
+  <view class='dialog container' wx:if="{{isShowPeopleDialog}}">
+    <view class='container dialog-content'>
+      <view class='text-bolder fill-width' id='text-payer'> <text class='fill-width'>付款人</text></view>
+      <view id='dialog-people-list'>
+        <view id='dialog-people-list-item' wx:key='dialog-people-list-item' bindtap='clickPeopleItem'>
+          <image class='headimg-72'></image>
+          <text class='text'>音匀</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+
 </view>

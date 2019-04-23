@@ -45,4 +45,9 @@
   margin-top: 69rpx;
 }
 
-
+.headimg-72{
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 8rpx;
+  background: #dfdfdf;
+}
