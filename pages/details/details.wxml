@@ -42,7 +42,7 @@
 
     <view class='line' wx:if="{{isShowLine}}"></view>
 
-    <view class='detail' wx:if="{{isShowDetail}}" bindtap='gotoFinancial'>
+    <view class='detail' wx:if="{{isShowLine}}" bindtap='gotoFinancial'>
       <image class='button-icon2' src='/res/icon_details_normal.png'></image>
       <text class='text'>收支明细</text>
     </view>

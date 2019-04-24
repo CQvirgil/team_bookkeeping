@@ -9,7 +9,8 @@
     "pages/financial/financial",
     "pages/billing_details/billing_details",
     "pages/join_activity/join_activity",
-    "pages/write_a_bill/write_a_bill"
+    "pages/write_a_bill/write_a_bill",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

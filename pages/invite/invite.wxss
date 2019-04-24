@@ -266,6 +266,8 @@
 .wx-friend-big-button-qr{
   padding: 0 0;
   background: #ffffff;
+  display: flex;
+  align-items: center;
 }
 
 #start-tally-image{

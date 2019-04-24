@@ -10,7 +10,8 @@ Page({
     text_amount: 5,
     text_amount_style: 'text-amount',
     btn_creat_activity_style: 'btn-creat-activity',
-    activity_name: '我的活动1'
+    activity_name: '我的活动1',
+    activity_id: ''
   },
   //文本输入框输入时触发
   gettext: function(e){
@@ -42,35 +43,39 @@ Page({
   gotoInvite: function(e){
     if (this.data.text_amount>0){
 
-      app.globalData.activity[app.globalData.activity.length] = {
-        activity_name: this.data.activity_name,
-        my_pay: 0,
-        my_consume: 0,
-        people_acount: 0,
-        people: [
-        ],
-        isunderway: true,
-        pay_acount: 0,
-        headimgs: [1],
-        end_time: null,
-        bill: []
-      }
-
-      // wx.request({
-      //   url: 'http://www.lecaigogo.com:4998/v1/activity/create',
-      //   data: {
-      //     "act_name": "this.data.activity_name",
-      //     "user_id": app.globalData.userInfo.nickName
-      //   },
-      //   method: "POST",
-      //   success(res){
-      //     console.log(res.data)
-      //   }
-      // })
-
-      wx.navigateTo({
-        url: '../invite/invite?activity_name=' + this.data.activity_name,
+      // app.globalData.activity[app.globalData.activity.length] = {
+      //   activity_name: this.data.activity_name,
+      //   my_pay: 0,
+      //   my_consume: 0,
+      //   people_acount: 0,
+      //   people: [
+      //   ],
+      //   isunderway: true,
+      //   pay_acount: 0,
+      //   headimgs: [1],
+      //   end_time: null,
+      //   bill: []
+      // }
+      var self = this
+      var text = this.data.activity_name
+      wx.request({
+        url: 'http://www.lecaigogo.com:4998/v1/activity/create',
+        method: 'POST',
+        data: {
+          "act_name": text,
+          "user_id": app.globalData.userInfo.nickName
+        },
+        success(res){
+          app.globalData.create_act_id = res.data.data.act_id
+          wx.navigateTo({
+            url: '../invite/invite?activity_name=' + text,
+          })
+          console.log(app.globalData.create_act_id)
+        }
       })
+
+     
+     
     }
   },
   /**

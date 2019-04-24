@@ -37,9 +37,9 @@ Page({
     wx.setNavigationBarTitle({
       title: '邀请成员',
     })
-    
+    console.log(options.acivity_id)
     this.setData({
-      list: app.globalData.activity[app.globalData.activity.length - 1].people,
+      list: app.globalData.activity[app.globalData.activity.length - 1].members,
       headimg_url: app.globalData.userInfo.avatarUrl,
       user_name: app.globalData.userInfo.nickName
     })
@@ -154,9 +154,9 @@ Page({
     
   },
   gotoDetails: function(e){
-    var index = app.globalData.activity.length - 1
+    var activity_name = this.data.activity_name
     wx.navigateTo({
-      url: '../details/details?index=' + index,
+      url: '../details/details?activity_name=' + activity_name,
     })
   },
 

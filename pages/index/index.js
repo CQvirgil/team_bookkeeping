@@ -6,53 +6,109 @@ Page({
   data: {
     hasActivity: true,
     list: [],
-    Finish: '进行中'
+    Finish: '进行中',
+    headimgs: []
   },
-  onLoad(pageOptions){
+  onLoad(pageOptions) {
+    console.log('onLoad')
+    
+  },
 
+  bindGetUserInfo(e) {
+    if (e.detail.userInfo) {
+      console.log(e.detail.userInfo)
+    }
+  },
+
+  onReady(){
+    var self = this
     // 获取用户信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
+          console.log('已授权登陆')
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
-            success: res => {
+            withCredentials: true,
+            success(res) {
               // 可以将 res 发送给后台解码出 unionId
+              console.log(res)
               app.globalData.userInfo = res.userInfo
-              console.log(res.userInfo)
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-                console.log(res.userInfo)
-                wx.request({
-                  url: 'http://www.lecaigogo.com:4998/v1/activity/get_all',
-                  data: { "user_id": app.globalData.userInfo.nickName },
-                  method: POST,
-                  success(res) {
-                    console.log(res.data)
 
-                  },
-                  fail(err) {
-                    console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
-                  }
+              wx.request({ //请求更新用户信息
+                url: 'http://www.lecaigogo.com:4998/v1/user/update',
+                data: {
+                  "headimgurl": app.globalData.userInfo.avatarUrl,
+                  "nickname": app.globalData.userInfo.nickName,
+                  "openid": app.globalData.userInfo.nickName,
+                  "unionid": app.globalData.userInfo.nickName
+                },
+                method: 'POST',
+                success(res) {
+                  //请求获取活动列表，返回活动id
+                  wx.request({
+                    url: 'http://www.lecaigogo.com:4998/v1/activity/get_all',
+                    method: 'POST',
+                    data: {
+                      "user_id": app.globalData.userInfo.nickName
+                    },
+                    success(res) {
+                      //遍历获取到的活动id并查询活动详情
+                      app.globalData.activityID = res.data.data.act_id
+                      console.log(app.globalData.activityID)
+                      if (app.globalData.activityID != null) {
+                        for (var i = 0; i < app.globalData.activityID.length; i++) {
+                          wx.request({
+                            url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+                            method: 'POST',
+                            data: {
+                              "act_id": app.globalData.activityID[i],
+                              "user_id": app.globalData.userInfo.nickName
+                            },
+                            success(res) {
+                              app.globalData.activity[app.globalData.activity.length] = res.data.data
+                              var heads = [app.globalData.userInfo.avatarUrl]
+                              self.setData({
+                                list: app.globalData.activity,
+                                headimgs: heads
+                              })
+                              console.log(res)
+                              //console.log(app.globalData.activity[0].members[0].headimgurl)
+                              //console.log(app.globalData.userInfo.avatarUrl)
+                            }
+                          })
+                        }
+                      }
 
-                })
+                    },
+                    fail(res) {
+                      console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
+                    }
+                  })
+                  console.log(res.data)
+                },
+                fail(err) {
+                  console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
+                }
 
-              }
+              })
+            },
+            fail(res) {
+              console.log('获取用户数据失败')
             }
           })
+        } else {
+          wx.navigateTo({
+            url: '../login/login',
+          })
+          console.log('未授权登陆')
         }
       }
     })
-
-    console.log('onLoad')
   },
-  onShow(){
-  
-    this.setData({
-      list: app.globalData.activity,
-    })
+  onShow() {
+    
+    console.log(app.globalData.activity)
 
     if (app.globalData.activity.end_time != null) {
       this.setData({
@@ -66,20 +122,20 @@ Page({
       })
     }
   },
-  gotoCreatActivity(event){
+  gotoCreatActivity(event) {
     console.log('gotoCreatActivity')
     wx.navigateTo({
       url: '../creat_activity/creat_activity',
     })
   },
-  joinActivity: function(e){
+  joinActivity: function(e) {
     wx.scanCode({
       success(res) {
         console.log(res)
       }
     })
   },
-  gotoDetails: function(e){
+  gotoDetails: function(e) {
     console.log(e.currentTarget.dataset.index)
     wx.navigateTo({
       url: '../details/details?index=' + e.currentTarget.dataset.index,

@@ -17,36 +17,36 @@ Page({
     all_acount: '',
     my_pay: '',
     bill: [],
-    isEndTally:true,
+    isEndTally: true,
     isShowLine: true,
     head_img: ''
   },
-  gotoWrite_a_bill: function(e){
+  gotoWrite_a_bill: function(e) {
     wx.navigateTo({
       url: '../write_a_bill/write_a_bill',
     })
 
   },
-  gotoPeople: function (e) {
+  gotoPeople: function(e) {
     wx.navigateTo({
       url: '../people/people',
     })
   },
-  gotoFinancial: function(e){
+  gotoFinancial: function(e) {
     wx.navigateTo({
       url: '../financial/financial',
     })
   },
-  EndTally:function(e){
+  EndTally: function(e) {
     console.log(util.formatTime())
     app.globalData.activity.end_time = util.formatTime()
     app.globalData.activity.isunderway = false
-    if (app.globalData.activity.end_time != null){
+    if (app.globalData.activity.end_time != null) {
       this.setData({
         Finish: app.globalData.activity.end_time + '已结束',
         isShowLine: false
       })
-    }else{
+    } else {
       this.setData({
         Finish: app.globalData.activity.end_time + '已结束',
         isEndTally: false,
@@ -54,7 +54,7 @@ Page({
         isShowLine: false
       })
     }
-   
+
     wx.navigateTo({
       url: '../financial/financial',
     })
@@ -63,29 +63,76 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: app.globalData.activity[options.index].activity_name,
-    })
+  onLoad: function(options) {
 
-    if (app.globalData.activity.end_time != null){
+    if (options.activity_name) {
+      var self = this
+      wx.request({
+        url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+        method: 'POST',
+        data: {
+          "act_id": app.globalData.create_act_id,
+          "user_id": app.globalData.userInfo.nickName
+        },
+        success(res){
+          self.setData({
+            activity_name: res.data.data.name,
+            people_acount: res.data.data.members.length,
+            all_acount: res.data.data.act_total,
+            my_pay: res.data.data.my_total,
+            bill: res.data.data.bills,
+            head_img: app.globalData.userInfo.avatarUrl,
+            my_consume: res.data.data.my_expend,
+          })
+          console.log(res.data)
+        }
+      })
+    }
+
+    if (options.index){
+      var self = this
+      var act_id = app.globalData.activityID[options.index]
+      wx.request({
+        url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+        method: 'POST',
+        data: {
+          "act_id": act_id,
+          "user_id": app.globalData.userInfo.nickName
+        },
+        success(res) {
+          self.setData({
+            activity_name: res.data.data.name,
+            people_acount: res.data.data.members.length,
+            all_acount: res.data.data.act_total,
+            my_pay: res.data.data.my_total,
+            bill: res.data.data.bills,
+            head_img: app.globalData.userInfo.avatarUrl,
+            my_consume: res.data.data.my_expend,
+          })
+          console.log(res.data)
+        }
+      })
+      console.log(act_id)
+    }
+
+    if (app.globalData.activity.end_time != null) {
       this.setData({
         Finish: app.globalData.activity.end_time + '已结束',
       })
     }
 
-    this.setData({
-      activity_name: app.globalData.activity[options.index].activity_name,
-      people_acount: app.globalData.activity[options.index].people_acount,
-      my_consume: app.globalData.activity[options.index].my_consume,
-      all_acount: app.globalData.activity[options.index].pay_acount,
-      my_pay: app.globalData.activity[options.index].my_pay,
-      bill: app.globalData.activity[options.index].bill,
-      head_img: app.globalData.userInfo.avatarUrl,
-      
-    })
+    // this.setData({
+    //   activity_name: app.globalData.activity[options.index].activity_name,
+    //   people_acount: app.globalData.activity[options.index].people_acount,
+    //   my_consume: app.globalData.activity[options.index].my_consume,
+    //   all_acount: app.globalData.activity[options.index].pay_acount,
+    //   my_pay: app.globalData.activity[options.index].my_pay,
+    //   bill: app.globalData.activity[options.index].bill,
+    //   head_img: app.globalData.userInfo.avatarUrl,
 
-    if (this.data.people_acount == 1){
+    // })
+
+    if (this.data.people_acount == 1) {
       this.setData({
         isShowDetail: false,
         isShowLine: false,
@@ -96,49 +143,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

@@ -8,6 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    state: '平均分摊',
+    isSpecificState: false,
     input_value: '',
     yuan: 'yuan',
     average: '全员平摊',
@@ -20,12 +22,14 @@ Page({
     person_name: '',
     person_headimg: '',
     money: 0,
-    bill_content:'一般',
+    bill_content: '一般',
     radio_button_style: 'radio-button',
     dialog_input_length: 0,
     dialog_input_text: '',
     dialgo_animation: null,
     isShowPeopleDialog: false,
+    money_acount: 0,
+
     radio_button_data: [{
         id: 1,
         value: '一般',
@@ -65,7 +69,16 @@ Page({
     ]
   },
 
-
+  BindPeopleListInput: function(e) {
+    var money = this.data.money_acount
+    var value = e.detail.value
+    value *= 1
+    money += value
+    this.setData({
+      money_acount: money
+    })
+    console.log(e.detail.value)
+  },
   HoverInput: function(e) {
     var people_acount = app.globalData.activity[app.globalData.activity.length - 1].people_acount + 1
     var average = e.detail.value / people_acount;
@@ -120,7 +133,7 @@ Page({
       //判断是否为点击状态
       if (data[i].checked) {
         data[i].radio_button_style = 'radio-button-check'
-      }else{
+      } else {
         data[i].radio_button_style = 'radio-button'
       }
       this.setData({
@@ -130,15 +143,15 @@ Page({
     }
   },
 
-  dialog_input: function(e){
+  dialog_input: function(e) {
     var text = e.detail.value
     this.setData({
       dialog_input_length: text.length,
-      dialog_input_text:text
+      dialog_input_text: text
     })
   },
 
-  clicktBillContent:function(e) {
+  clicktBillContent: function(e) {
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#7f7f7f',
@@ -156,12 +169,12 @@ Page({
     })
   },
 
-  clickDialogQueding: function (e) {
+  clickDialogQueding: function(e) {
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#ffffff',
     })
-    if (this.data.dialog_input_text.length!=0){
+    if (this.data.dialog_input_text.length != 0) {
       var text = this.data.dialog_input_text
       this.setData({
         bill_content: text
@@ -174,7 +187,7 @@ Page({
     })
   },
 
-  clickPeopleItem: function(e){
+  clickPeopleItem: function(e) {
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#ffffff',
@@ -184,7 +197,7 @@ Page({
       isShowPeopleDialog: false
     })
   },
-  clickPayer:function(e){
+  clickPayer: function(e) {
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#7f7f7f',
@@ -193,6 +206,20 @@ Page({
       isShowInput: false,
       isShowPeopleDialog: true
     })
+  },
+  changeState: function(e) {
+    if (!this.data.isSpecificState) {
+      this.setData({
+        state: '具体分摊',
+        isSpecificState: true
+      })
+    } else {
+      this.setData({
+        state: '平均分摊',
+        isSpecificState: false
+      })
+    }
+
   },
   /**
    * 生命周期函数--监听页面加载
@@ -204,6 +231,9 @@ Page({
     //   person_name: app.globalData.userInfo.nickName,
     //   person_headimg: app.globalData.userInfo.avatarUrl
     // })
+    this.setData({
+      date: util.formatTime()
+    })
   },
 
   /**

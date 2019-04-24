@@ -1,90 +1,113 @@
 <!--pages/write_a_bill/write_a_bill.wxml-->
 <view class='container'>
-  <view id='state-container'>
-    <text class='text' id=''>平均分摊状态</text>
-    <image src='/res/btn_average_split.png'></image>
-  </view>
-  
-  <view class='top'>
+  <scroll-view class="fill-height" scroll-y>
+    <view class='container-scr'>
+      <view id='state-container' bindtap='changeState'>
+        <text class='text' id=''>当前为{{state}}状态，点击切换</text>
+        <image src='/res/btn_split.png'></image>
+      </view>
 
-    <view class="section">
-      <picker mode="date" value="{{date}}" end="{{end_date}}" bindchange="bindDateChange">
-        <view>
-          <text class='text date'>{{text_date}}（{{date}}）</text>
-          <image class='jiantou' id='date-jiantou' src='/res/btn_members_normal.png'></image>
+      <view class='top' wx:if='{{!isSpecificState}}'>
+
+        <view class="section">
+          <picker mode="date" value="{{date}}" end="{{end_date}}" bindchange="bindDateChange">
+            <view>
+              <text class='text date'>{{text_date}}（{{date}}）</text>
+              <image class='jiantou' id='date-jiantou' src='/res/btn_members_normal.png'></image>
+            </view>
+          </picker>
         </view>
-      </picker>
+
+        <view wx:if='{{isShowInput}}' class='input-container'>
+          <text class='title {{yuan}}'>¥</text>
+          <input bindinput='HoverInput' adjust-position='false' maxlength='7' value='{{input_value}}' class='money title' type='digit' placeholder='0.00' placeholder-class='yuan title'></input>
+        </view>
+
+      </view>
+
+      <text class='text text-acount' wx:if='{{!isSpecificState}}'>总金额</text>
+
+      <view class='conent top-content'>
+        <text class='text'>账单内容</text>
+        <view class='right' bindtap='clicktBillContent'>
+          <text class='text text-gray'>{{bill_content}}</text>
+          <image class='jiantou' src='/res/btn_members_normal.png'></image>
+        </view>
+      </view>
+
+      <view class='conent'>
+        <text class='text'>付款人</text>
+        <view class='right' bindtap='clickPayer'>
+          <text class='text text-gray perso-name'>{{person_name}}</text>
+          <image class='headimg' src='{{person_headimg}}'></image>
+          <image class='jiantou' src='/res/btn_members_normal.png'></image>
+        </view>
+      </view>
+
+      <view class='conent'>
+        <text class='text'>日期</text>
+
+        <picker mode="date" value="{{date}}" end="{{end_date}}" bindchange="bindDateChange">
+          <view class='right'>
+            <text class='text text-gray'>{{text_date}}（{{date}}）</text>
+            <image class='jiantou' src='/res/btn_members_normal.png'></image>
+          </view>
+        </picker>
+      </view>
+
+      <view class='conent'>
+        <text class='text'>参与成员</text>
+        <view class='right' wx:if='{{!isSpecificState}}'>
+          <text class='text text-gray'>1人平摊</text>
+          <image class='jiantou' src='/res/btn_members_normal.png'></image>
+        </view>
+
+      </view>
+
+      <view class='people-list' wx:if="{{isSpecificState}}">
+        <view class='people-item-container' wx:for="123123123">
+          <view class='people-item' >
+            <view class='person-msg'>
+              <image class='headimg-72'></image>
+              <text class='text'>音匀</text>
+            </view>
+            <input type='number' class='text' placeholder='¥0.00' bindinput='BindPeopleListInput'></input>
+          </view>
+          <view class='line'></view>
+        </view>
+
+      </view>
+
+      <button class='text-bolder btn-write' id='write' bindtap='write'>记一笔</button>
     </view>
-
-    <view wx:if='{{isShowInput}}' class='input-container'>
-      <text class='title {{yuan}}'>¥</text>
-      <input bindinput='HoverInput' adjust-position='false' maxlength='7' value='{{input_value}}' class='money title' type='digit' placeholder='0.00' placeholder-class='yuan title'></input>
-    </view>
-
-  </view>
-
-  <text class='text text-acount'>总金额</text>
-
-  <view class='conent top-content'>
-    <text class='text'>账单内容</text>
-    <view class='right' bindtap='clicktBillContent'>
-      <text class='text text-gray'>{{bill_content}}</text>
-      <image class='jiantou' src='/res/btn_members_normal.png'></image>
-    </view>
-  </view>
-
-  <view class='conent'>
-    <text class='text'>付款人</text>
-    <view class='right' bindtap='clickPayer'>
-      <text class='text text-gray perso-name'>{{person_name}}</text>
-      <image class='headimg' src='{{person_headimg}}'></image>
-      <image class='jiantou' src='/res/btn_members_normal.png'></image>
-    </view>
-  </view>
-
-  <view class='conent'>
-    <text class='text'>参与成员</text>
-    <view class='right'>
-
-      <button class='text button-border btn1'>
-        {{average}}
-        <image class='jiantou' src='/res/btn_split.png'></image>
-      </button>
-      <button class='text button-border btn2'>
-        {{concreteness}}
-        <image class='jiantou' src='/res/btn_members_normal.png'></image>
-      </button>
-
-    </view>
-
-  </view>
-
-  <button class='text-bolder btn-write' bindtap='write'>记一笔</button>
+  </scroll-view>
 
   <view class='dialog container' wx:if="{{isShowDialog1}}">
     <view class='container dialog-content' animation="{{dialgo_animation}}">
       <view class='radio-group'>
 
-         <text class='text {{item.radio_button_style}}'
-          bindtap='radio_check' wx:for="{{radio_button_data}}"
-           wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
+        <text class='text {{item.radio_button_style}}' bindtap='radio_check' wx:for="{{radio_button_data}}" wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
          </text>
 
       </view>
 
       <view class='dialog-input'>
-        <input maxlength='10' class='text input' placeholder-class='text-bbb'
-         bindinput='dialog_input' placeholder = "点击这里输入自定义内容"></input>
+        <input maxlength='10' type='number' class='text input' placeholder-class='text-bbb' bindinput='dialog_input' placeholder="点击这里输入自定义内容"></input>
         <text class='text text-bbb'>{{dialog_input_length}}/10</text>
       </view>
 
-      <button  bindtap='clickDialogQueding' class='text-bolder'><text class='que' >确</text> <text>定</text></button>
+      <button bindtap='clickDialogQueding' class='text-bolder'>
+        <text class='que'>确</text>
+        <text>定</text>
+      </button>
     </view>
   </view>
 
   <view class='dialog container' wx:if="{{isShowPeopleDialog}}">
     <view class='container dialog-content'>
-      <view class='text-bolder fill-width' id='text-payer'> <text class='fill-width'>付款人</text></view>
+      <view class='text-bolder fill-width' id='text-payer'>
+        <text class='fill-width'>付款人</text>
+      </view>
       <view id='dialog-people-list'>
         <view id='dialog-people-list-item' wx:key='dialog-people-list-item' bindtap='clickPeopleItem'>
           <image class='headimg-72'></image>
@@ -94,5 +117,9 @@
     </view>
   </view>
 
+  <view class='acount' wx:if="{{isSpecificState}}">
+    <text class='text'>共</text>
+    <text id='acount'>¥{{money_acount}}</text>
+  </view>
 
 </view>

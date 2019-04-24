@@ -29,10 +29,10 @@
       <image class='headimg' src='{{headimg_url}}'/>
       <text class='text username'>{{user_name}}</text>
     </view>
-    <view class='list-item {{list_item_style}}' wx:for='{{list}}'>
+    <view class='list-item {{list_item_style}}' wx:for='{{list}}' wx:if="{{item.nickname != username}}">
       <view class='transverse'>
-        <image class='headimg' src='{{item.person_headimg}}' />
-        <text class='text username {{username_style}}'>{{item.person_name}}</text>
+        <image class='headimg' src='{{item.headimgurl}}' />
+        <text class='text username {{username_style}}'>{{item.nickname}}</text>
       </view>
       
       <view class='transverse delete'>

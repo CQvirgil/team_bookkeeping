@@ -1,40 +1,41 @@
 <!--index.wxml-->
 <view class="container bg">
   <text class='text' wx:if="{{hasActivity}}">暂无活动</text>
-
+  
   <scroll-view scroll-y class='list-container'>
-    <view class='list-item' wx:for='{{list}}' bindtap='gotoDetails' data-index='{{index}}'> 
+    <view class='list-item' wx:for='{{list}}' wx:key="list" bindtap='gotoDetails' data-index='{{index}}'
+     >
       <view class='item-title'>
-        <text class='activity-name'>{{item.activity_name}}</text>
-        <text class='activity-money'>¥{{item.my_pay}}</text>
+        <text class='activity-name'>{{item.name}}</text>
+        <text class='activity-money'>¥{{item.act_total}}</text>
       </view>
 
       <view class='item-title'>
         <text class='text-bolder activity-underway'>{{Finish}}</text>
-        <text class='activity-sum'>{{item.people_acount}}人共消费¥{{item.pay_acount}}</text>
+        <text class='activity-sum'>{{item.members.length}}人共消费¥{{item.act_total}}</text>
       </view>
-      
+
       <view class='item-headimgs'>
-        <image class='headimgs' wx:for='{{item.headimgs}}'></image>
+        <image class='headimgs' wx:for='{{headimgs}}' src='{{item}}'></image>
       </view>
     </view>
 
     <view class='footview'>
-    
+
     </view>
   </scroll-view>
 
   <view class='buttons'>
-    <view class='button join-activity'  bindtap = 'joinActivity'>
+    <view class='button join-activity' bindtap='joinActivity'>
       <text class='btn-text'>加入活动</text>
     </view>
 
-    <view class='button create-activity' bindtap = 'gotoCreatActivity'>
+    <view class='button create-activity' bindtap='gotoCreatActivity'>
       <view class='img-container'>
         <image src='../../res/btn_creat_normal.png'></image>
       </view>
       <text class='btn-text'>创建活动</text>
     </view>
   </view>
-    
+
 </view>

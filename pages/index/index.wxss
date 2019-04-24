@@ -1,4 +1,9 @@
 /**index.wxss**/
+.getUserInfo{
+  position: absolute;
+  top: 200rpx;
+}
+
 .bg{
   background: #ededed;
 }

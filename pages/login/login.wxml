@@ -1,0 +1,6 @@
+<!--pages/login/login.wxml-->
+<view class='container'>
+  <button class='getUserInfo' type='primary' open-type="getUserInfo" bindgetuserinfo='bindGetUserInfo'>
+    授权登录
+  </button>
+</view>
