@@ -4,6 +4,7 @@
   
   <scroll-view scroll-y class='list-container'>
     <view class='list-item' wx:for='{{list}}' wx:key="list" bindtap='gotoDetails' data-index='{{index}}'
+    data-actid='{{item.act_id}}'
      >
       <view class='item-title'>
         <text class='activity-name'>{{item.name}}</text>
@@ -16,7 +17,7 @@
       </view>
 
       <view class='item-headimgs'>
-        <image class='headimgs' wx:for='{{headimgs}}' src='{{item}}'></image>
+        <image class='headimgs' wx:for='{{headimgs}}' wx:key="headings" src='{{item}}'></image>
       </view>
     </view>
 

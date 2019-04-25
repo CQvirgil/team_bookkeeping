@@ -54,9 +54,9 @@
     
       <text class='text time text-gray' wx:if="{{index == 0}}">{{item.date}}</text>
       <view class='text-container'>
-        <text class='text'>{{item.bill_content}}</text>
-        <text class='text text-gray'>1人 ¥{{item.money}}</text>
-        <text class='text text-gray'>¥{{item.money}}</text>
+        <text class='text'>{{item.content}}</text>
+        <text class='text text-gray'>{{item.count}}人 ¥{{item.act_total}}</text>
+        <text class='text text-gray'>¥{{item.my_total}}</text>
       </view>
     </view>
 

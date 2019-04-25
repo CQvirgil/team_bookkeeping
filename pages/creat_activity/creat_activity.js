@@ -63,7 +63,7 @@ Page({
         method: 'POST',
         data: {
           "act_name": text,
-          "user_id": app.globalData.userInfo.nickName
+          "user_id": app.globalData.unionid
         },
         success(res){
           app.globalData.create_act_id = res.data.data.act_id

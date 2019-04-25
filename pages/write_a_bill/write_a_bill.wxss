@@ -333,6 +333,11 @@ button::after {
   justify-content: center;
 }
 
+.person-msg text{
+  margin-left: 16rpx;
+}
+
 .people-item input{
-  width: 78rpx;
+  /* width: 78rpx; */
+  text-align: right
 }

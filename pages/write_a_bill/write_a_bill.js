@@ -9,7 +9,7 @@ Page({
    */
   data: {
     state: '平均分摊',
-    isSpecificState: false,
+    isSpecificState: false, //是否为平均分摊
     input_value: '',
     yuan: 'yuan',
     average: '全员平摊',
@@ -29,8 +29,12 @@ Page({
     dialgo_animation: null,
     isShowPeopleDialog: false,
     money_acount: 0,
-
-    radio_button_data: [{
+    members: [], //成员列表
+    payer: null, //付款人信息
+    people_list_postion: 0, //具体分摊状态下参与成员的下标
+    people_list_item: [], //成员金额和信息
+    act_id: '',
+    radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
         checked: false,
@@ -69,18 +73,18 @@ Page({
     ]
   },
 
-  BindPeopleListInput: function(e) {
-    var money = this.data.money_acount
-    var value = e.detail.value
-    value *= 1
-    money += value
-    this.setData({
-      money_acount: money
-    })
-    console.log(e.detail.value)
-  },
+  // BindPeopleListInput: function(e) {
+  //   var money = this.data.money_acount
+  //   var value = e.detail.value
+  //   value *= 1
+  //   money += value
+  //   this.setData({
+  //     money_acount: money
+  //   })
+  //   console.log(e.detail.value)
+  // },
   HoverInput: function(e) {
-    var people_acount = app.globalData.activity[app.globalData.activity.length - 1].people_acount + 1
+    var people_acount = app.globalData.activity[app.globalData.activity.length - 1].members + 1
     var average = e.detail.value / people_acount;
     if (e.detail.value.length <= 0) {
       this.setData({
@@ -104,16 +108,50 @@ Page({
   },
   //记一笔按钮响应
   write: function(e) {
-    app.globalData.activity[app.globalData.activity.length - 1].bill[app.globalData.activity[app.globalData.activity.length - 1].bill.length] = {
-      money: this.data.money,
-      payer: this.data.person_name,
-      bill_content: '一般',
-      date: this.data.date
+    var self = this
+    console.log(self.data.people_list_item)
+    if (this.data.isSpecificState) {
+      wx.request({
+        url: 'http://www.lecaigogo.com:4998/v1/bill/create',
+        method: 'POST',
+        data: {
+          "activity_id": self.data.act_id,
+          "content": self.data.bill_content,
+          "members": self.data.people_list_item,
+          "payer_id": self.data.payer.unionid,
+          "total": self.data.money_acount,
+          "user_id": app.globalData.unionid
+        },
+        success(res) {
+
+          wx.navigateBack({
+            delta: 4
+          })
+        }
+      })
+    }else{
+      var money = parseFloat(self.data.money)
+      
+      wx.request({
+        url: 'http://www.lecaigogo.com:4998/v1/bill/create',
+        method: 'POST',
+        data: {
+          "activity_id": self.data.act_id,
+          "content": self.data.bill_content,
+          "members": self.data.people_list_item,
+          "payer_id": self.data.payer.unionid,
+          "total": money,
+          "user_id": app.globalData.unionid
+        },
+        success(res) {
+
+          wx.navigateBack({
+            delta: 4
+          })
+        }
+      })
     }
 
-    wx.navigateBack({
-      delta: 4
-    })
   },
   //单选按钮点击事件
   radio_check: function(e) {
@@ -207,8 +245,20 @@ Page({
       isShowPeopleDialog: true
     })
   },
+  //切换具体分摊和平均分摊状态
   changeState: function(e) {
     if (!this.data.isSpecificState) {
+      var item = []
+      for (var i = 0; i < this.data.members.length; i++) {
+        item[i] = {
+          "Money": 0,
+          "user_id": this.data.members[i].user_id
+        }
+        this.setData({
+          people_list_item: item
+        })
+      }
+      console.log(this.data.people_list_item)
       this.setData({
         state: '具体分摊',
         isSpecificState: true
@@ -221,6 +271,39 @@ Page({
     }
 
   },
+  //点击参与成员列表
+  BindPeopleListTap: function(e) {
+    this.setData({
+      people_list_postion: e.currentTarget.dataset.index
+    })
+    console.log("BindPeopleListTap: " + e.currentTarget.dataset.index)
+  },
+  //具体分摊成员列表的input组件失去焦点时触发事件
+  Bindblur: function(e) {
+    var input = parseFloat(e.detail.value)
+
+    var item = this.data.people_list_item
+    item[this.data.people_list_postion].Money = input
+    this.setData({
+      people_list_item: item
+    })
+    console.log(item[this.data.people_list_postion])
+
+
+    var money = 0
+    for (var i = 0; i < this.data.people_list_item.length; i++) {
+      money += this.data.people_list_item[i].Money
+    }
+    console.log(money)
+    if (e.detail.value == '') {
+      money = 0
+    }
+
+    this.setData({
+      money_acount: money
+    })
+
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -231,6 +314,28 @@ Page({
     //   person_name: app.globalData.userInfo.nickName,
     //   person_headimg: app.globalData.userInfo.avatarUrl
     // })
+
+    var act_id = options.act_id
+    console.log(act_id)
+    this.setData({
+      act_id: act_id
+    })
+    var self = this
+    wx.request({
+      url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+      method: 'POST',
+      data: {
+        "act_id": act_id,
+        "user_id": app.globalData.userInfo.nickName
+      },
+      success(res) {
+        self.setData({
+          members: res.data.data.members,
+          payer: res.data.data.members[0]
+        })
+        console.log(res.data.data.members)
+      }
+    })
     this.setData({
       date: util.formatTime()
     })

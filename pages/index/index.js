@@ -11,7 +11,7 @@ Page({
   },
   onLoad(pageOptions) {
     console.log('onLoad')
-    
+
   },
 
   bindGetUserInfo(e) {
@@ -20,8 +20,9 @@ Page({
     }
   },
 
-  onReady(){
+  onReady() {
     var self = this
+    var x = 0
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -34,44 +35,55 @@ Page({
               // 可以将 res 发送给后台解码出 unionId
               console.log(res)
               app.globalData.userInfo = res.userInfo
+              var encryptedData = res.encryptedData
+              var iv = res.iv
 
-              wx.request({ //请求更新用户信息
-                url: 'http://www.lecaigogo.com:4998/v1/user/update',
-                data: {
-                  "headimgurl": app.globalData.userInfo.avatarUrl,
-                  "nickname": app.globalData.userInfo.nickName,
-                  "openid": app.globalData.userInfo.nickName,
-                  "unionid": app.globalData.userInfo.nickName
-                },
+
+              wx.request({
+                url: 'http://www.lecaigogo.com:4998/v1/auth/wxlogin',
                 method: 'POST',
+                data: {
+                  "code": app.globalData.code,
+                  "encryptedData": encryptedData,
+                  "iv": iv
+                },
                 success(res) {
+                  app.globalData.unionid = res.data.data.unionid
+
                   //请求获取活动列表，返回活动id
                   wx.request({
                     url: 'http://www.lecaigogo.com:4998/v1/activity/get_all',
                     method: 'POST',
                     data: {
-                      "user_id": app.globalData.userInfo.nickName
+                      "user_id": app.globalData.unionid
                     },
                     success(res) {
                       //遍历获取到的活动id并查询活动详情
                       app.globalData.activityID = res.data.data.act_id
                       console.log(app.globalData.activityID)
+
                       if (app.globalData.activityID != null) {
                         for (var i = 0; i < app.globalData.activityID.length; i++) {
+
                           wx.request({
                             url: 'http://www.lecaigogo.com:4998/v1/activity/get',
                             method: 'POST',
                             data: {
                               "act_id": app.globalData.activityID[i],
-                              "user_id": app.globalData.userInfo.nickName
+                              "user_id": app.globalData.unionid
                             },
                             success(res) {
                               app.globalData.activity[app.globalData.activity.length] = res.data.data
                               var heads = [app.globalData.userInfo.avatarUrl]
+                              for (var n = 0; n < res.data.data.members.length; n++) {
+                                heads[n] = res.data.data.members[n].headimgurl
+                                console.log()
+                              }
                               self.setData({
                                 list: app.globalData.activity,
                                 headimgs: heads
                               })
+                              x++
                               console.log(res)
                               //console.log(app.globalData.activity[0].members[0].headimgurl)
                               //console.log(app.globalData.userInfo.avatarUrl)
@@ -85,13 +97,31 @@ Page({
                       console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
                     }
                   })
-                  console.log(res.data)
+                  console.log(app.globalData.unionid)
                 },
-                fail(err) {
-                  console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
+                fail(res) {
+                  console.log("请求失败")
                 }
-
               })
+
+              // wx.request({ //请求更新用户信息
+              //   url: 'http://www.lecaigogo.com:4998/v1/user/update',
+              //   data: {
+              //     "headimgurl": app.globalData.userInfo.avatarUrl,
+              //     "nickname": app.globalData.userInfo.nickName,
+              //     "openid": app.globalData.openid,
+              //     "unionid": app.globalData.unionid
+              //   },
+              //   method: 'POST',
+              //   success(res) {
+              //     
+              //     //console.log(res.data)
+              //   },
+              //   fail(err) {
+              //     console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
+              //   }
+
+              // })
             },
             fail(res) {
               console.log('获取用户数据失败')
@@ -107,7 +137,7 @@ Page({
     })
   },
   onShow() {
-    
+
     console.log(app.globalData.activity)
 
     if (app.globalData.activity.end_time != null) {
@@ -137,8 +167,9 @@ Page({
   },
   gotoDetails: function(e) {
     console.log(e.currentTarget.dataset.index)
+    console.log(e.currentTarget.dataset.actid)
     wx.navigateTo({
-      url: '../details/details?index=' + e.currentTarget.dataset.index,
+      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid,
     })
   }
 })

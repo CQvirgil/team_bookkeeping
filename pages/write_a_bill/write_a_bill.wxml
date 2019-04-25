@@ -38,8 +38,8 @@
       <view class='conent'>
         <text class='text'>付款人</text>
         <view class='right' bindtap='clickPayer'>
-          <text class='text text-gray perso-name'>{{person_name}}</text>
-          <image class='headimg' src='{{person_headimg}}'></image>
+          <text class='text text-gray perso-name'>{{payer.nickname}}</text>
+          <image class='headimg' src='{{payer.headimgurl}}'></image>
           <image class='jiantou' src='/res/btn_members_normal.png'></image>
         </view>
       </view>
@@ -65,13 +65,16 @@
       </view>
 
       <view class='people-list' wx:if="{{isSpecificState}}">
-        <view class='people-item-container' wx:for="123123123">
-          <view class='people-item' >
+        <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap' wx:for="{{members}}" wx:key="members">
+          <view class='people-item'>
             <view class='person-msg'>
-              <image class='headimg-72'></image>
-              <text class='text'>音匀</text>
+              <image class='headimg-72' src='{{item.headimgurl}}'></image>
+              <text class='text'>{{item.nickname}}</text>
             </view>
-            <input type='number' class='text' placeholder='¥0.00' bindinput='BindPeopleListInput'></input>
+            <view class='person-msg'>
+              <input type='number' class='text' maxlength='7' placeholder='0.00' bindblur='Bindblur'></input>
+              <text class='text'>¥</text>
+            </view>
           </view>
           <view class='line'></view>
         </view>
@@ -109,9 +112,9 @@
         <text class='fill-width'>付款人</text>
       </view>
       <view id='dialog-people-list'>
-        <view id='dialog-people-list-item' wx:key='dialog-people-list-item' bindtap='clickPeopleItem'>
-          <image class='headimg-72'></image>
-          <text class='text'>音匀</text>
+        <view id='dialog-people-list-item' wx:for="{{members}}" wx:key='dialog-people-list-item' bindtap='clickPeopleItem'>
+          <image class='headimg-72' src='{{item.headimgurl}}'></image>
+          <text class='text'>{{item.nickname}}</text>
         </view>
       </view>
     </view>

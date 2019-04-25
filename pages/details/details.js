@@ -19,13 +19,15 @@ Page({
     bill: [],
     isEndTally: true,
     isShowLine: true,
-    head_img: ''
+    head_img: '',
+    index: null,
+    act_id: '',
   },
+  //记一笔账按钮页面
   gotoWrite_a_bill: function(e) {
     wx.navigateTo({
-      url: '../write_a_bill/write_a_bill',
+      url: '../write_a_bill/write_a_bill?index=' + this.data.index + '&act_id=' + this.data.act_id
     })
-
   },
   gotoPeople: function(e) {
     wx.navigateTo({
@@ -72,7 +74,7 @@ Page({
         method: 'POST',
         data: {
           "act_id": app.globalData.create_act_id,
-          "user_id": app.globalData.userInfo.nickName
+          "user_id": app.globalData.unionid
         },
         success(res){
           self.setData({
@@ -90,14 +92,20 @@ Page({
     }
 
     if (options.index){
+      this.setData({
+        index: options.index,
+        act_id: options.act_id
+      })
+      console.log(options.act_id)
+      console.log(this.data.index)
       var self = this
-      var act_id = app.globalData.activityID[options.index]
+      var act_id = options.act_id
       wx.request({
         url: 'http://www.lecaigogo.com:4998/v1/activity/get',
         method: 'POST',
         data: {
           "act_id": act_id,
-          "user_id": app.globalData.userInfo.nickName
+          "user_id": app.globalData.unionid
         },
         success(res) {
           self.setData({
@@ -132,7 +140,7 @@ Page({
 
     // })
 
-    if (this.data.people_acount == 1) {
+    if (this.data.people_acount == 1) { 
       this.setData({
         isShowDetail: false,
         isShowLine: false,

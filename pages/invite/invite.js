@@ -39,7 +39,7 @@ Page({
     })
     console.log(options.acivity_id)
     this.setData({
-      list: app.globalData.activity[app.globalData.activity.length - 1].members,
+      list: '',
       headimg_url: app.globalData.userInfo.avatarUrl,
       user_name: app.globalData.userInfo.nickName
     })
