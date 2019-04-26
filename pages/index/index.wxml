@@ -2,7 +2,7 @@
 <view class="container bg">
   <text class='text' wx:if="{{hasActivity}}">暂无活动</text>
   
-  <scroll-view scroll-y class='list-container'>
+  <scroll-view scroll-y bindscrolltoupper='bindscrolltoupper' class='list-container'>
     <view class='list-item' wx:for='{{list}}' wx:key="list" bindtap='gotoDetails' data-index='{{index}}'
     data-actid='{{item.act_id}}'
      >

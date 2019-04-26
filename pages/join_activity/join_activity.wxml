@@ -4,22 +4,22 @@
 
     <text class='title'>美丽海岛五日游</text>
     <view class='top-content'>
-      <text class='text text-gray'>活动人数：12人</text>
-      <text class='text text-gray'>创建于2019-01-28</text>
+      <text class='text text-gray'>活动人数：{{list.length}}人</text>
+      <text class='text text-gray'>创建于{{created_at}}</text>
     </view>
   </view>
 
   <scroll-view scroll-y class='mlist'>
 
-    <view class='list-item' wx:for="1231232312131">
+    <view class='list-item' wx:for="{{list}}">
       <view class='people'>
-        <image class='people_headimg'></image>
-        <text class='text people_name'>音匀</text>
+        <image class='people_headimg' src='{{item.headimgurl}}'></image>
+        <text class='text people_name'>{{item.nickname}}</text>
       </view>
-      <text class='text text-gray'>创建人</text>
+      <text wx:if="{{index == 0}}" class='text text-gray'>创建人</text>
     </view>
 
   </scroll-view>
 
-  <button class='text-bolder btn-join'>加入活动</button>
+  <button bindtap='JoinActivity' class='text-bolder btn-join'>加入活动</button>
 </view>

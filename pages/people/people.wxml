@@ -1,37 +1,42 @@
 <!--pages/people/people.wxml-->
 <view class='container people'>
-  <scroll-view class='list' scroll-y >
+  <scroll-view class='list' scroll-y>
     <view class='mine'>
-      <image class='headimg'/>
-      <text class='text username'>音匀</text>
+      <image class='headimg' src='{{creater.headimgurl}}' />
+      <text class='text username'>{{creater.nickname}}</text>
     </view>
     <view class='list-item {{list_item_style}}' wx:for='{{list}}'>
       <view class='transverse'>
-        <image class='headimg'/>
-        <text class='text username {{username_style}}'>音匀</text>
+        <image class='headimg' src='{{item.headimgurl}}' />
+        <text class='text username {{username_style}}'>{{item.nickname}}</text>
       </view>
-      
+
       <view class='transverse delete'>
         <text class='text wait' wx:if="{{isAccept}}">待接受邀请</text>
-        <button bindtap='deletePerson' class='image-button'><image class='button-image' src='../../res/icon_delete_normal.png'/></button>
+        <button bindtap='deletePerson' class='image-button'>
+          <image class='button-image' src='../../res/icon_delete_normal.png' />
+        </button>
       </view>
     </view>
-    
+
     <view class='footview'></view>
   </scroll-view>
 
   <view class='main'>
-    <view class='img-bg {{img_bg_style}}'>
-      <image class='img' src='/res/btn_invite_normal.png'></image>
-    </view>
-    <text class='wxfriend text-bolder' id='{{wxfriend_style}}'>{{wxfriend}}</text>
+    <button class='btn-wxshare' open-type='share'>
+      <view class='img-bg {{img_bg_style}}'>
+        <image class='img' src='/res/btn_invite_normal.png'></image>
+      </view>
+      <text class='wxfriend text-bolder' id='{{wxfriend_style}}'>{{wxfriend}}</text>
+    </button>
+
     <view bindtap='show_qr_invite' class='QRcode-container {{QRcode_container_style}}'>
       <image class='icon-qr-code' src='../../res/icon_qr_code.png'></image>
       <text class='text-qr-code'>二维码邀请</text>
     </view>
   </view>
 
-   <view  class='qr_invite' bindtap='closeDialog' wx:if="{{is_show_qr_invite}}">
+  <view class='qr_invite' bindtap='closeDialog' wx:if="{{is_show_qr_invite}}">
     <qr_invite></qr_invite>
     <image src='/res/btn_close.png' bindtap='closeDialog' class='dialog-close'></image>
   </view>

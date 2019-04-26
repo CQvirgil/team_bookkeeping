@@ -83,8 +83,37 @@ Page({
   //   })
   //   console.log(e.detail.value)
   // },
+  StartInput:function(e){
+    this.setData({
+      input_value: ''
+    })
+  },
+  InputOver: function(e){
+    if(e.detail.value != ''){
+      var input = e.detail.value
+      input = '¥' + input
+      this.setData({
+        input_value: input
+      })
+    }
+
+    if (!this.data.isSpecificState){
+      var item = []
+      var average = e.detail.value/this.data.members.length
+      for(var i = 0;i < this.data.members.length; i++){
+        item[i] = {
+          "Money": average,
+          "user_id": this.data.members[i].user_id
+        }
+      }
+      this.setData({
+        people_list_item: item
+      })
+      console.log(this.data.people_list_item)
+    }
+  },
   HoverInput: function(e) {
-    var people_acount = app.globalData.activity[app.globalData.activity.length - 1].members + 1
+    var people_acount = this.data.members.length
     var average = e.detail.value / people_acount;
     if (e.detail.value.length <= 0) {
       this.setData({
@@ -98,7 +127,7 @@ Page({
         money: e.detail.value
       })
     }
-    console.log(this.data.money)
+    //console.log(this.data.money)
   },
   //日期选择器事件
   bindDateChange: function(e) {
@@ -373,14 +402,14 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+   
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    wx.startPullDownRefresh()
   },
 
   /**

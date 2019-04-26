@@ -147,3 +147,8 @@
   width: 40rpx;
   height: 104rpx;
 }
+
+.btn-wxshare{
+  display: flex;
+  justify-content: space-between;
+}

@@ -5,10 +5,10 @@
       <text class='title'>{{activity_name}}</text>
       <image class='title-image' src='/res/btn_rename_normal.png'></image>
     </view>
-    
-    <image class='btn-menu-normal' src='/res/btn_menu_normal.png'></image>
+
+    <image class='btn-menu-normal' src='/res/btn_menu_normal.png' bindtap='SwitchDiaLog'></image>
   </view>
-  
+
   <view class='state'>
     <text class='text text-gray'>{{Finish}}</text>
     <text class='text text-gray state-right'>共{{people_acount}}人参与</text>
@@ -18,18 +18,18 @@
     <image class='headimg' src='{{head_img}}'></image>
     <image class='btn-start-normal' src='/res/btn_members_normal.png'></image>
   </view>
-  
+
   <view class='mine-acount'>
     <text class='text'>我的总消费</text>
     <text class='title'>¥{{my_consume}}</text>
   </view>
 
-  <view class='all-acount'  wx:if="{{isShowDetail}}" id='all-acount'>
+  <view class='all-acount' wx:if="{{isShowDetail}}" id='all-acount'>
     <text class='text'>全员总消费</text>
     <text class='text text-gray'>¥{{all_acount}}</text>
   </view>
 
-  <view class='all-acount'  wx:if="{{isShowDetail}}" id='mypay'>
+  <view class='all-acount' wx:if="{{isShowDetail}}" id='mypay'>
     <text class='text'>我已支出</text>
     <text class='text text-gray'>¥{{my_pay}}</text>
   </view>
@@ -49,9 +49,9 @@
   </view>
 
   <scroll-view scroll-y class='list'>
-  
+
     <view class='list-item' wx:for="{{bill}}">
-    
+
       <text class='text time text-gray' wx:if="{{index == 0}}">{{item.date}}</text>
       <view class='text-container'>
         <text class='text'>{{item.content}}</text>
@@ -64,13 +64,30 @@
 
   <view class='tally'>
 
-     <button class='button create-activity' bindtap = 'gotoWrite_a_bill'>
-        <view class='img-container'>
-          <image src='../../res/btn_creat_normal.png'></image>
-        </view>
-        <text class='btn-text'>记一笔账</text>
-      </button>
+    <button class='button create-activity' bindtap='gotoWrite_a_bill'>
+      <view class='img-container'>
+        <image src='../../res/btn_creat_normal.png'></image>
+      </view>
+      <text class='btn-text'>记一笔账</text>
+    </button>
 
   </view>
-  
+
+  <view class='dialog container' bindtap='closeDialog' wx:if="{{isShowDiaLog}}">
+    <view class='dialog-content'>
+      <button>
+        <text class='text'>活动二维码</text>
+      </button>
+      <button open-type='share'>
+        <text class='text'>分享活动给朋友</text>
+      </button>
+      <button bindtap='ExitAcitivity'>
+        <text class='text text-red' >退出活动</text>
+      </button>
+      <view class='dialog-line'></view>
+      <button class='dialog-cancel' bindtap='DialogCancel'>
+        <text class='text'>取消</text>
+      </button>
+    </view>
+  </view>
 </view>

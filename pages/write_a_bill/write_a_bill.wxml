@@ -19,8 +19,12 @@
         </view>
 
         <view wx:if='{{isShowInput}}' class='input-container'>
-          <text class='title {{yuan}}'>¥</text>
-          <input bindinput='HoverInput' adjust-position='false' maxlength='7' value='{{input_value}}' class='money title' type='digit' placeholder='0.00' placeholder-class='yuan title'></input>
+          <!-- <text class='title {{yuan}}'>¥</text> -->
+          <input bindinput='HoverInput' bindblur='InputOver'
+           bindfocus='StartInput'
+           adjust-position='false' maxlength='7'
+           value='{{input_value}}'
+           class='money title' type='digit' placeholder='¥0.00' placeholder-class='yuan title'></input>
         </view>
 
       </view>
@@ -65,7 +69,8 @@
       </view>
 
       <view class='people-list' wx:if="{{isSpecificState}}">
-        <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap' wx:for="{{members}}" wx:key="members">
+        <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap'
+         wx:for="{{members}}" wx:key="members">
           <view class='people-item'>
             <view class='person-msg'>
               <image class='headimg-72' src='{{item.headimgurl}}'></image>

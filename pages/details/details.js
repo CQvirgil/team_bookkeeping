@@ -10,6 +10,7 @@ Page({
   data: {
     isShowTime: false,
     isShowDetail: true,
+    isShowDiaLog: false,
     Finish: '进行中',
     activity_name: '',
     people_acount: '',
@@ -31,7 +32,7 @@ Page({
   },
   gotoPeople: function(e) {
     wx.navigateTo({
-      url: '../people/people',
+      url: '../people/people?act_id=' + this.data.act_id,
     })
   },
   gotoFinancial: function(e) {
@@ -76,7 +77,7 @@ Page({
           "act_id": app.globalData.create_act_id,
           "user_id": app.globalData.unionid
         },
-        success(res){
+        success(res) {
           self.setData({
             activity_name: res.data.data.name,
             people_acount: res.data.data.members.length,
@@ -91,7 +92,7 @@ Page({
       })
     }
 
-    if (options.index){
+    if (options.index) {
       this.setData({
         index: options.index,
         act_id: options.act_id
@@ -140,14 +141,56 @@ Page({
 
     // })
 
-    if (this.data.people_acount == 1) { 
+    if (this.data.people_acount == 1) {
       this.setData({
         isShowDetail: false,
         isShowLine: false,
       })
     }
   },
+  closeDialog: function(e) {
+    // this.setData({
+    //   isShowDiaLog: false
+    // })
+  },
+  SwitchDiaLog: function(e) {
+    this.setData({
+      isShowDiaLog: true
+    })
+  },
+  DialogCancel: function(e) {
+    this.setData({
+      isShowDiaLog: false
+    })
+  },
+  ExitAcitivity: function(e) {
+    console.log('ExitAcitivity')
+    var self = this
+    wx.request({
+      url: 'http://www.lecaigogo.com:4998/v1/activity/exit',
+      method: 'POST',
+      data: {
+        "act_id": this.data.act_id,
+        "user_id": app.globalData.unionid
+      },
+      success(res) {
+        wx.showToast({
+          title: '退出成功',
+          icon: 'success',
+          duration: 2000
+        })
+        self.setData({
+          isShowDiaLog: false
+        })
+        setTimeout(function() {
+          wx.navigateBack({
+            delta: 2
+          })
+        }, 2000)
 
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -194,6 +237,13 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
+    return {
+      title: '加入' + this.data.activity_name + '活动',
+      path: '/pages/join_activity/join_activity',
+      success: function(res) {
+        console.log('分享成功')
+      },
 
+    }
   }
 })

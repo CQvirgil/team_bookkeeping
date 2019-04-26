@@ -76,9 +76,9 @@
 
 .money {
   height: 100rpx;
-  width: 285rpx;
-  border-right: 4rpx solid #f7c429;
+  width: 400rpx;
   padding: 0;
+  text-align: right
 }
 
 .conent {
@@ -194,10 +194,7 @@ button::after {
 }
 
 .input-container {
-  width: 310rpx;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  
 }
 
 .yuan {
@@ -341,3 +338,4 @@ button::after {
   /* width: 78rpx; */
   text-align: right
 }
+
