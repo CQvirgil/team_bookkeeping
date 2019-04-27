@@ -1,4 +1,5 @@
 // pages/details/details.js
+//活动详情页面
 var util = require('../../utils/util.js')
 var app = getApp()
 
@@ -9,6 +10,7 @@ Page({
    */
   data: {
     isShowTime: false,
+    isQRDialogShow: false,
     isShowDetail: true,
     isShowDiaLog: false,
     Finish: '进行中',
@@ -23,12 +25,20 @@ Page({
     head_img: '',
     index: null,
     act_id: '',
+    activity: null
+  },
+  ListItemTap:function(e){
+    wx.navigateTo({
+      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id,
+    })
   },
   //记一笔账按钮页面
   gotoWrite_a_bill: function(e) {
-    wx.navigateTo({
-      url: '../write_a_bill/write_a_bill?index=' + this.data.index + '&act_id=' + this.data.act_id
-    })
+    if (this.data.activity.state) {
+      wx.navigateTo({
+        url: '../write_a_bill/write_a_bill?index=' + this.data.index + '&act_id=' + this.data.activity.act_id
+      })
+    }
   },
   gotoPeople: function(e) {
     wx.navigateTo({
@@ -37,27 +47,43 @@ Page({
   },
   gotoFinancial: function(e) {
     wx.navigateTo({
-      url: '../financial/financial',
+      url: '../financial/financial?actid=' + this.data.act_id,
     })
   },
   EndTally: function(e) {
     console.log(util.formatTime())
     app.globalData.activity.end_time = util.formatTime()
     app.globalData.activity.isunderway = false
-    if (app.globalData.activity.end_time != null) {
-      this.setData({
-        Finish: app.globalData.activity.end_time + '已结束',
-        isShowLine: false
+    console.log(this.data.activity.state)
+    var self = this
+    if (this.data.activity.state) {
+      wx.request({
+        url: app.globalData.url+'/activity/state',
+        method: 'POST',
+        data: {
+          "act_id": this.data.activity.act_id,
+          "user_id": app.globalData.unionid
+        },
+        success(res) {
+
+        }
       })
-    } else {
-      this.setData({
-        Finish: app.globalData.activity.end_time + '已结束',
+    }
+    if(this.data.activity.members.length >1){
+      self.setData({
+        Finish: util.formatTime() + '已结束',
         isEndTally: false,
         isShowDetail: true,
         isShowLine: false
       })
+    }else{
+      self.setData({
+        Finish: util.formatTime() + '已结束',
+        isEndTally: false,
+        isShowDetail: false,
+        isShowLine: false
+      })
     }
-
     wx.navigateTo({
       url: '../financial/financial',
     })
@@ -71,7 +97,7 @@ Page({
     if (options.activity_name) {
       var self = this
       wx.request({
-        url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+        url: app.globalData.url + '/activity/get',
         method: 'POST',
         data: {
           "act_id": app.globalData.create_act_id,
@@ -79,14 +105,18 @@ Page({
         },
         success(res) {
           self.setData({
+            activity: res.data.data,
             activity_name: res.data.data.name,
             people_acount: res.data.data.members.length,
             all_acount: res.data.data.act_total,
-            my_pay: res.data.data.my_total,
+            my_pay: res.data.data.my_expend,
             bill: res.data.data.bills,
             head_img: app.globalData.userInfo.avatarUrl,
-            my_consume: res.data.data.my_expend,
+            my_consume: res.data.data.my_total,
+            activity: res.data.data
           })
+          self.CheckIsEnd()
+          self.onReady()
           console.log(res.data)
         }
       })
@@ -102,7 +132,7 @@ Page({
       var self = this
       var act_id = options.act_id
       wx.request({
-        url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+        url: app.globalData.url+'/activity/get',
         method: 'POST',
         data: {
           "act_id": act_id,
@@ -113,20 +143,16 @@ Page({
             activity_name: res.data.data.name,
             people_acount: res.data.data.members.length,
             all_acount: res.data.data.act_total,
-            my_pay: res.data.data.my_total,
+            my_pay: res.data.data.my_expend,
             bill: res.data.data.bills,
             head_img: app.globalData.userInfo.avatarUrl,
-            my_consume: res.data.data.my_expend,
+            my_consume: res.data.data.my_total,
+            activity: res.data.data
           })
+          console.log(self.data.activity)
+          self.CheckIsEnd()
           console.log(res.data)
         }
-      })
-      console.log(act_id)
-    }
-
-    if (app.globalData.activity.end_time != null) {
-      this.setData({
-        Finish: app.globalData.activity.end_time + '已结束',
       })
     }
 
@@ -148,6 +174,16 @@ Page({
       })
     }
   },
+  QrCloseHandler: function(e) {
+    this.setData({
+      isQRDialogShow: false
+    })
+  },
+  ShowQrHadler: function(e) {
+    this.setData({
+      isQRDialogShow: true
+    })
+  },
   closeDialog: function(e) {
     // this.setData({
     //   isShowDiaLog: false
@@ -167,7 +203,7 @@ Page({
     console.log('ExitAcitivity')
     var self = this
     wx.request({
-      url: 'http://www.lecaigogo.com:4998/v1/activity/exit',
+      url: app.globalData.url+'/activity/exit',
       method: 'POST',
       data: {
         "act_id": this.data.act_id,
@@ -195,7 +231,29 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+    //判断已结束且成员大于一
+    if (!this.data.activity.state && this.data.activity.members.length > 1) {
+      this.setData({
+        Finish: this.data.activity.over_at + '已结束',
+        isEndTally: false,
+        isShowDetail: true,
+        isShowLine: false
+      })
+    }
 
+    if (this.data.activity.members.length <= 1 && !this.data.activity.state){
+      this.setData({
+        isEndTally: false,
+        isShowDetail: false,
+        isShowLine: false
+      })
+    }else{
+      this.setData({
+        isEndTally: true,
+        isShowDetail: false,
+        isShowLine: false
+      })
+    }
   },
 
   /**
@@ -203,6 +261,15 @@ Page({
    */
   onShow: function() {
 
+  },
+
+  CheckIsEnd: function() {
+    if (!this.data.activity.state) {
+      this.setData({
+        Finish: this.data.activity.over_at + '已结束',
+      })
+    }
+    //console.log(this.data.activity.state)
   },
 
   /**

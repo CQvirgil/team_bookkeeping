@@ -1,18 +1,38 @@
 // pages/billing_details/billing_details.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    bill_id: '',
+    bill: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      bill_id: options.bill_id
+    })
+    console.log(options.bill_id)
+    var self = this
+    wx.request({
+      url: app.globalData.url+'/bill/get',
+      method: 'POST',
+      data: {
+        "bill_id": this.data.bill_id,
+        "user_id": app.globalData.unionid
+      },
+      success(res){
+        console.log(res)
+        self.setData({
+          bill: res.data.data
+        })
+      }
+    })
   },
 
   /**

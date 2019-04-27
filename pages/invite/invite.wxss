@@ -33,6 +33,7 @@
   font-size: 28rpx;
   color: #000000;
   margin-left: 15rpx;
+  margin-top: 23rpx;
 }
 
 .img{
@@ -238,6 +239,10 @@
   position: absolute;
   top: 485rpx;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .wx-friend-big-image{

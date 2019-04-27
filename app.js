@@ -36,6 +36,7 @@ App({
 
   },
   globalData: {
+    url: 'https://www.lecaigogo.com/v1',
     userInfo: null,
     activity: [],
     activityID: [],

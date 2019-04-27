@@ -10,7 +10,6 @@ Page({
     headimgs: []
   },
   onLoad(pageOptions) {
-    console.log('onLoad')
     var self = this
     var x = 0
     // 获取用户信息
@@ -30,7 +29,7 @@ Page({
 
 
               wx.request({
-                url: 'http://www.lecaigogo.com:4998/v1/auth/wxlogin',
+                url: app.globalData.url +'/auth/wxlogin',
                 method: 'POST',
                 data: {
                   "code": app.globalData.code,
@@ -38,11 +37,11 @@ Page({
                   "iv": iv
                 },
                 success(res) {
+                  console.log(res)
                   app.globalData.unionid = res.data.data.unionid
-
                   //请求获取活动列表，返回活动id
                   wx.request({
-                    url: 'http://www.lecaigogo.com:4998/v1/activity/get_all',
+                    url: app.globalData.url + '/activity/get_all',
                     method: 'POST',
                     data: {
                       "user_id": app.globalData.unionid
@@ -56,7 +55,7 @@ Page({
                         for (var i = 0; i < app.globalData.activityID.length; i++) {
 
                           wx.request({
-                            url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+                            url: app.globalData.url + '/activity/get',
                             method: 'POST',
                             data: {
                               "act_id": app.globalData.activityID[i],
@@ -84,7 +83,7 @@ Page({
 
                     },
                     fail(res) {
-                      console.log('网络请求失败：' + 'http://www.lecaigogo.com:4998/v1/activity/get_all')
+                      console.log('网络请求失败：' + app.globalData.url + '/activity/get_all')
                     }
                   })
                   console.log(app.globalData.unionid)
@@ -158,8 +157,60 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
+    this.setData({
+      list: []
+    })
+    app.globalData.activity = []
     wx.stopPullDownRefresh()
-    this.onLoad()
+    var self = this
+    var x
+    //请求获取活动列表，返回活动id
+    wx.request({
+      url: app.globalData.url +'/activity/get_all',
+      method: 'POST',
+      data: {
+        "user_id": app.globalData.unionid
+      },
+      success(res) {
+        //遍历获取到的活动id并查询活动详情
+        app.globalData.activityID = res.data.data.act_id
+        console.log(app.globalData.activityID)
+
+        if (app.globalData.activityID != null) {
+          for (var i = 0; i < app.globalData.activityID.length; i++) {
+
+            wx.request({
+              url: app.globalData.url +'/activity/get',
+              method: 'POST',
+              data: {
+                "act_id": app.globalData.activityID[i],
+                "user_id": app.globalData.unionid
+              },
+              success(res) {
+                app.globalData.activity[app.globalData.activity.length] = res.data.data
+                var heads = [app.globalData.userInfo.avatarUrl]
+                for (var n = 0; n < res.data.data.members.length; n++) {
+                  heads[n] = res.data.data.members[n].headimgurl
+                  //console.log()
+                }
+                self.setData({
+                  list: app.globalData.activity,
+                  headimgs: heads
+                })
+                x++
+                //console.log(res)
+                //console.log(app.globalData.activity[0].members[0].headimgurl)
+                //console.log(app.globalData.userInfo.avatarUrl)
+              }
+            })
+          }
+        }
+
+      },
+      fail(res) {
+        console.log('网络请求失败：' + app.globalData.url +'/activity/get_all')
+      }
+    })
     console.log('onPullDownRefresh')
   },
   bindscrolltoupper: function(e) {

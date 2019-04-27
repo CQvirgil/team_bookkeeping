@@ -1,4 +1,5 @@
 // pages/creat_activity/creat_activity.js
+//创建活动页面
 const app = getApp()
 
 Page({
@@ -59,7 +60,7 @@ Page({
       var self = this
       var text = this.data.activity_name
       wx.request({
-        url: 'http://www.lecaigogo.com:4998/v1/activity/create',
+        url: app.globalData.url+'/activity/create',
         method: 'POST',
         data: {
           "act_name": text,

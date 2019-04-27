@@ -1,4 +1,5 @@
 <!--pages/details/details.wxml-->
+<!-- 活动详情 -->
 <view class='container details'>
   <view class='top-view'>
     <view class='title-container'>
@@ -42,7 +43,7 @@
 
     <view class='line' wx:if="{{isShowLine}}"></view>
 
-    <view class='detail' wx:if="{{isShowLine}}" bindtap='gotoFinancial'>
+    <view class='detail' wx:if="{{isShowDetail}}" bindtap='gotoFinancial'>
       <image class='button-icon2' src='/res/icon_details_normal.png'></image>
       <text class='text'>收支明细</text>
     </view>
@@ -50,7 +51,7 @@
 
   <scroll-view scroll-y class='list'>
 
-    <view class='list-item' wx:for="{{bill}}">
+    <view class='list-item' wx:for="{{bill}}" wx:key="bill" bindtap='ListItemTap' data-bill_id='{{item.bill_id}}'>
 
       <text class='text time text-gray' wx:if="{{index == 0}}">{{item.date}}</text>
       <view class='text-container'>
@@ -75,7 +76,7 @@
 
   <view class='dialog container' bindtap='closeDialog' wx:if="{{isShowDiaLog}}">
     <view class='dialog-content'>
-      <button>
+      <button bindtap='ShowQrHadler'>
         <text class='text'>活动二维码</text>
       </button>
       <button open-type='share'>
@@ -89,5 +90,10 @@
         <text class='text'>取消</text>
       </button>
     </view>
+  </view>
+
+  <view class='dialog container' id='qr' wx:if='{{isQRDialogShow}}'>
+    <qr_invite ></qr_invite>
+    <image bindtap='QrCloseHandler' class='qr-close' src='/res/btn_close.png'></image>
   </view>
 </view>

@@ -1,19 +1,36 @@
 // pages/financial/financial.js
+//收支明细页面
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    list: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var self = this
     wx.setNavigationBarTitle({
-      title: '我的活动',
+      title: '收支明细',
+    })
+
+    wx.request({
+      url: app.globalData.url+'/activity/detail',
+      method: 'POST',
+      data: {
+        "act_id": options.act_id,
+        "user_id": app.globalData.unionid
+      },
+      success(res){
+        self.setData({
+          list: res.data.data.details
+        })
+      }
     })
   },
 

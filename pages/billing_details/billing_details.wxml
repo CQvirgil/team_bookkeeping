@@ -1,29 +1,29 @@
 <!--pages/billing_details/billing_details.wxml-->
 <view class='container billing_details'>
   <view class='top money'>
-    <text class='text-bolder'>海鲜</text>
-    <text class='title'>¥1334</text>
+    <text class='text-bolder'>{{bill.content}}</text>
+    <text class='title'>¥{{bill.bill_total}}</text>
   </view>
 
   <view class='top date'>
-    <text class='text text-gray'>今天（02-01）</text>
+    <text class='text text-gray'>{{bill.created_at}}</text>
     <text class='text text-gray'>总消费</text>
   </view>
-  <text class='text-bolder state'>6人具体</text>
+  <text class='text-bolder state'>{{bill.members.length}}人具体</text>
 
   <scroll-view class='mlist' scroll-y>
   
-    <view class='list-item' wx:for="1231232312131">
+    <view class='list-item' wx:for="{{bill.members}}" wx:key='members'>
       <view class='people'>
-          <image class='people_headimg'></image>
-          <text class='text people_name'>音匀</text>
-          <text class='text text-gray payer'>付款人</text>
+          <image class='people_headimg' src='{{item.headimgurl}}'></image>
+          <text class='text people_name'>{{item.nickname}}</text>
+          <text class='text text-gray payer' wx:if='{{inedx == 0}}'>付款人</text>
         </view>
-        <text class='text'>¥166.75</text>
+        <text class='text'>¥{{item.Money}}</text>
       </view>
     
       <view class='list-item-log-container'>
-        <view class='list-item-log text-log' wx:for="1231232312131">
+        <view class='list-item-log text-log' wx:for="{{bill.log}}" wx:key='logs'>
             <text>19-02-01</text>
             <text>13:30</text>
             <text>natsu创建</text>

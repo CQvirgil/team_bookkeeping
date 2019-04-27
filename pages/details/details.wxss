@@ -204,6 +204,17 @@
 
 }
 
+.qr-close{
+  width: 40rpx;
+  height: 104rpx;
+}
+
 .text-red{
   color: #eb4c4c
+}
+
+#qr{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

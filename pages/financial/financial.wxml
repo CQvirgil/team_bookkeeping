@@ -2,7 +2,7 @@
 <view class='container financial'>
   <scroll-view scroll-y>
   
-    <view class='list-item' wx:for="[1,2,3]">
+    <view class='list-item' wx:for="{{list}}">
         <view class='person left'>
           <image class='person-image'></image>
           <text class='person-name text'>嘉怡</text>

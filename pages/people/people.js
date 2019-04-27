@@ -47,7 +47,7 @@ Page({
     console.log(options.act_id)
 
     wx.request({
-      url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+      url: app.globalData.url +'/activity/get',
       method: 'POST',
       data: {
         "act_id": options.act_id,

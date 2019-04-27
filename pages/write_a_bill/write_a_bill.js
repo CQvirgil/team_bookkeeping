@@ -141,7 +141,7 @@ Page({
     console.log(self.data.people_list_item)
     if (this.data.isSpecificState) {
       wx.request({
-        url: 'http://www.lecaigogo.com:4998/v1/bill/create',
+        url: app.globalData.url +'/bill/create',
         method: 'POST',
         data: {
           "activity_id": self.data.act_id,
@@ -162,7 +162,7 @@ Page({
       var money = parseFloat(self.data.money)
       
       wx.request({
-        url: 'http://www.lecaigogo.com:4998/v1/bill/create',
+        url: app.globalData.url + '/bill/create',
         method: 'POST',
         data: {
           "activity_id": self.data.act_id,
@@ -351,7 +351,7 @@ Page({
     })
     var self = this
     wx.request({
-      url: 'http://www.lecaigogo.com:4998/v1/activity/get',
+      url: app.globalData.url +'/activity/get',
       method: 'POST',
       data: {
         "act_id": act_id,

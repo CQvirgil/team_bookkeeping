@@ -7,7 +7,8 @@ Page({
    */
   data: {
     list: [],
-    created_at: ''
+    created_at: '',
+    act_id: ''
   },
 
   /**
@@ -17,82 +18,88 @@ Page({
     var act_id = options.act_id
     var self = this
     console.log(act_id)
-
-    // 查看是否授权
-    wx.getSetting({
-      success(res) {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success(res) {
-              console.log(res.userInfo)
-              app.globalData.userInfo = res.userInfo
-              // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-              wx.getUserInfo({
-                withCredentials: true,
-                success(res) {
-                  // 可以将 res 发送给后台解码出 unionId
-                  console.log(res)
-                  app.globalData.userInfo = res.userInfo
-                  var encryptedData = res.encryptedData
-                  var iv = res.iv
-
-
-                  wx.request({
-                    url: 'http://www.lecaigogo.com:4998/v1/auth/wxlogin',
-                    method: 'POST',
-                    data: {
-                      "code": app.globalData.code,
-                      "encryptedData": encryptedData,
-                      "iv": iv
-                    },
-                    success(res) {
-                      app.globalData.unionid = res.data.data.unionid
-                      console.log(app.globalData.unionid)
-
-                      wx.request({
-                        url: 'http://www.lecaigogo.com:4998/v1/activity/get',
-                        method: 'POST',
-                        data: {
-                          "act_id": act_id,
-                          "user_id": app.globalData.unionid
-                        },
-                        success(res){
-                          self.setData({
-                            list: res.data.data.members,
-                            created_at: res.data.data.created_at
-                          })
-                        }
-                      })
-                    },
-                    fail(res) {
-                      console.log("请求失败")
-                    }
-                  })
-
-                },
-                fail(res) {
-                  console.log('获取用户数据失败')
-                }
-              })
-            }
-          })
-        } else {
-          console.log('未授权')
-          wx.navigateTo({
-            url: '/pages/login/login',
-          })
-        }
-      }
+    this.setData({
+      act_id: options.act_id
     })
+
+    if (options.act_id) {
+      // 查看是否授权
+      wx.getSetting({
+        success(res) {
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+            wx.getUserInfo({
+              success(res) {
+                console.log(res.userInfo)
+                app.globalData.userInfo = res.userInfo
+                // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                wx.getUserInfo({
+                  withCredentials: true,
+                  success(res) {
+                    // 可以将 res 发送给后台解码出 unionId
+                    console.log(res)
+                    app.globalData.userInfo = res.userInfo
+                    var encryptedData = res.encryptedData
+                    var iv = res.iv
+
+
+                    wx.request({
+                      url: app.globalData.url + '/auth/wxlogin',
+                      method: 'POST',
+                      data: {
+                        "code": app.globalData.code,
+                        "encryptedData": encryptedData,
+                        "iv": iv
+                      },
+                      success(res) {
+                        app.globalData.unionid = res.data.data.unionid
+                        console.log(app.globalData.unionid)
+
+                        wx.request({
+                          url: app.globalData.url + '/activity/get',
+                          method: 'POST',
+                          data: {
+                            "act_id": act_id,
+                            "user_id": app.globalData.unionid
+                          },
+                          success(res) {
+                            self.setData({
+                              list: res.data.data.members,
+                              created_at: res.data.data.created_at
+                            })
+                          }
+                        })
+                      },
+                      fail(res) {
+                        console.log("请求失败")
+                      }
+                    })
+
+                  },
+                  fail(res) {
+                    console.log('获取用户数据失败')
+                  }
+                })
+              }
+            })
+          } else {
+            console.log('未授权')
+            wx.navigateTo({
+              url: '/pages/login/login',
+            })
+          }
+        }
+      })
+    }
+
   },
 
   JoinActivity: function(act_id) {
     wx.request({
-      url: 'http://www.lecaigogo.com:4998/v1/activity/add',
+      url: app.globalData.url + '/activity/add',
       method: 'POST',
       data: {
-        "act_id": act_id,
+        "act_id": this.data.act_id,
         "user_id": app.globalData.unionid,
       },
       success(res) {

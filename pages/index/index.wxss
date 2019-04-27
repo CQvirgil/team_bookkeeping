@@ -1,4 +1,7 @@
 /**index.wxss**/
+page{
+  background: #ededed
+}
 .getUserInfo{
   position: absolute;
   top: 200rpx;
@@ -21,7 +24,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  position: absolute;
+  position: fixed;
   bottom: 120rpx;
 }
 
@@ -80,7 +83,7 @@
   height: 344rpx;
   width: 100%;
   background: #ffffff;
-  margin-bottom: 16rpx;
+  position: relative;
 }
 
 .item-title{
@@ -107,7 +110,7 @@
 .activity-underway{
   font-size: 28rpx;
   color: #f7c429;
-  margin-left: 30rpx;
+  margin-left: 15rpx;
   margin-top: 40rpx;
 }
 
@@ -129,4 +132,12 @@
   background: #dfdfdf;
   margin-left: 16rpx;
   border-radius: 8rpx;
+}
+
+.line{
+  width: 100%;
+  height: 16rpx;
+  background: #ededed;
+  position: absolute;
+  bottom: 0rpx;
 }
