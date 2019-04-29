@@ -8,7 +8,7 @@ const formatTime = date => {
   const second = date.getSeconds()
 
   const time = ' ' + [hour, minute, second].map(formatNumber).join(':')
-  return [month, day].map(formatNumber).join('-')
+  return [year,month, day].map(formatNumber).join('-')
 }
 
 const formatNumber = n => {

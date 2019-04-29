@@ -32,6 +32,11 @@
   font-weight: bolder
 }
 
+.text-f7c429{
+  font-size: 28rpx;
+  color: #f7c429;
+}
+
 .footview{
   width: 100%;
   height: 240rpx;

@@ -34,7 +34,19 @@ Page({
       }
     })
   },
-
+  DeletBill: function(e){
+    wx.request({
+      url: app.globalData.url+'/bill/delete',
+      method: 'POST',
+      data: {
+        "bill_id": this.data.bill_id,
+        "user_id": ''
+      },
+      success(res){
+        console.log(res.data)
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

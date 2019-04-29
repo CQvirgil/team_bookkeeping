@@ -19,7 +19,7 @@
       </view>
 
       <view class='item-headimgs'>
-        <image class='headimgs' wx:for='{{headimgs}}' wx:key="headings" src='{{item}}'></image>
+        <image class='headimgs' wx:for='{{item.members}}' wx:key="headings" src='{{item.headimgurl}}'></image>
       </view>
       <view class='line'></view>
     </view>

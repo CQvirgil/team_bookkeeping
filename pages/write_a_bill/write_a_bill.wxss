@@ -302,6 +302,7 @@ button::after {
 #dialog-people-list-item{
   display: flex;
   align-items: center;
+  margin-bottom: 56rpx;
 }
 
 #dialog-people-list-item text{
@@ -340,3 +341,67 @@ button::after {
   text-align: right
 }
 
+.dialog-top{
+  margin-top: 39rpx;
+}
+
+/* 复选按钮样式 */
+.dialog-checkboxgroup{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog-checkbox-container{
+ width: 100%;
+ height: 1000rpx;
+ margin-top: 40rpx;
+}
+
+.dialog-checkbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog-checkbox image{
+  margin-left: 24rpx;
+}
+.dialog-checkbox text{
+  margin-left: 16rpx;
+}
+
+.dialog-checkbox-bottom{
+  width: 93%;
+  height: 120rpx;
+  display: flex;
+  justify-content: space-between;
+  /* background: #ffffff; */
+  align-items: center;
+  position: fixed;
+  bottom: 0rpx;
+  right: 32rpx;
+  left: 32rpx;
+}
+
+#dialog-checkbox{
+  background: #dfdfdf;
+}
+
+.btn_queding{
+  margin: 0rpx 0;
+  background: #f7c429
+}
+
+.dialog-checkbox-container button{
+  margin: 60rpx 0;
+}
+
+.dialog-checkbox-item{
+  margin-bottom: 56rpx;
+}
+
+.btn_queding-con{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

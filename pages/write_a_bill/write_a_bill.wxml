@@ -20,11 +20,7 @@
 
         <view wx:if='{{isShowInput}}' class='input-container'>
           <!-- <text class='title {{yuan}}'>¥</text> -->
-          <input bindinput='HoverInput' bindblur='InputOver'
-           bindfocus='StartInput'
-           adjust-position='false' maxlength='7'
-           value='{{input_value}}'
-           class='money title' type='digit' placeholder='¥0.00' placeholder-class='yuan title'></input>
+          <input bindinput='HoverInput' bindblur='InputOver' bindfocus='StartInput' adjust-position='false' maxlength='7' value='{{input_value}}' class='money title' type='digit' placeholder='¥0.00' placeholder-class='yuan title'></input>
         </view>
 
       </view>
@@ -61,16 +57,15 @@
 
       <view class='conent'>
         <text class='text'>参与成员</text>
-        <view class='right' wx:if='{{!isSpecificState}}'>
-          <text class='text text-gray'>1人平摊</text>
+        <view class='right' wx:if='{{!isSpecificState}}' bindtap='ShowCheckboxDialog'>
+          <text class='text text-gray'>{{members.length}}人平摊</text>
           <image class='jiantou' src='/res/btn_members_normal.png'></image>
         </view>
 
       </view>
 
       <view class='people-list' wx:if="{{isSpecificState}}">
-        <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap'
-         wx:for="{{members}}" wx:key="members">
+        <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap' wx:for="{{members}}" wx:key="members">
           <view class='people-item'>
             <view class='person-msg'>
               <image class='headimg-72' src='{{item.headimgurl}}'></image>
@@ -100,7 +95,7 @@
       </view>
 
       <view class='dialog-input'>
-        <input maxlength='10' type='number' class='text input' placeholder-class='text-bbb' bindinput='dialog_input' placeholder="点击这里输入自定义内容"></input>
+        <input maxlength='10' type='text' class='text input' placeholder-class='text-bbb' bindinput='dialog_input' placeholder="点击这里输入自定义内容"></input>
         <text class='text text-bbb'>{{dialog_input_length}}/10</text>
       </view>
 
@@ -117,7 +112,7 @@
         <text class='fill-width'>付款人</text>
       </view>
       <view id='dialog-people-list'>
-        <view id='dialog-people-list-item' wx:for="{{members}}" wx:key='dialog-people-list-item' bindtap='clickPeopleItem'>
+        <view id='dialog-people-list-item' wx:for="{{members}}" wx:key='dialog-people-list-item' bindtap='clickPeopleItem' data-index='{{index}}'>
           <image class='headimg-72' src='{{item.headimgurl}}'></image>
           <text class='text'>{{item.nickname}}</text>
         </view>
@@ -130,4 +125,44 @@
     <text id='acount'>¥{{money_acount}}</text>
   </view>
 
+</view>
+
+<!-- 参与成员弹窗 -->
+<view class='dialog container' wx:if='{{isShowdialogCheckbox}}'>
+  <view class='container dialog-content'>
+    <view class='fill-width dialog-top'>
+      <text class='text-bolder'>参与成员</text>
+    </view>
+    <scroll-view scroll-y class='dialog-checkbox-container'>
+
+      <view class='fill-width dialog-checkbox-item' wx:for="{{members}}" wx:key='checkbox'>
+        <checkbox-group bindchange= 'checkboxChange' class='fill-width dialog-checkboxgroup'>
+          <view class='dialog-checkbox'>
+            <checkbox checked='{{isChecked}}'/>
+            <image class='headimg-72' src='{{item.headimgurl}}'></image>
+            <text class='text'>{{nickname}}</text>
+          </view>
+          <text class='text'>¥{{average_money}}</text>
+        </checkbox-group>
+      </view>
+      <view class='btn_queding-con'>
+        <button class='btn_queding' bindtap='CloseCheckBoxDialog'>确定</button>
+      </view>
+    </scroll-view>
+
+    
+
+    <view class='dialog-checkbox-bottom'>
+      <checkbox-group bindchange='selectAll'>
+        <checkbox checked='true'/>
+        <text class='text-f7c429'>全选</text>
+      </checkbox-group>
+
+      <view>
+        <text class='text-bolder'>共</text>
+        <text class='text-bolder'>¥{{money}}</text>
+      </view>
+
+    </view>
+  </view>
 </view>

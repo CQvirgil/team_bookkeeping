@@ -27,7 +27,7 @@ Page({
     act_id: '',
     activity: null
   },
-  ListItemTap:function(e){
+  ListItemTap: function(e) {
     wx.navigateTo({
       url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id,
     })
@@ -58,7 +58,7 @@ Page({
     var self = this
     if (this.data.activity.state) {
       wx.request({
-        url: app.globalData.url+'/activity/state',
+        url: app.globalData.url + '/activity/state',
         method: 'POST',
         data: {
           "act_id": this.data.activity.act_id,
@@ -69,14 +69,14 @@ Page({
         }
       })
     }
-    if(this.data.activity.members.length >1){
+    if (this.data.activity.members.length > 1) {
       self.setData({
         Finish: util.formatTime() + '已结束',
         isEndTally: false,
         isShowDetail: true,
         isShowLine: false
       })
-    }else{
+    } else {
       self.setData({
         Finish: util.formatTime() + '已结束',
         isEndTally: false,
@@ -115,6 +115,7 @@ Page({
             my_consume: res.data.data.my_total,
             activity: res.data.data
           })
+          
           self.CheckIsEnd()
           self.onReady()
           console.log(res.data)
@@ -132,7 +133,7 @@ Page({
       var self = this
       var act_id = options.act_id
       wx.request({
-        url: app.globalData.url+'/activity/get',
+        url: app.globalData.url + '/activity/get',
         method: 'POST',
         data: {
           "act_id": act_id,
@@ -150,6 +151,7 @@ Page({
             activity: res.data.data
           })
           console.log(self.data.activity)
+          self.setState()
           self.CheckIsEnd()
           console.log(res.data)
         }
@@ -203,7 +205,7 @@ Page({
     console.log('ExitAcitivity')
     var self = this
     wx.request({
-      url: app.globalData.url+'/activity/exit',
+      url: app.globalData.url + '/activity/exit',
       method: 'POST',
       data: {
         "act_id": this.data.act_id,
@@ -231,6 +233,10 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+    
+  },
+
+  setState: function() {
     //判断已结束且成员大于一
     if (!this.data.activity.state && this.data.activity.members.length > 1) {
       this.setData({
@@ -241,13 +247,13 @@ Page({
       })
     }
 
-    if (this.data.activity.members.length <= 1 && !this.data.activity.state){
+    if (this.data.activity.members.length <= 1 && !this.data.activity.state) {
       this.setData({
         isEndTally: false,
         isShowDetail: false,
         isShowLine: false
       })
-    }else{
+    } else if (this.data.activity.members.length <= 1 && this.data.activity.state){
       this.setData({
         isEndTally: true,
         isShowDetail: false,
@@ -306,7 +312,7 @@ Page({
   onShareAppMessage: function() {
     return {
       title: '加入' + this.data.activity_name + '活动',
-      path: '/pages/join_activity/join_activity',
+      path: '/pages/join_activity/join_activity?act_id=' + this.data.activity.act_id,
       success: function(res) {
         console.log('分享成功')
       },

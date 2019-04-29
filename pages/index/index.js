@@ -29,7 +29,7 @@ Page({
 
 
               wx.request({
-                url: app.globalData.url +'/auth/wxlogin',
+                url: app.globalData.url + '/auth/wxlogin',
                 method: 'POST',
                 data: {
                   "code": app.globalData.code,
@@ -80,7 +80,7 @@ Page({
                           })
                         }
                       }
-
+                      console.log(res)
                     },
                     fail(res) {
                       console.log('网络请求失败：' + app.globalData.url + '/activity/get_all')
@@ -115,10 +115,12 @@ Page({
   },
 
   onReady() {
-
+    console.log('onReady')
   },
   onShow() {
-
+    if (app.globalData.activityID != null) {
+      this.getallActivity()
+    }
     console.log(app.globalData.activity)
 
     if (app.globalData.activity.end_time != null) {
@@ -157,21 +159,26 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    this.setData({
-      list: []
-    })
-    app.globalData.activity = []
     wx.stopPullDownRefresh()
+    this.getallActivity()
+  },
+  getallActivity: function() {
+
+
     var self = this
     var x
     //请求获取活动列表，返回活动id
     wx.request({
-      url: app.globalData.url +'/activity/get_all',
+      url: app.globalData.url + '/activity/get_all',
       method: 'POST',
       data: {
         "user_id": app.globalData.unionid
       },
       success(res) {
+        self.setData({
+          list: []
+        })
+        app.globalData.activity = []
         //遍历获取到的活动id并查询活动详情
         app.globalData.activityID = res.data.data.act_id
         console.log(app.globalData.activityID)
@@ -180,7 +187,7 @@ Page({
           for (var i = 0; i < app.globalData.activityID.length; i++) {
 
             wx.request({
-              url: app.globalData.url +'/activity/get',
+              url: app.globalData.url + '/activity/get',
               method: 'POST',
               data: {
                 "act_id": app.globalData.activityID[i],
@@ -198,7 +205,7 @@ Page({
                   headimgs: heads
                 })
                 x++
-                //console.log(res)
+                console.log(res)
                 //console.log(app.globalData.activity[0].members[0].headimgurl)
                 //console.log(app.globalData.userInfo.avatarUrl)
               }
@@ -208,10 +215,10 @@ Page({
 
       },
       fail(res) {
-        console.log('网络请求失败：' + app.globalData.url +'/activity/get_all')
+        console.log('网络请求失败：' + app.globalData.url + '/activity/get_all')
       }
     })
-    console.log('onPullDownRefresh')
+    console.log('getallActivity')
   },
   bindscrolltoupper: function(e) {
     // var self = this

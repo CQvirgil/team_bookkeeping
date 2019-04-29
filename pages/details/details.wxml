@@ -15,8 +15,8 @@
     <text class='text text-gray state-right'>共{{people_acount}}人参与</text>
   </view>
 
-  <view class='person-headimgs' bindtap='gotoPeople'>
-    <image class='headimg' src='{{head_img}}'></image>
+  <view class='person-headimgs' bindtap='gotoPeople' >
+    <image class='headimg' wx:for='{{activity.members}}' src='{{item.headimgurl}}'></image>
     <image class='btn-start-normal' src='/res/btn_members_normal.png'></image>
   </view>
 

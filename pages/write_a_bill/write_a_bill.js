@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isChecked: true,
     state: '平均分摊',
     isSpecificState: false, //是否为平均分摊
     input_value: '',
@@ -17,23 +18,25 @@ Page({
     date: '',
     text_date: '今天',
     end_date: '',
-    isShowInput: true,
-    isShowDialog1: false,
+    isShowInput: true, //控制input组件
+    isShowDialog1: false, //控制隐藏菜单
     person_name: '',
     person_headimg: '',
-    money: 0,
+    money: 0, //平均状态下的总数
+    average_money: 0, //平均状态下的平均值
     bill_content: '一般',
     radio_button_style: 'radio-button',
     dialog_input_length: 0,
     dialog_input_text: '',
     dialgo_animation: null,
-    isShowPeopleDialog: false,
+    isShowPeopleDialog: false, //控制成员列表的弹窗
     money_acount: 0,
     members: [], //成员列表
     payer: null, //付款人信息
     people_list_postion: 0, //具体分摊状态下参与成员的下标
     people_list_item: [], //成员金额和信息
     act_id: '',
+    isShowdialogCheckbox: false, //控制参与成员弹窗
     radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
@@ -83,13 +86,13 @@ Page({
   //   })
   //   console.log(e.detail.value)
   // },
-  StartInput:function(e){
+  StartInput: function(e) {
     this.setData({
       input_value: ''
     })
   },
-  InputOver: function(e){
-    if(e.detail.value != ''){
+  InputOver: function(e) {
+    if (e.detail.value != '') {
       var input = e.detail.value
       input = '¥' + input
       this.setData({
@@ -97,17 +100,18 @@ Page({
       })
     }
 
-    if (!this.data.isSpecificState){
+    if (!this.data.isSpecificState) {
       var item = []
-      var average = e.detail.value/this.data.members.length
-      for(var i = 0;i < this.data.members.length; i++){
+      var average = e.detail.value / this.data.members.length
+      for (var i = 0; i < this.data.members.length; i++) {
         item[i] = {
           "Money": average,
           "user_id": this.data.members[i].user_id
         }
       }
       this.setData({
-        people_list_item: item
+        people_list_item: item,
+        average_money: average
       })
       console.log(this.data.people_list_item)
     }
@@ -134,20 +138,31 @@ Page({
     this.setData({
       date: e.detail.value
     })
+    if (e.detail.value === util.formatTime) {
+      this.setData({
+        text_date: '今天'
+      })
+    } else {
+      this.setData({
+        text_date: ''
+      })
+    }
   },
   //记一笔按钮响应
   write: function(e) {
     var self = this
-    console.log(self.data.people_list_item)
+    console.log(self.data.payer.user_id)
+    //console.log(self.data.people_list_item)
+    //具体分摊状态
     if (this.data.isSpecificState) {
       wx.request({
-        url: app.globalData.url +'/bill/create',
+        url: app.globalData.url + '/bill/create',
         method: 'POST',
         data: {
           "activity_id": self.data.act_id,
           "content": self.data.bill_content,
           "members": self.data.people_list_item,
-          "payer_id": self.data.payer.unionid,
+          "payer_id": self.data.payer.user_id,
           "total": self.data.money_acount,
           "user_id": app.globalData.unionid
         },
@@ -158,9 +173,9 @@ Page({
           })
         }
       })
-    }else{
+    } else {
       var money = parseFloat(self.data.money)
-      
+
       wx.request({
         url: app.globalData.url + '/bill/create',
         method: 'POST',
@@ -259,9 +274,12 @@ Page({
       frontColor: '#000000',
       backgroundColor: '#ffffff',
     })
+    var index = e.currentTarget.dataset.index
+    console.log(index)
     this.setData({
       isShowInput: true,
-      isShowPeopleDialog: false
+      isShowPeopleDialog: false,
+      payer: this.data.members[index]
     })
   },
   clickPayer: function(e) {
@@ -333,6 +351,12 @@ Page({
     })
 
   },
+  CloseCheckBoxDialog: function(e) {
+    this.setData({
+      isShowdialogCheckbox: false,
+      isShowInput: true
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -351,7 +375,7 @@ Page({
     })
     var self = this
     wx.request({
-      url: app.globalData.url +'/activity/get',
+      url: app.globalData.url + '/activity/get',
       method: 'POST',
       data: {
         "act_id": act_id,
@@ -360,16 +384,52 @@ Page({
       success(res) {
         self.setData({
           members: res.data.data.members,
-          payer: res.data.data.members[0]
+          payer: res.data.data.members[0],
         })
+        self.setPayersListDefault()
         console.log(res.data.data.members)
       }
     })
+
     this.setData({
       date: util.formatTime()
     })
   },
 
+  setPayersListDefault: function() {
+    console.log('setPayersListDefault')
+    var item = []
+    for (var i = 0; i < this.data.members.length; i++) {
+      item[i] = {
+        "Money": 0,
+        "user_id": this.data.members[i].user_id
+      }
+      this.setData({
+        people_list_item: item
+      })
+    }
+  },
+  ShowCheckboxDialog: function(e) {
+    this.setData({
+      isShowdialogCheckbox: true,
+      isShowInput: false
+    })
+  },
+  checkboxChange: function(e) {
+    console.log('checkboxChange')
+  },
+  selectAll: function(e) {
+    if (this.data.isChecked) {
+      this.setData({
+        isChecked: false
+      })
+    } else {
+      this.setData({
+        isChecked: true
+      })
+    }
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -402,7 +462,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-   
+
   },
 
   /**
