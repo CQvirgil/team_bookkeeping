@@ -49,5 +49,5 @@ view input{
   justify-content: center;
   align-items: center;
   margin-top: 132rpx;
-  opacity: 0.7;
+  opacity: 0.3;
 }

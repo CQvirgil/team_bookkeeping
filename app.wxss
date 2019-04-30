@@ -78,3 +78,7 @@ button {
 button::after {
   border: none;
 }
+
+.btn-disable{
+  opacity: 0.3;
+}

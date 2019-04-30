@@ -348,6 +348,7 @@ button::after {
 /* 复选按钮样式 */
 .dialog-checkboxgroup{
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
@@ -404,4 +405,13 @@ button::after {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.checkbox-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 55rpx;
 }

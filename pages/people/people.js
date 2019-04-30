@@ -14,7 +14,8 @@ Page({
     wxfriend: '邀请微信好友',
     is_show_qr_invite: false,
     creater: {},
-    act_name: ''
+    act_name: '',
+    act_id: ''
   },
 
   closeDialog: function(e) {
@@ -45,7 +46,9 @@ Page({
       title: '活动成员',
     })
     console.log(options.act_id)
-
+    this.setData({
+      act_id: options.act_id
+    })
     wx.request({
       url: app.globalData.url +'/activity/get',
       method: 'POST',

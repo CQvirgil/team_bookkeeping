@@ -20,20 +20,19 @@ Page({
     end_date: '',
     isShowInput: true, //控制input组件
     isShowDialog1: false, //控制隐藏菜单
-    person_name: '',
-    person_headimg: '',
     money: 0, //平均状态下的总数
     average_money: 0, //平均状态下的平均值
     bill_content: '一般',
     radio_button_style: 'radio-button',
     dialog_input_length: 0,
     dialog_input_text: '',
-    dialgo_animation: null,
+    isSelectAll: true,
+    dialgo_animation: null, //弹窗动画
     isShowPeopleDialog: false, //控制成员列表的弹窗
     money_acount: 0,
     members: [], //成员列表
     payer: null, //付款人信息
-    people_list_postion: 0, //具体分摊状态下参与成员的下标
+    people_list_postion: 0, //参与成员的下标
     people_list_item: [], //成员金额和信息
     act_id: '',
     isShowdialogCheckbox: false, //控制参与成员弹窗
@@ -151,7 +150,7 @@ Page({
   //记一笔按钮响应
   write: function(e) {
     var self = this
-    console.log(self.data.payer.user_id)
+    console.log(self.data.people_list_item)
     //console.log(self.data.people_list_item)
     //具体分摊状态
     if (this.data.isSpecificState) {
@@ -169,7 +168,7 @@ Page({
         success(res) {
 
           wx.navigateBack({
-            delta: 4
+            delta: 1
           })
         }
       })
@@ -190,7 +189,7 @@ Page({
         success(res) {
 
           wx.navigateBack({
-            delta: 4
+            delta: 1
           })
         }
       })
@@ -352,10 +351,12 @@ Page({
 
   },
   CloseCheckBoxDialog: function(e) {
-    this.setData({
-      isShowdialogCheckbox: false,
-      isShowInput: true
-    })
+    if (this.data.people_list_item.length > 0) {
+      this.setData({
+        isShowdialogCheckbox: false,
+        isShowInput: true
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -415,18 +416,51 @@ Page({
       isShowInput: false
     })
   },
+  //多选按钮状态变化监听
   checkboxChange: function(e) {
     console.log('checkboxChange')
+    var members = []
+    var money = this.data.money / e.detail.value.length
+    for (var i = 0; i < e.detail.value.length; i++) {
+      var user_id = e.detail.value[i]
+      members[i] = {
+        "Money": money,
+        "user_id": user_id
+      }
+    }
+
+    this.setData({
+      people_list_item: members,
+      average_money: money
+    })
+    console.log(members)
   },
   selectAll: function(e) {
     if (this.data.isChecked) {
       this.setData({
-        isChecked: false
+        isChecked: false,
+        isSelectAll: false,
+        people_list_item: [],
+        average_money: 0
       })
+      console.log(this.data.people_list_item)
     } else {
+      var item = []
+      var average = e.detail.value / this.data.members.length
+      for (var i = 0; i < this.data.members.length; i++) {
+        item[i] = {
+          "Money": average,
+          "user_id": this.data.members[i].user_id
+        }
+      }
+
       this.setData({
-        isChecked: true
+        isSelectAll: true,
+        isChecked: true,
+        people_list_item: item,
+
       })
+      console.log(this.data.people_list_item)
     }
 
   },

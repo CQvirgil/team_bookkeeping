@@ -3,7 +3,7 @@
 
   <view class='dialog'>
     <text class='title'>{{title}}</text>
-    <image class='qr-code'></image>
+    <image class='qr-code' src='{{qr_url}}'></image>
     <text class='tips'>扫描二维码加入活动</text>
   </view>
   

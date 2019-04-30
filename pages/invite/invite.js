@@ -36,7 +36,8 @@ Page({
     this.setData({
       list: '',
       headimg_url: app.globalData.userInfo.avatarUrl,
-      user_name: app.globalData.userInfo.nickName
+      user_name: app.globalData.userInfo.nickName,
+      act_id: app.globalData.create_act_id
     })
     this.setData({
       activity_name: options.activity_name

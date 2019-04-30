@@ -62,11 +62,17 @@ Page({
                               "user_id": app.globalData.unionid
                             },
                             success(res) {
-                              app.globalData.activity[app.globalData.activity.length] = res.data.data
+                              var activity = res.data.data;
+                              var activity_over_at = activity.over_at
+                              var over_time = new Date(activity_over_at)
+                              var year = over_time.getFullYear();
+                              var month = over_time.getMonth() + 1;
+                              var date = over_time.getDate(); 
+                              activity.over_at = year + '-' + month +'-'+ date
+                              app.globalData.activity[app.globalData.activity.length] = activity
                               var heads = [app.globalData.userInfo.avatarUrl]
                               for (var n = 0; n < res.data.data.members.length; n++) {
                                 heads[n] = res.data.data.members[n].headimgurl
-                                console.log()
                               }
                               self.setData({
                                 list: app.globalData.activity,

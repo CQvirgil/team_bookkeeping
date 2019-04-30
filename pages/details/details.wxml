@@ -93,7 +93,7 @@
   </view>
 
   <view class='dialog container' id='qr' wx:if='{{isQRDialogShow}}'>
-    <qr_invite ></qr_invite>
+    <qr_invite act_id='{{act_id}}'></qr_invite>
     <image bindtap='QrCloseHandler' class='qr-close' src='/res/btn_close.png'></image>
   </view>
 </view>

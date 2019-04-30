@@ -1,16 +1,20 @@
 // components/qr_invite/qr_invite.js
+const app = getApp()
 Component({
   /**
    * 组件的属性列表
    */
   properties: {
+    act_id: String
   },
 
   /**
    * 组件的初始数据
    */
   data: {
-    title:'我的活动1'
+    title: '',
+    access_token: '',
+    qr_url: ''
   },
 
   /**
@@ -21,20 +25,53 @@ Component({
   },
   lifetimes: {
     attached() {
+      var self = this
       // 在组件实例进入页面节点树时执行
-      console.log('lifetimes')
+      console.log(this.data.act_id)
       wx.request({
-        url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx5d102152c8947ca7&secret=aac6699011fd467af10bbb64161e3390',
-        method: 'GET',
-        success(res){
-          console.log(res)
-          wx.request({
-            url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + res.data.access_token,
-            method: 'GET',
-            success(res){
-              console.log(res)
-            }
-          })
+        url: app.globalData.url + '/wx/get_qr',
+        method: 'POST',
+        data: {
+          "act_id": this.data.act_id
+        },
+        success(res) {
+          if (res.data.data.path == '') {
+            console.log('获取失败请先生成二维码')
+            wx.request({
+              url: app.globalData.url + '/auth/access_token',
+              method: 'GET',
+              success(res) {
+                console.log(res)
+                self.setData({
+                  access_token: res.data.data.access_token
+                })
+                //console.log(self.data.access_token)
+                wx.request({
+                  url: app.globalData.url + '/wx/get_unlimited',
+                  method: 'POST',
+                  data: {
+                    "access_token": self.data.access_token,
+                    "act_id": self.data.act_id,
+                
+                    "scene": 'self.data.act_id'
+                  },
+                  success(res) {
+                    console.log('https://www.lecaigogo.com/file/' + res.data.data.path)
+                    self.setData({
+                      qr_url: 'https://www.lecaigogo.com/file/' + res.data.data.path
+                    })
+                  }
+                })
+              }
+            })
+
+          } else {
+            console.log('获取成功')
+            console.log('https://www.lecaigogo.com/file/' + res.data.data.path)
+            self.setData({
+              qr_url: 'https://www.lecaigogo.com/file/' + res.data.data.path
+            })
+          }
         }
       })
     },

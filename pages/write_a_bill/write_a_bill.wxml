@@ -58,7 +58,7 @@
       <view class='conent'>
         <text class='text'>参与成员</text>
         <view class='right' wx:if='{{!isSpecificState}}' bindtap='ShowCheckboxDialog'>
-          <text class='text text-gray'>{{members.length}}人平摊</text>
+          <text class='text text-gray'>{{people_list_item.length}}人平摊</text>
           <image class='jiantou' src='/res/btn_members_normal.png'></image>
         </view>
 
@@ -127,7 +127,7 @@
 
 </view>
 
-<!-- 参与成员弹窗 -->
+<!-- 参与成员 -->
 <view class='dialog container' wx:if='{{isShowdialogCheckbox}}'>
   <view class='container dialog-content'>
     <view class='fill-width dialog-top'>
@@ -135,14 +135,16 @@
     </view>
     <scroll-view scroll-y class='dialog-checkbox-container'>
 
-      <view class='fill-width dialog-checkbox-item' wx:for="{{members}}" wx:key='checkbox'>
-        <checkbox-group bindchange= 'checkboxChange' class='fill-width dialog-checkboxgroup'>
-          <view class='dialog-checkbox'>
-            <checkbox checked='{{isChecked}}'/>
-            <image class='headimg-72' src='{{item.headimgurl}}'></image>
-            <text class='text'>{{nickname}}</text>
+      <view class='fill-width dialog-checkbox-item'>
+        <checkbox-group bindchange='checkboxChange' class='fill-width dialog-checkboxgroup'>
+          <view class='checkbox-item' wx:for="{{members}}" wx:key='checkbox'>
+            <view class='dialog-checkbox'>
+              <checkbox checked='{{isChecked}}' value='{{item.user_id}}' />
+              <image class='headimg-72' src='{{item.headimgurl}}'></image>
+              <text class='text'>{{item.nickname}}</text>
+            </view>
+            <text class='text'>¥{{average_money}}</text>
           </view>
-          <text class='text'>¥{{average_money}}</text>
         </checkbox-group>
       </view>
       <view class='btn_queding-con'>
@@ -150,11 +152,11 @@
       </view>
     </scroll-view>
 
-    
+
 
     <view class='dialog-checkbox-bottom'>
       <checkbox-group bindchange='selectAll'>
-        <checkbox checked='true'/>
+        <checkbox checked='{{isSelectAll}}' />
         <text class='text-f7c429'>全选</text>
       </checkbox-group>
 
