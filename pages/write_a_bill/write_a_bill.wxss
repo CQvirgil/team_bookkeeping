@@ -390,6 +390,7 @@ button::after {
 
 .btn_queding{
   margin: 0rpx 0;
+  font-size: 28rpx;
   background: #f7c429
 }
 
@@ -414,4 +415,13 @@ button::after {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 55rpx;
+}
+
+.err_hint{
+  width: 100%;
+  font-size: 24rpx;
+  color: #eb4c4c;
+  background: #f7c429;
+  text-align: center;
+  padding: 14rpx 0;
 }

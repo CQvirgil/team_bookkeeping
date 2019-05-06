@@ -1,5 +1,6 @@
 // pages/billing_details/billing_details.js
 const app = getApp()
+const util = require('../../utils/util.js')
 Page({
 
   /**
@@ -28,8 +29,10 @@ Page({
       },
       success(res){
         console.log(res)
+        var bill = res.data.data
+        bill.created_at = util.formatTime2(bill.created_at,'Y-M-D')
         self.setData({
-          bill: res.data.data
+          bill: bill
         })
       }
     })

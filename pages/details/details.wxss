@@ -17,9 +17,14 @@
   height: 28rpx;
 }
 
+.title-container{
+  display: flex;
+  align-items: center;
+}
+
 .title-image{
-  width: 38rpx;
-	height: 40rpx;
+  width: 12rpx;
+  height: 22rpx;
   margin-left: 8rpx;
 }
 

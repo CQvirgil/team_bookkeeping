@@ -37,7 +37,7 @@
       
       <view class='transverse delete'>
         <text class='text wait' wx:if="{{isAccept}}">待接受邀请</text>
-        <button bindtap='deletePerson' class='image-button'><image class='button-image' src='../../res/icon_delete_normal.png'/></button>
+        <button bindtap='deletePerson' wx:if='{{false}}' class='image-button'><image class='button-image' src='../../res/icon_delete_normal.png'/></button>
       </view>
     </view>
     
@@ -45,7 +45,7 @@
   </scroll-view>
   
   <view class='buttons'>
-    <view class='button left-button border-color-bbb'  bindtap = 'outActivity'>
+    <view class='button left-button border-color-bbb' wx:if="{{false}}"  bindtap = 'outActivity'>
       <text class='btn-text'>退出活动</text>
     </view>
     <view class='button right-button' id='{{start_tally_style}}'  bindtap = 'gotoDetails'>

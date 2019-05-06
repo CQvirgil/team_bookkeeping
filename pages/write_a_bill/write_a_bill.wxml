@@ -1,6 +1,9 @@
 <!--pages/write_a_bill/write_a_bill.wxml-->
+<view class='err_hint' wx:if='{{isShowerr_hint}}'>暂时只支持输入万元以下金额</view>
 <view class='container'>
+
   <scroll-view class="fill-height" scroll-y>
+
     <view class='container-scr'>
       <view id='state-container' bindtap='changeState'>
         <text class='text' id=''>当前为{{state}}状态，点击切换</text>
@@ -44,7 +47,7 @@
         </view>
       </view>
 
-      <view class='conent'>
+      <view class='conent' wx:if='{{isSpecificState}}'>
         <text class='text'>日期</text>
 
         <picker mode="date" value="{{date}}" end="{{end_date}}" bindchange="bindDateChange">
@@ -147,8 +150,11 @@
           </view>
         </checkbox-group>
       </view>
-      <view class='btn_queding-con'>
-        <button class='btn_queding' bindtap='CloseCheckBoxDialog'>确定</button>
+      <view class='btn_queding-con text-bolder'>
+        <button class='btn_queding' bindtap='CloseCheckBoxDialog'>
+          <text class='que'>确</text>
+          <text>定</text>
+        </button>
       </view>
     </scroll-view>
 

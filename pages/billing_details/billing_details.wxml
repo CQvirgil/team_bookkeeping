@@ -6,7 +6,7 @@
   </view>
 
   <view class='top date'>
-    <text class='text text-gray'>{{bill.created_at}}</text>
+    <text class='text text-gray'>创建时间 {{bill.created_at}}</text>
     <text class='text text-gray'>总消费</text>
   </view>
   <text class='text-bolder state'>{{bill.members.length}}人具体</text>
@@ -32,7 +32,7 @@
     
     <view class='buttons'>
 
-      <view><button class='button left text-bolder' bindtap='DeletBill'>删除账单</button></view>
+      <view><button class='button left' bindtap='DeletBill'>删除账单</button></view>
       <view><button class='button right text-bolder'>修改账单</button></view>
 
     </view>

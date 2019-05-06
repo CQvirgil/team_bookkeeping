@@ -4,7 +4,7 @@
   <view class='top-view'>
     <view class='title-container'>
       <text class='title'>{{activity_name}}</text>
-      <image class='title-image' src='/res/btn_rename_normal.png'></image>
+      <image class='title-image' src='/res/btn_start_normal.png'></image>
     </view>
 
     <image class='btn-menu-normal' src='/res/btn_menu_normal.png' bindtap='SwitchDiaLog'></image>
@@ -38,7 +38,7 @@
   <view class='buttons'>
     <view class='endtally' bindtap='EndTally' wx:if="{{isEndTally}}">
       <image class='button-icon' src='/res/icon_finish_normal.png'></image>
-      <text class='text'>结束记账</text>
+      <text class='text'>结束活动</text>
     </view>
 
     <view class='line' wx:if="{{isShowLine}}"></view>
@@ -65,7 +65,7 @@
 
   <view class='tally'>
 
-    <button class='button create-activity' bindtap='gotoWrite_a_bill'>
+    <button class='button create-activity' wx:if='{{activity.state}}' bindtap='gotoWrite_a_bill'>
       <view class='img-container'>
         <image src='../../res/btn_creat_normal.png'></image>
       </view>

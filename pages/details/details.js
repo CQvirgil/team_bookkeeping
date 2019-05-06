@@ -25,7 +25,8 @@ Page({
     head_img: '',
     index: null,
     act_id: '',
-    activity: null
+    activity: null,
+    isShwoWrite_a_bill: true
   },
   ListItemTap: function(e) {
     wx.navigateTo({
@@ -117,6 +118,7 @@ Page({
           })
           
           self.CheckIsEnd()
+          self.setState()
           self.onReady()
           console.log(res.data)
         }
@@ -161,17 +163,6 @@ Page({
         }
       })
     }
-
-    // this.setData({
-    //   activity_name: app.globalData.activity[options.index].activity_name,
-    //   people_acount: app.globalData.activity[options.index].people_acount,
-    //   my_consume: app.globalData.activity[options.index].my_consume,
-    //   all_acount: app.globalData.activity[options.index].pay_acount,
-    //   my_pay: app.globalData.activity[options.index].my_pay,
-    //   bill: app.globalData.activity[options.index].bill,
-    //   head_img: app.globalData.userInfo.avatarUrl,
-
-    // })
 
     if (this.data.people_acount == 1) {
       this.setData({
@@ -270,7 +261,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    this.onLoad
   },
 
   CheckIsEnd: function() {

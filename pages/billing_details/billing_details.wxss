@@ -91,7 +91,9 @@
 }
 
 .left{
-  border: 1rpx solid #000000
+  border: 1rpx solid #bbbbbb;
+  color: #bbbbbb;
+  font-size: 28rpx;
 }
 
 .right{
@@ -103,4 +105,5 @@
   text-align: center;
   margin-top: 40rpx;
   margin-bottom: 77rpx;
+  color: #bbbbbb;
 }

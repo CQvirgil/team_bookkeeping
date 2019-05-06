@@ -36,6 +36,7 @@ Page({
     people_list_item: [], //成员金额和信息
     act_id: '',
     isShowdialogCheckbox: false, //控制参与成员弹窗
+    isShowerr_hint: false,
     radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
@@ -116,18 +117,15 @@ Page({
     }
   },
   HoverInput: function(e) {
-    var people_acount = this.data.members.length
-    var average = e.detail.value / people_acount;
-    if (e.detail.value.length <= 0) {
+    var input_value = parseFloat(e.detail.value)
+    if(input_value > 999.99){
       this.setData({
-        yuan: 'yuan',
-        average: people_acount + '人平摊¥' + average + '/人',
+        isShowerr_hint: true,
+        input_value: '999.99'
       })
-    } else {
+    }else{
       this.setData({
-        yuan: '',
-        average: people_acount + '人平摊¥' + average + '/人',
-        money: e.detail.value
+        isShowerr_hint: false,
       })
     }
     //console.log(this.data.money)

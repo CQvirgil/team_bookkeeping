@@ -37,16 +37,18 @@ const formatTime2 = function formatTime(number, format) {
 }
 
 const bubble_sort = function bubble_sort(list) {
-
-  for (var i = 0; i < list.length - 1; i++) {
-    if (list[i].state == 0) {
-
+  var n = 0
+  for (var i = 0; i < list.length - n; i++) {
+    
+    if (list[i].state === 0) {
+      n++
+      //console.log(list[i])
       for (var j = i; j < list.length - 1; j++) {
         var tepm = list[j]
         list[j] = list[j + 1]
         list[j + 1] = tepm
-        //console.log(list[j])
       }
+      i = 0
     }
   }
 

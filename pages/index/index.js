@@ -7,7 +7,8 @@ Page({
     hasActivity: true,
     list: [],
     Finish: '进行中',
-    headimgs: []
+    headimgs: [],
+    isonLoad: false
   },
   onLoad(pageOptions) {
     var self = this
@@ -83,7 +84,8 @@ Page({
 
                               self.setData({
                                 list: app.globalData.activity,
-                                headimgs: heads
+                                headimgs: heads,
+                                isonLoad: true
                               })
                               x++
                               //console.log(res.data.data.act_id)
@@ -133,7 +135,7 @@ Page({
     console.log('onReady')
   },
   onShow() {
-    if (app.globalData.activityID != null) {
+    if (this.data.isonLoad) {
       this.getallActivity()
     }
     console.log(app.globalData.activity)

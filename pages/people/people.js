@@ -15,7 +15,8 @@ Page({
     is_show_qr_invite: false,
     creater: {},
     act_name: '',
-    act_id: ''
+    act_id: '',
+    activity: null
   },
 
   closeDialog: function(e) {
@@ -65,7 +66,8 @@ Page({
         self.setData({
           list: people,
           creater: members[0],
-          act_name: res.data.data.name
+          act_name: res.data.data.name,
+          activity: res.data.data
         })
         //console.log(res)
       }
