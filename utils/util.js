@@ -8,7 +8,62 @@ const formatTime = date => {
   const second = date.getSeconds()
 
   const time = ' ' + [hour, minute, second].map(formatNumber).join(':')
-  return [year,month, day].map(formatNumber).join('-')
+  return [year, month, day].map(formatNumber).join('-')
+}
+
+/** 
+ * 时间戳转化为年 月 日 时 分 秒 
+ * number: 传入时间戳 
+ * format：返回格式，支持自定义，但参数必须与formateArr里保持一致 
+ */
+const formatTime2 = function formatTime(number, format) {
+
+  var formateArr = ['Y', 'M', 'D', 'h', 'm', 's'];
+  var returnArr = [];
+
+  var date = new Date(number * 1000);
+  returnArr.push(date.getFullYear());
+  returnArr.push(formatNumber(date.getMonth() + 1));
+  returnArr.push(formatNumber(date.getDate()));
+
+  returnArr.push(formatNumber(date.getHours()));
+  returnArr.push(formatNumber(date.getMinutes()));
+  returnArr.push(formatNumber(date.getSeconds()));
+
+  for (var i in returnArr) {
+    format = format.replace(formateArr[i], returnArr[i]);
+  }
+  return format;
+}
+
+const bubble_sort = function bubble_sort(list) {
+
+  for (var i = 0; i < list.length - 1; i++) {
+    if (list[i].state == 0) {
+
+      for (var j = i; j < list.length - 1; j++) {
+        var tepm = list[j]
+        list[j] = list[j + 1]
+        list[j + 1] = tepm
+        //console.log(list[j])
+      }
+    }
+  }
+
+  return list
+}
+
+const bubble_sort_timestamp = function bubble_sort_timestamp(list) {
+  for (var i = 0; i < list.length - 1; i++) {
+    for (var j = 0; j < list.length - 1 - i; j++) {
+      if (list[j].created_at < list[j + 1].created_at) {
+        var temp = list[j]
+        list[j] = list[j + 1]
+        list[j + 1] = temp
+      }
+    }
+  }
+  return list
 }
 
 const formatNumber = n => {
@@ -17,5 +72,8 @@ const formatNumber = n => {
 }
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatTime2: formatTime2,
+  bubble_sort: bubble_sort,
+  bubble_sort_timestamp: bubble_sort_timestamp
 }

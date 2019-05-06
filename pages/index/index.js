@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+const util = require('../../utils/util.js')
 Page({
   data: {
     hasActivity: true,
@@ -62,31 +62,40 @@ Page({
                               "user_id": app.globalData.unionid
                             },
                             success(res) {
+                              //console.log(i)
                               var activity = res.data.data;
                               var activity_over_at = activity.over_at
-                              var over_time = new Date(activity_over_at)
-                              var year = over_time.getFullYear();
-                              var month = over_time.getMonth() + 1;
-                              var date = over_time.getDate(); 
-                              activity.over_at = year + '-' + month +'-'+ date
+                              //日期转换
+                              activity.over_at = util.formatTime2(activity_over_at, 'Y-M-D')
+
                               app.globalData.activity[app.globalData.activity.length] = activity
+
                               var heads = [app.globalData.userInfo.avatarUrl]
                               for (var n = 0; n < res.data.data.members.length; n++) {
                                 heads[n] = res.data.data.members[n].headimgurl
                               }
+                              //console.log(x)
+                              if (x === app.globalData.activityID.length - 1) {
+                                app.globalData.activity = util.bubble_sort_timestamp(app.globalData.activity)
+                                app.globalData.activity = util.bubble_sort(app.globalData.activity)
+                              }
+
+
                               self.setData({
                                 list: app.globalData.activity,
                                 headimgs: heads
                               })
                               x++
-                              console.log(res)
+                              //console.log(res.data.data.act_id)
                               //console.log(app.globalData.activity[0].members[0].headimgurl)
                               //console.log(app.globalData.userInfo.avatarUrl)
+                              //console.log(app.globalData.activity)
                             }
                           })
                         }
+
                       }
-                      console.log(res)
+
                     },
                     fail(res) {
                       console.log('网络请求失败：' + app.globalData.url + '/activity/get_all')
@@ -170,9 +179,8 @@ Page({
   },
   getallActivity: function() {
 
-
     var self = this
-    var x
+    var x = 0
     //请求获取活动列表，返回活动id
     wx.request({
       url: app.globalData.url + '/activity/get_all',
@@ -186,6 +194,7 @@ Page({
         })
         app.globalData.activity = []
         //遍历获取到的活动id并查询活动详情
+
         app.globalData.activityID = res.data.data.act_id
         console.log(app.globalData.activityID)
 
@@ -200,18 +209,33 @@ Page({
                 "user_id": app.globalData.unionid
               },
               success(res) {
-                app.globalData.activity[app.globalData.activity.length] = res.data.data
+
+                var activity = res.data.data;
+                var activity_over_at = activity.over_at
+
+                activity.over_at = util.formatTime2(activity_over_at, 'Y-M-D')
+                app.globalData.activity[app.globalData.activity.length] = activity
+
+
+
                 var heads = [app.globalData.userInfo.avatarUrl]
                 for (var n = 0; n < res.data.data.members.length; n++) {
                   heads[n] = res.data.data.members[n].headimgurl
                   //console.log()
+                }
+                //console.log(x)
+                if (x === app.globalData.activityID.length - 1) {
+                  //按时间戳排序
+                  app.globalData.activity = util.bubble_sort_timestamp(app.globalData.activity)
+                  //按状态排序
+                  app.globalData.activity = util.bubble_sort(app.globalData.activity)
                 }
                 self.setData({
                   list: app.globalData.activity,
                   headimgs: heads
                 })
                 x++
-                console.log(res)
+                //console.log(res.data.data)
                 //console.log(app.globalData.activity[0].members[0].headimgurl)
                 //console.log(app.globalData.userInfo.avatarUrl)
               }

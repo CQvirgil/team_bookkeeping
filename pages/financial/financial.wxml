@@ -5,17 +5,17 @@
     <view class='list-item' wx:for="{{list}}">
         <view class='person left'>
           <image class='person-image'></image>
-          <text class='person-name text'>嘉怡</text>
+          <text class='person-name text'>name</text>
         </view>
         
         <view class='money'>
-          <text class='money-text title'>¥1452.85</text>
+          <text class='money-text title'>¥{{item.money}}</text>
           <image class='money-icon' src='/res/icon_arrow.png'></image>
         </view>
 
         <view class='person right'>
           <image class='person-image'></image>
-          <text class='person-name text'>嘉怡</text>
+          <text class='person-name text'>name</text>
         </view>
     </view>
 

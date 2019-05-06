@@ -140,6 +140,10 @@ Page({
           "user_id": app.globalData.unionid
         },
         success(res) {
+          var activity = res.data.data
+          var activity_over_at = util.formatTime2(activity.over_at,'Y-M-D')
+          activity.over_at = activity_over_at
+
           self.setData({
             activity_name: res.data.data.name,
             people_acount: res.data.data.members.length,
@@ -148,7 +152,7 @@ Page({
             bill: res.data.data.bills,
             head_img: app.globalData.userInfo.avatarUrl,
             my_consume: res.data.data.my_total,
-            activity: res.data.data
+            activity: activity
           })
           console.log(self.data.activity)
           self.setState()
