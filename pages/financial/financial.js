@@ -18,7 +18,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '收支明细',
     })
-
+    console.log('act_id'+options.act_id)
     wx.request({
       url: app.globalData.url + '/activity/detail',
       method: 'POST',
@@ -39,24 +39,24 @@ Page({
             list[list.length] = members[j]
             if (members[j].money >= 0) {
               list2[list2.length] = {
-                left: detail[i].user_id,
-                right: members[j].user_id,
+                left: detail[i],
+                right: members[j],
                 money: members[j].money
               }
             }else{
               list2[list2.length] = {
-                left: detail[i].user_id,
-                right: members[j].user_id,
+                left: detail[i],
+                right: members[j],
                 money: -members[j].money
               }
             }
           }
         }
-        console.log(list2)
+        //console.log(list2)
         self.setData({
           list: list2
         })
-        console.log(list)
+        //console.log(list)
       }
     })
   },

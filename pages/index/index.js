@@ -71,20 +71,14 @@ Page({
 
                               app.globalData.activity[app.globalData.activity.length] = activity
 
-                              var heads = [app.globalData.userInfo.avatarUrl]
-                              for (var n = 0; n < res.data.data.members.length; n++) {
-                                heads[n] = res.data.data.members[n].headimgurl
-                              }
                               //console.log(x)
                               if (x === app.globalData.activityID.length - 1) {
                                 app.globalData.activity = util.bubble_sort_timestamp(app.globalData.activity)
                                 app.globalData.activity = util.bubble_sort(app.globalData.activity)
                               }
 
-
                               self.setData({
                                 list: app.globalData.activity,
-                                headimgs: heads,
                                 isonLoad: true
                               })
                               x++

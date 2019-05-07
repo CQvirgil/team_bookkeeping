@@ -30,14 +30,14 @@ Page({
   },
   ListItemTap: function(e) {
     wx.navigateTo({
-      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id,
+      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id + '&act_id=' + this.data.act_id,
     })
   },
   //记一笔账按钮页面
   gotoWrite_a_bill: function(e) {
     if (this.data.activity.state) {
       wx.navigateTo({
-        url: '../write_a_bill/write_a_bill?index=' + this.data.index + '&act_id=' + this.data.activity.act_id
+        url: '../write_a_bill/write_a_bill?index=' + this.data.index + '&state=' + 'default' + '&act_id=' + this.data.activity.act_id
       })
     }
   },
@@ -48,7 +48,7 @@ Page({
   },
   gotoFinancial: function(e) {
     wx.navigateTo({
-      url: '../financial/financial?actid=' + this.data.act_id,
+      url: '../financial/financial?act_id=' + this.data.act_id,
     })
   },
   EndTally: function(e) {
@@ -116,7 +116,7 @@ Page({
             my_consume: res.data.data.my_total,
             activity: res.data.data
           })
-          
+
           self.CheckIsEnd()
           self.setState()
           self.onReady()
@@ -143,7 +143,7 @@ Page({
         },
         success(res) {
           var activity = res.data.data
-          var activity_over_at = util.formatTime2(activity.over_at,'Y-M-D')
+          var activity_over_at = util.formatTime2(activity.over_at, 'Y-M-D')
           activity.over_at = activity_over_at
 
           self.setData({
@@ -228,7 +228,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    
+
   },
 
   setState: function() {
@@ -248,7 +248,7 @@ Page({
         isShowDetail: false,
         isShowLine: false
       })
-    } else if (this.data.activity.members.length <= 1 && this.data.activity.state){
+    } else if (this.data.activity.members.length <= 1 && this.data.activity.state) {
       this.setData({
         isEndTally: true,
         isShowDetail: false,

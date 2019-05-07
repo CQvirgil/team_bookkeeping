@@ -1,0 +1,427 @@
+/* pages/write_a_bill/write_a_bill.wxss */
+.fill-height{
+  height: 100vh;
+}
+
+.people-item-container{
+  width: 100%;
+}
+
+.line{
+  width: 100%;
+  height: 1rpx;
+  background: #e5e5e5;
+  margin: 28rpx 0;
+}
+
+.container-scr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  background: #ffffff;
+} 
+
+#state-container{
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  color: #f7c429;
+}
+
+#state-container image{
+  width: 12rpx;
+  height: 22rpx;
+  margin-left: 15rpx;
+}
+
+.container {
+  padding: 0 32rpx;
+}
+
+.date {
+  color: #999;
+}
+
+.text-acount {
+  width: 100%;
+  text-align: right;
+  color: #999;
+  margin-top: 15rpx;
+}
+
+.jiantou {
+  width: 12rpx;
+  height: 22rpx;
+  margin-left: 24rpx;
+}
+
+.top {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 44rpx;
+}
+#date-jiantou{
+  margin-left: 0rpx;
+}
+
+.title {
+  font-size: 104rpx;
+  padding-right: 12rpx;
+}
+
+.money {
+  height: 100rpx;
+  width: 400rpx;
+  padding: 0;
+  text-align: right
+}
+
+.conent {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 95rpx;
+}
+
+.top-content {
+  margin-top: 119rpx;
+}
+
+.text-gray {
+  color: #999;
+}
+
+.text-bbb{
+  color: #bbbbbb
+}
+
+.headimg {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 8rpx;
+  background: #dfdfdf;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.perso-name {
+  margin-right: 12rpx;
+}
+
+.button-border {
+  padding-right: 12rpx;
+  padding-left: 12rpx;
+  padding-top: 11rpx;
+  padding-bottom: 11rpx;
+  background: none;
+  margin-right: 0;
+  margin-left: 0;
+  line-height: 0;
+  border-radius: 8rpx;
+}
+
+.btn1 {
+  margin-right: 29rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #f7c429;
+  color: #f7c429;
+}
+
+.btn2 {
+  border: 2rpx solid #999;
+  color: #999;
+}
+
+.button-border image {
+  margin-left: 14rpx;
+}
+
+#write{
+  margin-bottom: 280rpx;
+}
+
+.acount{
+  width: 100%;
+  position: absolute;
+  bottom: 0rpx;
+  left: 32rpx;
+  background: #ffffff;
+  padding-bottom: 39rpx;
+}
+
+.acount .text{
+  margin-right: 20rpx;
+}
+
+.acount #acount{
+  font-size: 104rpx;
+  font-weight: bolder;
+}
+
+.btn-write {
+  width: 100%;
+  height: 112rpx;
+  background: #f7c429;
+  border-radius: 56rpx;
+  margin-top: 120rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  background: none;
+}
+
+button::after {
+  border: none;
+}
+
+.input-container {
+  
+}
+
+.yuan {
+  color: #bbb;
+  padding-bottom: 0;
+}
+
+.dialog{
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+}
+
+.dialog-content{
+  width: 100%;
+  height: 98vh;
+  position: absolute;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+  bottom: 0rpx;
+}
+
+.text-bolder{
+  text-align: center;
+}
+.que{
+  margin-right: 16rpx;
+}
+
+.dialog-content button{
+  width: 280rpx;
+	height: 112rpx;
+	background-color: #f7c429;
+	border-radius: 56rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 399rpx;
+}
+
+.radio-group{
+ width:556rpx;
+ height: 223rpx; 
+ margin-top: 80rpx;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ flex-wrap: wrap;
+}
+
+.radio-button-check{
+  width: 144rpx;
+  height: 72rpx;
+  background: #ffffff;
+  border: 1rpx solid #f7c429;
+  color: #f7c429;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-button{
+  width: 144rpx;
+  height: 72rpx;
+  background: #ffffff;
+  border: 1rpx solid #000;
+  border-radius: 16rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog-input{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 50rpx; 
+  margin-top: 41rpx;
+}
+
+.dialog-input input{
+  width: 556rpx;
+  border-bottom: 1rpx solid #e2e5e7;
+  padding-bottom: 15rpx;
+}
+
+.fill-width{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#text-payer{
+  margin-top: 39rpx;
+}
+
+#dialog-people-list{
+  width: 100%;
+  margin-top: 36rpx;
+}
+
+#dialog-people-list-item{
+  display: flex;
+  align-items: center;
+  margin-bottom: 56rpx;
+}
+
+#dialog-people-list-item text{
+  margin-left: 16rpx;
+}
+
+.people-item{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.people-list{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 39rpx;
+}
+
+.person-msg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.person-msg text{
+  margin-left: 16rpx;
+}
+
+.people-item input{
+  /* width: 78rpx; */
+  text-align: right
+}
+
+.dialog-top{
+  margin-top: 39rpx;
+}
+
+/* 复选按钮样式 */
+.dialog-checkboxgroup{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog-checkbox-container{
+ width: 100%;
+ height: 1000rpx;
+ margin-top: 40rpx;
+}
+
+.dialog-checkbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dialog-checkbox image{
+  margin-left: 24rpx;
+}
+.dialog-checkbox text{
+  margin-left: 16rpx;
+}
+
+.dialog-checkbox-bottom{
+  width: 93%;
+  height: 120rpx;
+  display: flex;
+  justify-content: space-between;
+  /* background: #ffffff; */
+  align-items: center;
+  position: fixed;
+  bottom: 0rpx;
+  right: 32rpx;
+  left: 32rpx;
+}
+
+#dialog-checkbox{
+  background: #dfdfdf;
+}
+
+.btn_queding{
+  margin: 0rpx 0;
+  font-size: 28rpx;
+  background: #f7c429
+}
+
+.dialog-checkbox-container button{
+  margin: 60rpx 0;
+}
+
+.dialog-checkbox-item{
+  margin-bottom: 56rpx;
+}
+
+.btn_queding-con{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.checkbox-item{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 55rpx;
+}
+
+.err_hint{
+  width: 100%;
+  font-size: 24rpx;
+  color: #eb4c4c;
+  background: #f7c429;
+  text-align: center;
+  padding: 14rpx 0;
+}

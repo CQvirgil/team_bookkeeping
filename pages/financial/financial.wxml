@@ -2,10 +2,10 @@
 <view class='container financial'>
   <scroll-view scroll-y>
   
-    <view class='list-item' wx:for="{{list}}">
+    <view class='list-item' wx:for="{{list}}" wx:key='list'>
         <view class='person left'>
-          <image class='person-image'></image>
-          <text class='person-name text'>name</text>
+          <image class='person-image' src='{{item.left.headimg}}'></image>
+          <text class='person-name text'>{{item.left.nickname}}</text>
         </view>
         
         <view class='money'>
@@ -14,8 +14,8 @@
         </view>
 
         <view class='person right'>
-          <image class='person-image'></image>
-          <text class='person-name text'>name</text>
+          <image class='person-image' src='{{item.right.headimg}}'></image>
+          <text class='person-name text'>{{item.right.nickname}}</text>
         </view>
     </view>
 

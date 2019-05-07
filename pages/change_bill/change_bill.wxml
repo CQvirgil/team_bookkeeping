@@ -84,7 +84,7 @@
 
       </view>
 
-      <button class='text-bolder btn-write' id='write' bindtap='write'>{{btn}}</button>
+      <button class='text-bolder btn-write' id='write' bindtap='write'>记一笔</button>
     </view>
   </scroll-view>
 

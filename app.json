@@ -10,7 +10,8 @@
     "pages/billing_details/billing_details",
     "pages/join_activity/join_activity",
     "pages/write_a_bill/write_a_bill",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/change_bill/change_bill"
   ],
   "window": {
     "backgroundTextStyle": "light",

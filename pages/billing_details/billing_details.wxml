@@ -33,7 +33,7 @@
     <view class='buttons'>
 
       <view><button class='button left' bindtap='DeletBill'>删除账单</button></view>
-      <view><button class='button right text-bolder'>修改账单</button></view>
+      <view><button class='button right text-bolder' bindtap='ChangeBill'> 修改账单</button></view>
 
     </view>
 

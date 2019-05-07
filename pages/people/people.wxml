@@ -5,7 +5,7 @@
       <image class='headimg' src='{{creater.headimgurl}}' />
       <text class='text username'>{{creater.nickname}}</text>
     </view>
-    <view class='list-item {{list_item_style}}' wx:for='{{list}}'>
+    <view class='list-item {{list_item_style}}' wx:for='{{list}}' wx:key='list'>
       <view class='transverse'>
         <image class='headimg' src='{{item.headimgurl}}' />
         <text class='text username {{username_style}}'>{{item.nickname}}</text>
