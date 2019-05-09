@@ -1,25 +1,23 @@
 <!--pages/join_activity/join_activity.wxml-->
 <view class='container join_activity'>
   <view id='top'>
-
     <text class='title'>{{activity.name}}</text>
     <view class='top-content'>
-      <text class='text text-gray'>活动人数：{{activity.members.length}}人</text>
-      <text class='text text-gray'>创建于{{created_at}}</text>
+      <text class='text'>活动人数：{{activity.members.length}}人</text>
+      <text class='text' id='create_at'>创建于{{created_at}}</text>
     </view>
   </view>
 
   <scroll-view scroll-y class='mlist'>
-
-    <view class='list-item' wx:for="{{activity.members}}" wx:key='list'>
-      <view class='people'>
-        <image class='people_headimg' src='{{item.headimgurl}}'></image>
-        <text class='text people_name'>{{item.nickname}}</text>
+    <view class='list-container'>
+      <view class='list-item' wx:for="{{activity.members}}" wx:key='list'>
+        <view class='people'>
+          <image class='people_headimg' src='{{item.headimgurl}}'></image>
+          <text class='text people_name'>{{item.nickname}}</text>
+        </view>
       </view>
-      <text wx:if="{{index == 0}}" class='text text-gray'>创建人</text>
     </view>
-
   </scroll-view>
 
-  <button bindtap='JoinActivity' class='text-bolder btn-join'>加入活动</button>
+  <button bindtap='JoinActivity' class='text-bolder btn-join {{btn_state_style}}'>{{btn_text}}</button>
 </view>

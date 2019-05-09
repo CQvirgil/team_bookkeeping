@@ -39,13 +39,13 @@ Page({
             list[list.length] = members[j]
             if (members[j].money >= 0) {
               list2[list2.length] = {
-                left: detail[i],
+                left: detail[i].user,
                 right: members[j],
                 money: members[j].money
               }
             }else{
               list2[list2.length] = {
-                left: detail[i],
+                left: detail[i].user,
                 right: members[j],
                 money: -members[j].money
               }

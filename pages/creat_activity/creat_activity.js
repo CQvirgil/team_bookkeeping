@@ -1,6 +1,7 @@
 // pages/creat_activity/creat_activity.js
 //创建活动页面
 const app = getApp()
+const page_state = require('../../utils/page_state.js')
 
 Page({
 
@@ -69,7 +70,7 @@ Page({
         success(res){
           app.globalData.create_act_id = res.data.data.act_id
           wx.navigateTo({
-            url: '../invite/invite?activity_name=' + text,
+            url: '../invite/invite?activity_name=' + text + '&page_state=' + page_state.FROM_CREATE_ACTIVITY,
           })
           console.log(app.globalData.create_act_id)
         }

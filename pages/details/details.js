@@ -2,6 +2,7 @@
 //活动详情页面
 var util = require('../../utils/util.js')
 var app = getApp()
+var page_state = require('../../utils/page_state.js')
 
 Page({
 
@@ -26,7 +27,10 @@ Page({
     index: null,
     act_id: '',
     activity: null,
-    isShwoWrite_a_bill: true
+    isShwoWrite_a_bill: true,
+    page_state: '',
+    isLoad: false,
+    dialog_animation: null
   },
   ListItemTap: function(e) {
     wx.navigateTo({
@@ -66,7 +70,7 @@ Page({
           "user_id": app.globalData.unionid
         },
         success(res) {
-
+          console.log('修改活动状态成功')
         }
       })
     }
@@ -94,8 +98,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
-    if (options.activity_name) {
+    wx.setNavigationBarTitle({
+      title: '活动详情',
+    })
+    console.log(options.page_state)
+    this.setData({
+      page_state: options.page_state,
+      isLoad: true
+    })
+    if (options.activity_name) { //从创建页面进入
       var self = this
       wx.request({
         url: app.globalData.url + '/activity/get',
@@ -125,7 +136,7 @@ Page({
       })
     }
 
-    if (options.index) {
+    if (options.index) { //从首页进入
       this.setData({
         index: options.index,
         act_id: options.act_id
@@ -138,7 +149,7 @@ Page({
         url: app.globalData.url + '/activity/get',
         method: 'POST',
         data: {
-          "act_id": act_id,
+          "act_id": self.data.act_id,
           "user_id": app.globalData.unionid
         },
         success(res) {
@@ -187,8 +198,13 @@ Page({
     // })
   },
   SwitchDiaLog: function(e) {
+    var animation = wx.createAnimation({
+      
+    })
+    animation.translateY(1000)
     this.setData({
-      isShowDiaLog: true
+      isShowDiaLog: true,
+      dialog_animation: animation.export()
     })
   },
   DialogCancel: function(e) {
@@ -261,7 +277,72 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.onLoad
+    var state_from_index = page_state.FROM_INDEX
+    var state_from_create_activity = page_state.FROM_CREATE_ACTIVITY
+    var state = this.data.page_state
+    var self = this
+    if (this.data.isLoad) {
+      switch (state) {
+        case state_from_index:
+          wx.request({
+            url: app.globalData.url + '/activity/get',
+            method: 'POST',
+            data: {
+              "act_id": self.data.act_id,
+              "user_id": app.globalData.unionid
+            },
+            success(res) {
+              var activity = res.data.data
+              var activity_over_at = util.formatTime2(activity.over_at, 'Y-M-D')
+              activity.over_at = activity_over_at
+
+              self.setData({
+                activity_name: res.data.data.name,
+                people_acount: res.data.data.members.length,
+                all_acount: res.data.data.act_total,
+                my_pay: res.data.data.my_expend,
+                bill: res.data.data.bills,
+                head_img: app.globalData.userInfo.avatarUrl,
+                my_consume: res.data.data.my_total,
+                activity: activity
+              })
+              console.log(self.data.activity)
+              self.setState()
+              self.CheckIsEnd()
+              console.log(res.data)
+            }
+          })
+          break;
+        case state_from_create_activity:
+          wx.request({
+            url: app.globalData.url + '/activity/get',
+            method: 'POST',
+            data: {
+              "act_id": app.globalData.create_act_id,
+              "user_id": app.globalData.unionid
+            },
+            success(res) {
+              self.setData({
+                activity: res.data.data,
+                activity_name: res.data.data.name,
+                people_acount: res.data.data.members.length,
+                all_acount: res.data.data.act_total,
+                my_pay: res.data.data.my_expend,
+                bill: res.data.data.bills,
+                head_img: app.globalData.userInfo.avatarUrl,
+                my_consume: res.data.data.my_total,
+                activity: res.data.data
+              })
+
+              self.CheckIsEnd()
+              self.setState()
+              self.onReady()
+              console.log(res.data)
+            }
+          })
+          break;
+      }
+    }
   },
 
   CheckIsEnd: function() {

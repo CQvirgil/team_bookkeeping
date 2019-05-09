@@ -74,7 +74,7 @@
 
   </view>
 
-  <view class='dialog container' bindtap='closeDialog' wx:if="{{isShowDiaLog}}">
+  <view class='dialog container' bindtap='closeDialog' animation:="{{dialog_animation}}"  wx:if="{{isShowDiaLog}}">
     <view class='dialog-content'>
       <button bindtap='ShowQrHadler'>
         <text class='text'>活动二维码</text>

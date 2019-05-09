@@ -2,6 +2,7 @@
 //获取应用实例
 const app = getApp()
 const util = require('../../utils/util.js')
+const page_state = require('../../utils/page_state.js')
 Page({
   data: {
     hasActivity: true,
@@ -163,7 +164,7 @@ Page({
     console.log(e.currentTarget.dataset.index)
     console.log(e.currentTarget.dataset.actid)
     wx.navigateTo({
-      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid,
+      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid + '&page_state=' + page_state.FROM_INDEX,
     })
   },
   /**

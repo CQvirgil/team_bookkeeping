@@ -1,5 +1,6 @@
 // pages/join_activity/join_activity.js
 const app = getApp()
+const util = require('../../utils/util.js')
 Page({
 
   /**
@@ -11,7 +12,11 @@ Page({
     act_id: '',
     activity: null,
     act_name: '',
-    created_at: ''
+    created_at: '',
+    btn_text: '加入活动',
+    btn_state: null,
+    btn_disable: true,
+    btn_state_style: ''
   },
 
   /**
@@ -19,7 +24,7 @@ Page({
    */
   onLoad: function(options) {
     var act_id = options.act_id
-    //var act_id = '19e5ab5f-b391-412b-9138-fd0b30b94b1a'
+    var act_id = 'b52eeab6-df04-4ef7-8082-4f993caa7ef9'
     var self = this
     console.log(act_id)
     this.setData({
@@ -77,8 +82,11 @@ Page({
                                 var d = sub_created.getDate();
                                 self.setData({
                                   activity: res.data.data,
-                                  created_at: " " + y + '-' + m + '-' + d
+                                  created_at: util.formatTime2(created, 'Y-M-D')
                                 })
+                                if (self.data.activity.members.length >= 20) {
+                                  self.setBtnState('btn_unclickable','该活动已满20人')
+                                }
                                 //console.log(self.data.activity)
                               }
                             }
@@ -100,7 +108,22 @@ Page({
       })
     }
   },
-
+  setBtnState(state, text) {
+    switch (state) {
+      case 'btn_unclickable':
+        this.setData({
+          btn_text: text,
+          btn_state_style: 'btn_unclickable'
+        })
+        break;
+      case 'btn_clickable':
+        this.setData({
+          btn_text: text,
+          btn_state_style: ''
+        })
+        break;
+    }
+  },
   JoinActivity: function(act_id) {
     wx.request({
       url: app.globalData.url + '/activity/add',
@@ -110,15 +133,26 @@ Page({
         "user_id": app.globalData.unionid,
       },
       success(res) {
-        wx.showToast({
-          title: '加入成功',
-          icon: 'success',
-          duration: 2000
-        })
-        wx.navigateTo({
-          url: '/pages/index/index',
-        })
-        console.log('成功加入')
+        if (res.data.code === 0) {
+          wx.showToast({
+            title: '加入成功',
+            icon: 'success',
+            duration: 2000
+          })
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        } else if (res.data.code === 20202) {
+          wx.showToast({
+            title: '你已经在该活动中  正在跳转…',
+            icon: 'none',
+            duration: 2000
+          })
+          wx.redirectTo({
+            url: '/pages/index/index',
+          })
+        }
+        console.log(res)
       }
     })
   },
