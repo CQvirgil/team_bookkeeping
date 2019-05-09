@@ -16,7 +16,8 @@ Page({
     btn_text: '加入活动',
     btn_state: null,
     btn_disable: true,
-    btn_state_style: ''
+    btn_state_style: '',
+    isJoin: false
   },
 
   /**
@@ -24,7 +25,7 @@ Page({
    */
   onLoad: function(options) {
     var act_id = options.act_id
-    var act_id = 'b52eeab6-df04-4ef7-8082-4f993caa7ef9'
+    //var act_id = 'b52eeab6-df04-4ef7-8082-4f993caa7ef9'
     var self = this
     console.log(act_id)
     this.setData({
@@ -85,7 +86,15 @@ Page({
                                   created_at: util.formatTime2(created, 'Y-M-D')
                                 })
                                 if (self.data.activity.members.length >= 20) {
-                                  self.setBtnState('btn_unclickable','该活动已满20人')
+                                  self.setBtnState('btn_unclickable', '该活动已满20人')
+                                }
+                                if (self.data.activity.state == 0) {
+                                  self.setBtnState('btn_unclickable', '活动已结束')
+                                }
+                                for (var i = 0; i < res.data.data.members.length; i++) {
+                                  if (res.data.data.members[i].user_id == app.globalData.unionid){
+                                    self.setBtnState('btn_unclickable', '加入活动')
+                                  }
                                 }
                                 //console.log(self.data.activity)
                               }
@@ -113,7 +122,8 @@ Page({
       case 'btn_unclickable':
         this.setData({
           btn_text: text,
-          btn_state_style: 'btn_unclickable'
+          btn_state_style: 'btn_unclickable',
+          isJoin: true
         })
         break;
       case 'btn_clickable':
@@ -125,36 +135,47 @@ Page({
     }
   },
   JoinActivity: function(act_id) {
-    wx.request({
-      url: app.globalData.url + '/activity/add',
-      method: 'POST',
-      data: {
-        "act_id": this.data.act_id,
-        "user_id": app.globalData.unionid,
-      },
-      success(res) {
-        if (res.data.code === 0) {
-          wx.showToast({
-            title: '加入成功',
-            icon: 'success',
-            duration: 2000
-          })
-          wx.redirectTo({
-            url: '/pages/index/index',
-          })
-        } else if (res.data.code === 20202) {
-          wx.showToast({
-            title: '你已经在该活动中  正在跳转…',
-            icon: 'none',
-            duration: 2000
-          })
-          wx.redirectTo({
-            url: '/pages/index/index',
-          })
+    if (!this.data.isJoin) {
+      wx.request({
+        url: app.globalData.url + '/activity/add',
+        method: 'POST',
+        data: {
+          "act_id": this.data.act_id,
+          "user_id": app.globalData.unionid,
+        },
+        success(res) {
+          if (res.data.code === 0) {
+            wx.showToast({
+              title: '加入成功',
+              icon: 'success',
+              duration: 2000
+            })
+            wx.redirectTo({
+              url: '/pages/index/index',
+            })
+          } else if (res.data.code === 20202) {
+            wx.showToast({
+              title: '你已经在该活动中  正在跳转…',
+              icon: 'none',
+              duration: 2000
+            })
+            wx.redirectTo({
+              url: '/pages/index/index',
+            })
+          }
+          console.log(res)
         }
-        console.log(res)
-      }
-    })
+      })
+    } else {
+      wx.showToast({
+        title: '你已经在该活动中  正在跳转…',
+        icon: 'none',
+        duration: 2000
+      })
+      wx.redirectTo({
+        url: '/pages/index/index',
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

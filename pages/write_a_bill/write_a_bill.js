@@ -41,6 +41,8 @@ Page({
     pages_state: '',
     btn: '记一笔',
     bill_id: '',
+    dialog_payer_animation: null,
+    dialog_members_animation: null,
     radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
@@ -221,15 +223,15 @@ Page({
             },
             success(res) {
               console.log(res.data)
-              if(res.data.code == 0){
+              if (res.data.code == 0) {
                 wx.showToast({
                   title: '修改成功',
                 })
               }
-              
+
             }
           })
-        }else{
+        } else {
           console.log('bill_id= ' + self.data.bill_id)
           console.log('content= ' + self.data.bill_content)
           console.log(this.data.people_list_item)
@@ -297,55 +299,130 @@ Page({
   },
 
   clicktBillContent: function(e) {
+    var self = this
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#7f7f7f',
     })
-    var animation = wx.createAnimation({
-      delay: 10000,
-      duration: 40000,
-      timingFunction: 'ease',
-    })
-    animation.translateY(0).step()
     this.setData({
       isShowInput: false,
       isShowDialog1: true,
+    })
+    var animation = wx.createAnimation({
+      delay: 0,
+      duration: 0,
+      timingFunction: 'ease',
+    })
+
+    animation.translateY(600).step()
+    this.setData({
       dialgo_animation: animation.export(),
     })
+    setTimeout(function() {
+      var animation = wx.createAnimation({
+        delay: 0,
+        duration: 500,
+        timingFunction: 'ease',
+      })
+      animation.translateY(0).step()
+      self.setData({
+        dialgo_animation: animation.export(),
+      })
+    }, 100)
+
+
   },
 
   clickDialogQueding: function(e) {
-    wx.setNavigationBarColor({
-      frontColor: '#000000',
-      backgroundColor: '#ffffff',
-    })
+    var self = this
     if (this.data.dialog_input_text.length != 0) {
       var text = this.data.dialog_input_text
       this.setData({
         bill_content: text
       })
     }
-    console.log(this.data.dialog_input_text.length)
-    this.setData({
-      isShowInput: true,
-      isShowDialog1: false
+
+    var animation = wx.createAnimation({
+      delay: 0,
+      duration: 500,
+      timingFunction: 'ease',
     })
+    animation.translateY(600).step()
+    this.setData({
+      dialgo_animation: animation.export(),
+    })
+    setTimeout(function() {
+      console.log(self.data.dialog_input_text.length)
+      self.setData({
+        isShowInput: true,
+        isShowDialog1: false
+      })
+      wx.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff',
+      })
+    }, 500)
+
   },
 
   clickPeopleItem: function(e) {
-    wx.setNavigationBarColor({
-      frontColor: '#000000',
-      backgroundColor: '#ffffff',
-    })
+    var self = this
+
     var index = e.currentTarget.dataset.index
     console.log(index)
-    this.setData({
-      isShowInput: true,
-      isShowPeopleDialog: false,
-      payer: this.data.members[index]
+
+    var animation = wx.createAnimation({
+      duration: 500,
+      delay: 0,
+      timingFunction: "ease"
     })
+
+    animation.translate(0, 600).step()
+    this.setData({
+      dialog_payer_animation: animation.export()
+    })
+
+    setTimeout(function() {
+      self.setData({
+        isShowInput: true,
+        isShowPeopleDialog: false,
+        payer: self.data.members[index]
+      })
+      wx.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff',
+      })
+    }, 500)
   },
+  //付款人条目点击事件
   clickPayer: function(e) {
+    var self = this
+    var animation = wx.createAnimation({
+      duration: 500,
+      delay: 0,
+      timingFunction: "ease"
+    })
+
+    animation.translate(0, 600).step()
+
+    this.setData({
+      dialog_payer_animation: animation.export()
+    })
+
+    setTimeout(function() {
+      var animation = wx.createAnimation({
+        duration: 500,
+        delay: 0,
+        timingFunction: "ease"
+      })
+
+      animation.translate(0, 0).step()
+
+      self.setData({
+        dialog_payer_animation: animation.export()
+      })
+    }, 100)
+
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#7f7f7f',
@@ -415,11 +492,28 @@ Page({
 
   },
   CloseCheckBoxDialog: function(e) {
+    var self = this
     if (this.data.people_list_item.length > 0) {
-      this.setData({
-        isShowdialogCheckbox: false,
-        isShowInput: true
+      var animation = wx.createAnimation({
+        duration: 500,
+        delay: 0,
+        timingFunction: "ease"
       })
+
+      animation.translate(0, 0).step()
+
+      this.setData({
+        dialog_members_animation: animation.export()
+      })
+
+
+      setTimeout(function() {
+        self.setData({
+          isShowdialogCheckbox: false,
+          isShowInput: true
+        })
+      }, 500)
+
     }
   },
   /**
@@ -535,6 +629,18 @@ Page({
     this.setData({
       isShowdialogCheckbox: true,
       isShowInput: false
+    })
+
+    var animation = wx.createAnimation({
+      duration: 500,
+      delay: 0,
+      timingFunction: "ease"
+    })
+
+    animation.translate(0, -600).step()
+
+    this.setData({
+      dialog_members_animation: animation.export()
     })
   },
   //多选按钮状态变化监听

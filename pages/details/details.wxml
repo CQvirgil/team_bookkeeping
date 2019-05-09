@@ -53,11 +53,11 @@
 
     <view class='list-item' wx:for="{{bill}}" wx:key="bill" bindtap='ListItemTap' data-bill_id='{{item.bill_id}}'>
 
-      <text class='text time text-gray' wx:if="{{index == 0}}">{{item.date}}</text>
+      <text class='text time text-gray'>{{item.created_at}}</text>
       <view class='text-container'>
         <text class='text'>{{item.content}}</text>
-        <text class='text text-gray'>{{item.count}}人 ¥{{item.act_total}}</text>
-        <text class='text text-gray'>¥{{item.my_total}}</text>
+        <text class='text text-gray'>{{item.count}}人 ¥{{item.bill_total}}</text>
+        <text class='text'>¥{{item.my_total}}</text>
       </view>
     </view>
 
@@ -74,8 +74,8 @@
 
   </view>
 
-  <view class='dialog container' bindtap='closeDialog' animation:="{{dialog_animation}}"  wx:if="{{isShowDiaLog}}">
-    <view class='dialog-content'>
+  <view class='dialog container' bindtap='closeDialog'  wx:if="{{isShowDiaLog}}">
+    <view class='dialog-content' animation="{{dialog_animation}}">
       <button bindtap='ShowQrHadler'>
         <text class='text'>活动二维码</text>
       </button>

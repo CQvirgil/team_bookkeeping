@@ -198,19 +198,54 @@ Page({
     // })
   },
   SwitchDiaLog: function(e) {
+    var self = this
     var animation = wx.createAnimation({
-      
+      duration: 1000,
+      delay: 0,
+      timingFunction: "ease"
     })
-    animation.translateY(1000)
+
+    animation.translate(0, 210).step()
     this.setData({
       isShowDiaLog: true,
       dialog_animation: animation.export()
     })
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#7f7f7f',
+    })
+    setTimeout(function() {
+      var animation2 = wx.createAnimation({
+        duration: 400,
+        delay: 0,
+        timingFunction: "ease"
+      })
+      animation2.translate(0, 0).step()
+      self.setData({
+        dialog_animation: animation2.export()
+      })
+    }, 100)
   },
   DialogCancel: function(e) {
-    this.setData({
-      isShowDiaLog: false
+    var self = this
+    var animation2 = wx.createAnimation({
+      duration: 400,
+      delay: 0,
+      timingFunction: "ease"
     })
+    animation2.translate(0, 210).step()
+    self.setData({
+      dialog_animation: animation2.export()
+    })
+    setTimeout(function() {
+      self.setData({
+        isShowDiaLog: false
+      })
+      wx.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff',
+      })
+    }, 400)
   },
   ExitAcitivity: function(e) {
     console.log('ExitAcitivity')

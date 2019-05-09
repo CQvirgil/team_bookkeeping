@@ -110,7 +110,7 @@
   </view>
 
   <view class='dialog container' wx:if="{{isShowPeopleDialog}}">
-    <view class='container dialog-content'>
+    <view class='container dialog-content' animation='{{dialog_payer_animation}}'>
       <view class='text-bolder fill-width' id='text-payer'>
         <text class='fill-width'>付款人</text>
       </view>
@@ -132,7 +132,7 @@
 
 <!-- 参与成员 -->
 <view class='dialog container' wx:if='{{isShowdialogCheckbox}}'>
-  <view class='container dialog-content'>
+  <view class='container dialog-content' id='dialog-members' animation='{{dialog_members_animation}}'>
     <view class='fill-width dialog-top'>
       <text class='text-bolder'>参与成员</text>
     </view>

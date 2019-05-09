@@ -425,3 +425,8 @@ button::after {
   text-align: center;
   padding: 14rpx 0;
 }
+
+#dialog-members{
+  position: absolute;
+  bottom: -1200rpx;
+}
