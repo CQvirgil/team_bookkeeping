@@ -7,7 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: []
+    list: [],
+    money_state_my: ''
   },
 
   /**
@@ -18,7 +19,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '收支明细',
     })
-    console.log('act_id'+options.act_id)
+    console.log('act_id' + options.act_id)
     wx.request({
       url: app.globalData.url + '/activity/detail',
       method: 'POST',
@@ -43,7 +44,7 @@ Page({
                 right: members[j],
                 money: members[j].money
               }
-            }else{
+            } else {
               list2[list2.length] = {
                 left: detail[i].user,
                 right: members[j],
@@ -52,7 +53,15 @@ Page({
             }
           }
         }
-        //console.log(list2)
+
+        for (var i = 0; i < list2.length; i++) {
+          if (list2[i].right.user_id == app.globalData.unionid) {
+            list2[i].state = 'money-state-my'
+          }else{
+            list2[i].state = ''
+          }
+        }
+        console.log(list2)
         self.setData({
           list: list2
         })

@@ -1,7 +1,7 @@
 <!--components/qr_invite/qr_invite.wxml-->
 <view class='container'>
 
-  <view class='dialog'>
+  <view class='dialog' animation = '{{dialog_animation}}'>
     <text class='title'>{{title}}</text>
     <image class='qr-code' src='{{qr_url}}'></image>
     <text class='tips'>扫描二维码加入活动</text>

@@ -1,22 +1,28 @@
 <!--pages/financial/financial.wxml-->
 <view class='container financial'>
   <scroll-view scroll-y>
-  
-    <view class='list-item' wx:for="{{list}}" wx:key='list'>
-        <view class='person left'>
-          <image class='person-image' src='{{item.left.headimg}}'></image>
-          <text class='person-name text'>{{item.left.nickname}}</text>
-        </view>
-        
-        <view class='money'>
-          <text class='money-text title'>¥{{item.money}}</text>
-          <image class='money-icon' src='/res/icon_arrow.png'></image>
-        </view>
 
-        <view class='person right'>
-          <image class='person-image' src='{{item.right.headimg}}'></image>
-          <text class='person-name text'>{{item.right.nickname}}</text>
-        </view>
+    <view class='list-item' wx:for="{{list}}" wx:key='list'>
+      <view class='person left'>
+        <image class='person-image' src='{{item.left.headimg}}'></image>
+      </view>
+      <view class='text text-left'>
+        <text class='person-name '>{{item.left.nickname}}</text>
+      </view>
+
+      <view class='money'>
+        <text class='money-text title {{item.state}}'>¥{{item.money}}</text>
+        <image class='money-icon' src='/res/icon_arrow.png'></image>
+      </view>
+
+      <view class='person right'>
+        <image class='person-image' src='{{item.right.headimg}}'></image>
+
+      </view>
+      <view class='text text-right'>
+        <text class='person-name'>{{item.right.nickname}}</text>
+      </view>
+      
     </view>
 
   </scroll-view>

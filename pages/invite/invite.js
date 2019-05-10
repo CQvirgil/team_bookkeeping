@@ -23,7 +23,8 @@ Page({
     is_show_qr_invite: false,
     headimg_url: '',
     user_name: '',
-    act_id: ''
+    act_id: '',
+    page_state: ''
   },
   /**
    * 生命周期函数--监听页面加载
@@ -32,12 +33,13 @@ Page({
     wx.setNavigationBarTitle({
       title: '邀请成员',
     })
-    console.log(options.acivity_id)
+    console.log(options.page_state)
     this.setData({
       list: '',
       headimg_url: app.globalData.userInfo.avatarUrl,
       user_name: app.globalData.userInfo.nickName,
-      act_id: app.globalData.create_act_id
+      act_id: app.globalData.create_act_id,
+      page_state: options.page_state
     })
     this.setData({
       activity_name: options.activity_name
@@ -152,7 +154,7 @@ Page({
   gotoDetails: function(e) {
     var activity_name = this.data.activity_name
     wx.navigateTo({
-      url: '../details/details?activity_name=' + activity_name,
+      url: '../details/details?activity_name=' + activity_name + '&page_state=' + this.data.page_state,
     })
   },
 
@@ -202,13 +204,13 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-   return{
-     title: '加入huodon',
-     path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id,
-     success(res){
-       console.log('分享成功')
-     }
-   }
+    return {
+      title: '加入huodon',
+      path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id + '&page_state=' + this.data.pages_state,
+      success(res) {
+        console.log('分享成功')
+      }
+    }
 
   }
 })

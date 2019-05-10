@@ -14,7 +14,8 @@ Component({
   data: {
     title: '',
     access_token: '',
-    qr_url: ''
+    qr_url: '',
+    dialog_animation: null
   },
 
   /**
@@ -24,7 +25,9 @@ Component({
 
   },
   lifetimes: {
+    
     attached() {
+      //this.animation = animation.export()
       var self = this
       // 在组件实例进入页面节点树时执行
       console.log(this.data.act_id)

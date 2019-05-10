@@ -46,9 +46,19 @@ Page({
     }
   },
   gotoPeople: function(e) {
-    wx.navigateTo({
-      url: '../people/people?act_id=' + this.data.act_id,
-    })
+    switch (this.data.page_state) {
+      case page_state.FROM_CREATE_ACTIVITY:
+        wx.navigateTo({
+          url: '../people/people?act_id=' + app.globalData.create_act_id,
+        })
+        break;
+      case page_state.FROM_INDEX:
+        wx.navigateTo({
+          url: '../people/people?act_id=' + this.data.act_id,
+        })
+        break;
+    }
+
   },
   gotoFinancial: function(e) {
     wx.navigateTo({
@@ -248,32 +258,41 @@ Page({
     }, 400)
   },
   ExitAcitivity: function(e) {
-    console.log('ExitAcitivity')
     var self = this
-    wx.request({
-      url: app.globalData.url + '/activity/exit',
-      method: 'POST',
-      data: {
-        "act_id": this.data.act_id,
-        "user_id": app.globalData.unionid
-      },
+    wx.showModal({
+      title: '',
+      content: '确定退出？',
+      confirmText: '退出',
       success(res) {
-        wx.showToast({
-          title: '退出成功',
-          icon: 'success',
-          duration: 2000
-        })
-        self.setData({
-          isShowDiaLog: false
-        })
-        setTimeout(function() {
-          wx.navigateBack({
-            delta: 2
-          })
-        }, 2000)
+        if (res.confirm) {
+          wx.request({
+            url: app.globalData.url + '/activity/exit',
+            method: 'POST',
+            data: {
+              "act_id": self.data.act_id,
+              "user_id": app.globalData.unionid
+            },
+            success(res) {
+              wx.showToast({
+                title: '退出成功',
+                icon: 'success',
+                duration: 2000
+              })
+              self.setData({
+                isShowDiaLog: false
+              })
+              setTimeout(function() {
+                wx.navigateBack({
+                  delta: 2
+                })
+              }, 2000)
 
+            }
+          })
+        }
       }
     })
+    console.log('ExitAcitivity')
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

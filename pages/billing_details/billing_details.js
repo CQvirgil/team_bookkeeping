@@ -41,20 +41,38 @@ Page({
     })
   },
   DeletBill: function(e) {
-    wx.request({
-      url: app.globalData.url + '/bill/delete',
-      method: 'POST',
-      data: {
-        "bill_id": this.data.bill_id,
-        "user_id": app.globalData.unionid
-      },
+    var self = this
+    wx.showModal({
+      title: '',
+      content: '是否确定删除该账单',
+      showCancel: true,
+      confirmText: '删除',
       success(res) {
-        wx.showToast({
-          title: '删除成功',
-        })
-        console.log(res.data)
+        if (res.confirm) {
+          wx.request({
+            url: app.globalData.url + '/bill/delete',
+            method: 'POST',
+            data: {
+              "bill_id": self.data.bill_id,
+              "user_id": app.globalData.unionid
+            },
+            success(res) {
+              wx.showToast({
+                title: '删除成功',
+              })
+              setTimeout(function(){
+                wx.navigateBack({
+                  
+                })
+              },1500)
+              console.log(res.data)
+            }
+          })
+        }
+
       }
     })
+
   },
   ChangeBill: function(e) {
     wx.navigateTo({

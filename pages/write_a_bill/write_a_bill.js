@@ -227,6 +227,12 @@ Page({
                 wx.showToast({
                   title: '修改成功',
                 })
+                setTimeout(function(){
+                  wx.navigateBack({
+                    delta: 2
+                  })
+
+                },1500)
               }
 
             }
