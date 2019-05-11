@@ -1,9 +1,9 @@
 <!--pages/write_a_bill/write_a_bill.wxml-->
-<view class='err_hint' wx:if='{{isShowerr_hint}}'>暂时只支持输入万元以下金额</view>
+
 <view class='container'>
 
   <scroll-view class="fill-height" scroll-y>
-
+    <view class='err_hint' wx:if='{{isShowerr_hint}}'>暂时只支持输入万元以下金额</view>
     <view class='container-scr'>
       <view id='state-container' bindtap='changeState'>
         <text class='text' id=''>当前为{{state}}状态，点击切换</text>
@@ -15,7 +15,7 @@
         <view class="section">
           <picker mode="date" value="{{date}}" end="{{end_date}}" bindchange="bindDateChange">
             <view>
-              <text class='text date'>{{text_date}}（{{date}}）</text>
+              <text class='text date'>{{text_date}}  ({{date}})</text>
               <image class='jiantou' id='date-jiantou' src='/res/btn_members_normal.png'></image>
             </view>
           </picker>
@@ -52,7 +52,7 @@
 
         <picker mode="date" value="{{date}}" end="{{end_date}}" bindchange="bindDateChange">
           <view class='right'>
-            <text class='text text-gray'>{{text_date}}（{{date}}）</text>
+            <text class='text text-gray'>{{text_date}}  {{date}}</text>
             <image class='jiantou' src='/res/btn_members_normal.png'></image>
           </view>
         </picker>
@@ -75,7 +75,7 @@
               <text class='text'>{{item.nickname}}</text>
             </view>
             <view class='person-msg'>
-              <input type='digit' class='text' maxlength='7' placeholder='0.00' bindblur='Bindblur'></input>
+              <input type='digit' class='text' placeholder='0.00' bindinput='BindSpecificListInput' bindblur='Bindblur'></input>
               <text class='text'>¥</text>
             </view>
           </view>
@@ -84,7 +84,7 @@
 
       </view>
 
-      <button class='text-bolder btn-write' id='write' bindtap='write'>{{btn}}</button>
+      <button class='text-bolder btn-write {{btn_write_state_disable}}' id='write' bindtap='write'>{{btn}}</button>
     </view>
   </scroll-view>
 

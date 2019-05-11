@@ -66,6 +66,7 @@ Page({
     })
   },
   EndTally: function(e) {
+    var self = this
     console.log(util.formatTime())
     app.globalData.activity.end_time = util.formatTime()
     app.globalData.activity.isunderway = false
@@ -80,7 +81,12 @@ Page({
           "user_id": app.globalData.unionid
         },
         success(res) {
-          console.log('修改活动状态成功')
+          console.log('结束成功')
+          if (self.data.activity.members.length != 1) {
+            wx.navigateTo({
+              url: '../financial/financial',
+            })
+          }
         }
       })
     }
@@ -99,9 +105,8 @@ Page({
         isShowLine: false
       })
     }
-    wx.navigateTo({
-      url: '../financial/financial',
-    })
+   
+    
   },
 
   /**

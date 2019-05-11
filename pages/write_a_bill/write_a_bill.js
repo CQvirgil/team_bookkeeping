@@ -41,6 +41,7 @@ Page({
     pages_state: '',
     btn: '记一笔',
     bill_id: '',
+    btn_write_state_disable: '',
     dialog_payer_animation: null,
     dialog_members_animation: null,
     radio_button_data: [{ //账单内容弹窗数据
@@ -93,9 +94,12 @@ Page({
   //   console.log(e.detail.value)
   // },
   StartInput: function(e) {
-    this.setData({
-      input_value: ''
-    })
+    var input_value = this.data.input_value
+    if (this.data.input_value != null) {
+      this.setData({
+        input_value: input_value.substr(0)
+      })
+    }
   },
   InputOver: function(e) {
     if (e.detail.value != '') {
@@ -125,14 +129,15 @@ Page({
   },
   HoverInput: function(e) {
     var input_value = parseFloat(e.detail.value)
-    if (input_value > 999.99) {
+    if (input_value > 9999.99) {
       this.setData({
         isShowerr_hint: true,
-        input_value: '999.99'
+        btn_write_state_disable: 'btn-disable'
       })
     } else {
       this.setData({
         isShowerr_hint: false,
+        btn_write_state_disable: ''
       })
     }
     //console.log(this.data.money)
@@ -157,115 +162,117 @@ Page({
     var self = this
     console.log(self.data.people_list_item)
     console.log('payer= ' + self.data.payer.user)
-    switch (this.data.pages_state) {
-      case 'default':
-        //console.log(self.data.people_list_item)
-        //具体分摊状态
-        if (this.data.isSpecificState) {
-          wx.request({
-            url: app.globalData.url + '/bill/create',
-            method: 'POST',
-            data: {
-              "activity_id": self.data.act_id,
-              "content": self.data.bill_content,
-              "members": self.data.people_list_item,
-              "payer_id": self.data.payer.user_id,
-              "total": self.data.money_acount,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
-
-              wx.navigateBack({
-                delta: 1
-              })
-            }
-          })
-        } else {
-          var money = parseFloat(self.data.money)
-          wx.request({
-            url: app.globalData.url + '/bill/create',
-            method: 'POST',
-            data: {
-              "activity_id": self.data.act_id,
-              "content": self.data.bill_content,
-              "members": self.data.people_list_item,
-              "payer_id": self.data.payer.user_id,
-              "total": money,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
-
-              wx.navigateBack({
-                delta: 1
-              })
-            }
-          })
-        }
-        break;
-      case 'change_bill':
-        console.log('bill_id= ' + self.data.bill_id)
-        console.log('content= ' + self.data.bill_content)
-        console.log(this.data.people_list_item)
-        console.log('pyer_id= ' + this.data.payer.user_id)
-        console.log("money= " + this.data.money)
-        var money = parseFloat(self.data.money)
-        if (!this.data.isSpecificState) {
-          wx.request({
-            url: app.globalData.url + '/bill/update',
-            method: 'POST',
-            data: {
-              "bill_id": self.data.bill_id,
-              "content": self.data.bill_content,
-              "members": self.data.people_list_item,
-              "payer_id": self.data.payer.user_id,
-              "total": money,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
-              console.log(res.data)
-              if (res.data.code == 0) {
-                wx.showToast({
-                  title: '修改成功',
+    if (!this.data.isShowerr_hint) {
+      switch (this.data.pages_state) {
+        case 'default':
+          //console.log(self.data.people_list_item)
+          //具体分摊状态
+          if (this.data.isSpecificState) {
+            wx.request({
+              url: app.globalData.url + '/bill/create',
+              method: 'POST',
+              data: {
+                "activity_id": self.data.act_id,
+                "content": self.data.bill_content,
+                "members": self.data.people_list_item,
+                "payer_id": self.data.payer.user_id,
+                "total": self.data.money_acount,
+                "user_id": app.globalData.unionid
+              },
+              success(res) {
+                wx.navigateBack({
+                  delta: 1
                 })
-                setTimeout(function(){
-                  wx.navigateBack({
-                    delta: 2
-                  })
-
-                },1500)
               }
+            })
+          } else {
+            var money = parseFloat(self.data.money)
+            wx.request({
+              url: app.globalData.url + '/bill/create',
+              method: 'POST',
+              data: {
+                "activity_id": self.data.act_id,
+                "content": self.data.bill_content,
+                "members": self.data.people_list_item,
+                "payer_id": self.data.payer.user_id,
+                "total": money,
+                "user_id": app.globalData.unionid
+              },
+              success(res) {
 
-            }
-          })
-        } else {
+                wx.navigateBack({
+                  delta: 1
+                })
+              }
+            })
+          }
+          break;
+        case 'change_bill':
           console.log('bill_id= ' + self.data.bill_id)
           console.log('content= ' + self.data.bill_content)
           console.log(this.data.people_list_item)
           console.log('pyer_id= ' + this.data.payer.user_id)
           console.log("money= " + this.data.money)
-          wx.request({
-            url: app.globalData.url + '/bill/update',
-            method: 'POST',
-            data: {
-              "bill_id": self.data.bill_id,
-              "content": self.data.bill_content,
-              "members": self.data.people_list_item,
-              "payer_id": self.data.payer.user_id,
-              "total": self.data.money_acount,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
-              if (res.data.code == 0) {
-                wx.showToast({
-                  title: '修改成功',
-                })
-              }
-            }
-          })
-        }
+          var money = parseFloat(self.data.money)
+          if (!this.data.isSpecificState) {
+            wx.request({
+              url: app.globalData.url + '/bill/update',
+              method: 'POST',
+              data: {
+                "bill_id": self.data.bill_id,
+                "content": self.data.bill_content,
+                "members": self.data.people_list_item,
+                "payer_id": self.data.payer.user_id,
+                "total": money,
+                "user_id": app.globalData.unionid
+              },
+              success(res) {
+                console.log(res.data)
+                if (res.data.code == 0) {
+                  wx.showToast({
+                    title: '修改成功',
+                  })
+                  setTimeout(function() {
+                    wx.navigateBack({
+                      delta: 2
+                    })
 
-        break;
+                  }, 1500)
+                }
+
+              }
+            })
+          } else {
+            console.log('bill_id= ' + self.data.bill_id)
+            console.log('content= ' + self.data.bill_content)
+            console.log(this.data.people_list_item)
+            console.log('pyer_id= ' + this.data.payer.user_id)
+            console.log("money= " + this.data.money)
+            wx.request({
+              url: app.globalData.url + '/bill/update',
+              method: 'POST',
+              data: {
+                "bill_id": self.data.bill_id,
+                "content": self.data.bill_content,
+                "members": self.data.people_list_item,
+                "payer_id": self.data.payer.user_id,
+                "total": self.data.money_acount,
+                "user_id": app.globalData.unionid
+              },
+              success(res) {
+                if (res.data.code == 0) {
+                  wx.showToast({
+                    title: '修改成功',
+                  })
+                }
+              }
+            })
+          }
+
+          break;
+      }
     }
+
 
   },
   //单选按钮点击事件
@@ -320,7 +327,7 @@ Page({
       timingFunction: 'ease',
     })
 
-    animation.translateY(600).step()
+    animation.translateY(800).step()
     this.setData({
       dialgo_animation: animation.export(),
     })
@@ -353,7 +360,7 @@ Page({
       duration: 500,
       timingFunction: 'ease',
     })
-    animation.translateY(600).step()
+    animation.translateY(800).step()
     this.setData({
       dialgo_animation: animation.export(),
     })
@@ -383,7 +390,7 @@ Page({
       timingFunction: "ease"
     })
 
-    animation.translate(0, 600).step()
+    animation.translate(0, 800).step()
     this.setData({
       dialog_payer_animation: animation.export()
     })
@@ -409,7 +416,7 @@ Page({
       timingFunction: "ease"
     })
 
-    animation.translate(0, 600).step()
+    animation.translate(0, 1000).step()
 
     this.setData({
       dialog_payer_animation: animation.export()
@@ -454,7 +461,8 @@ Page({
       console.log(this.data.people_list_item)
       this.setData({
         state: '具体分摊',
-        isSpecificState: true
+        isSpecificState: true,
+        input_value: ''
       })
     } else {
       this.setData({
@@ -471,30 +479,48 @@ Page({
     })
     console.log("BindPeopleListTap: " + e.currentTarget.dataset.index)
   },
+  BindSpecificListInput: function(e) {
+    var input = parseFloat(e.detail.value)
+    if (input > 9999.99) {
+      this.setData({
+        isShowerr_hint: true,
+        btn_write_state_disable: 'btn-disable'
+      })
+    }else{
+      this.setData({
+        isShowerr_hint: false,
+        btn_write_state_disable: ''
+      })
+    }
+  },
   //具体分摊成员列表的input组件失去焦点时触发事件
   Bindblur: function(e) {
-    var input = parseFloat(e.detail.value)
 
-    var item = this.data.people_list_item
-    item[this.data.people_list_postion].Money = input
-    this.setData({
-      people_list_item: item
-    })
-    console.log(item[this.data.people_list_postion])
+    if (!this.data.isShowerr_hint) {
+      var input = parseFloat(e.detail.value)
+
+      var item = this.data.people_list_item
+      item[this.data.people_list_postion].Money = input
+      this.setData({
+        people_list_item: item
+      })
+      console.log(item[this.data.people_list_postion])
 
 
-    var money = 0
-    for (var i = 0; i < this.data.people_list_item.length; i++) {
-      money += this.data.people_list_item[i].Money
+      var money = 0
+      for (var i = 0; i < this.data.people_list_item.length; i++) {
+        money += this.data.people_list_item[i].Money
+      }
+      console.log(money)
+      if (e.detail.value == '') {
+        money = 0
+      }
+
+      this.setData({
+        money_acount: money
+      })
     }
-    console.log(money)
-    if (e.detail.value == '') {
-      money = 0
-    }
 
-    this.setData({
-      money_acount: money
-    })
 
   },
   CloseCheckBoxDialog: function(e) {
@@ -553,7 +579,7 @@ Page({
             members: res.data.data.members,
             payer: res.data.data.members[0],
           })
-
+          self.setPayersListDefault()
           console.log(res.data.data.members)
         }
       })
@@ -610,7 +636,7 @@ Page({
         }
       })
     }
-    self.setPayersListDefault()
+   
     this.setData({
       date: util.formatTime(),
       pages_state: pages_state
@@ -619,7 +645,7 @@ Page({
   },
 
   setPayersListDefault: function() {
-    console.log('setPayersListDefault')
+    console.log(this.data.members)
     var item = []
     for (var i = 0; i < this.data.members.length; i++) {
       item[i] = {
@@ -643,7 +669,7 @@ Page({
       timingFunction: "ease"
     })
 
-    animation.translate(0, -600).step()
+    animation.translate(0, -630).step()
 
     this.setData({
       dialog_members_animation: animation.export()

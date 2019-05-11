@@ -1,12 +1,4 @@
 {
   "usingComponents": {},
-  "window": {
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "小程序",
-    "backgroundColor": "#ededed",
-    "backgroundTextStyle": "light",
-    "enablePullDownRefresh": false
-  },
   "enablePullDownRefresh": true
 }
