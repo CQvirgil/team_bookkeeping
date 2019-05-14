@@ -2,7 +2,7 @@
 <!-- 活动详情 -->
 <view class='container details'>
   <view class='top-view'>
-    <view class='title-container'>
+    <view class='title-container' bindtap='bindActivityName'>
       <text class='title'>{{activity_name}}</text>
       <image class='title-image' src='/res/btn_start_normal.png'></image>
     </view>
@@ -15,7 +15,7 @@
     <text class='text text-gray state-right'>共{{people_acount}}人参与</text>
   </view>
 
-  <view class='person-headimgs' bindtap='gotoPeople' >
+  <view class='person-headimgs' bindtap='gotoPeople'>
     <image class='headimg' wx:for='{{activity.members}}' src='{{item.headimgurl}}'></image>
     <image class='btn-start-normal' src='/res/btn_members_normal.png'></image>
   </view>
@@ -74,7 +74,7 @@
 
   </view>
 
-  <view class='dialog container' bindtap='closeDialog'  wx:if="{{isShowDiaLog}}">
+  <view class='dialog container' bindtap='closeDialog' wx:if="{{isShowDiaLog}}">
     <view class='dialog-content' animation="{{dialog_animation}}">
       <button bindtap='ShowQrHadler'>
         <text class='text'>活动二维码</text>
@@ -83,7 +83,7 @@
         <text class='text'>分享活动给朋友</text>
       </button>
       <button bindtap='ExitAcitivity'>
-        <text class='text text-red' >退出活动</text>
+        <text class='text text-red'>退出活动</text>
       </button>
       <view class='dialog-line'></view>
       <button class='dialog-cancel' bindtap='DialogCancel'>
@@ -96,4 +96,8 @@
     <qr_invite act_id='{{act_id}}'></qr_invite>
     <image bindtap='QrCloseHandler' class='qr-close' src='/res/btn_close.png'></image>
   </view>
+</view>
+
+<view class='dialog' wx:if='{{isShowChangActivityName}}'>
+  <chang_activity_name id='chang_activity_name' bind:FinishInput='onFinishInput'></chang_activity_name>
 </view>

@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "qr_invite": "/components/qr_invite/qr_invite"
+    "qr_invite": "/components/qr_invite/qr_invite",
+    "chang_activity_name": "/components/dialog/change_activity_name/change_activity_name"
   }
 }

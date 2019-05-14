@@ -67,7 +67,7 @@
 
       </view>
 
-      <view class='people-list' wx:if="{{isSpecificState}}">
+      <view class='people-list' wx:if="{{isSpecificState && isShowDialog}}">
         <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap' wx:for="{{members}}" wx:key="members">
           <view class='people-item'>
             <view class='person-msg'>
@@ -92,13 +92,13 @@
     <view class='container dialog-content' animation="{{dialgo_animation}}">
       <view class='radio-group'>
 
-        <text class='text {{item.radio_button_style}}' bindtap='radio_check' wx:for="{{radio_button_data}}" wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
+        <text class='text {{item.radio_button_style}}' bindtap='radio_check' wx:for="{{radio_button_data}}"       wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
          </text>
 
       </view>
 
       <view class='dialog-input'>
-        <input maxlength='10' type='text' class='text input' placeholder-class='text-bbb' bindinput='dialog_input' placeholder="点击这里输入自定义内容"></input>
+        <input maxlength='10' type='text' class='text input' placeholder-class='text-bbb' bindinput='dialog_input' placeholder="点击这里输入自定义内容" value=''></input>
         <text class='text text-bbb'>{{dialog_input_length}}/10</text>
       </view>
 
@@ -123,7 +123,7 @@
     </view>
   </view>
 
-  <view class='acount' wx:if="{{isSpecificState}}">
+  <view class='acount' wx:if="{{isSpecificState && isShowDialog}}">
     <text class='text'>共</text>
     <text id='acount'>¥{{money_acount}}</text>
   </view>

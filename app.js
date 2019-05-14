@@ -45,5 +45,6 @@ App({
     openid: '',
     session_key: '',
     unionid: '',
+    isShowChangActivityName: false
   }
 })

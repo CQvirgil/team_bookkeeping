@@ -44,6 +44,7 @@ Page({
     btn_write_state_disable: '',
     dialog_payer_animation: null,
     dialog_members_animation: null,
+    isShowDialog:false,
     radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
@@ -192,6 +193,7 @@ Page({
               method: 'POST',
               data: {
                 "activity_id": self.data.act_id,
+                "bill_id": self.data.bill_id,
                 "content": self.data.bill_content,
                 "members": self.data.people_list_item,
                 "payer_id": self.data.payer.user_id,
@@ -199,7 +201,6 @@ Page({
                 "user_id": app.globalData.unionid
               },
               success(res) {
-
                 wx.navigateBack({
                   delta: 1
                 })
@@ -277,7 +278,7 @@ Page({
   },
   //单选按钮点击事件
   radio_check: function(e) {
-    console.log(e.currentTarget.dataset.id)
+    //console.log(e.currentTarget.dataset.id)
     var data = this.data.radio_button_data
     var text = ''
     //遍历按钮数据
@@ -320,6 +321,8 @@ Page({
     this.setData({
       isShowInput: false,
       isShowDialog1: true,
+      dialog_input_text:'',
+      isShowDialog: false
     })
     var animation = wx.createAnimation({
       delay: 0,
@@ -365,10 +368,11 @@ Page({
       dialgo_animation: animation.export(),
     })
     setTimeout(function() {
-      console.log(self.data.dialog_input_text.length)
+      //console.log(self.data.dialog_input_text.length)
       self.setData({
         isShowInput: true,
-        isShowDialog1: false
+        isShowDialog1: false,
+        isShowDialog: true
       })
       wx.setNavigationBarColor({
         frontColor: '#000000',
@@ -392,14 +396,16 @@ Page({
 
     animation.translate(0, 800).step()
     this.setData({
-      dialog_payer_animation: animation.export()
+      dialog_payer_animation: animation.export(),
+      
     })
 
     setTimeout(function() {
       self.setData({
         isShowInput: true,
         isShowPeopleDialog: false,
-        payer: self.data.members[index]
+        payer: self.data.members[index],
+        isShowDialog: true
       })
       wx.setNavigationBarColor({
         frontColor: '#000000',
@@ -413,13 +419,14 @@ Page({
     var animation = wx.createAnimation({
       duration: 500,
       delay: 0,
-      timingFunction: "ease"
+      timingFunction: "ease",
     })
 
     animation.translate(0, 1000).step()
 
     this.setData({
-      dialog_payer_animation: animation.export()
+      dialog_payer_animation: animation.export(),
+      isShowDialog: false
     })
 
     setTimeout(function() {
@@ -462,12 +469,13 @@ Page({
       this.setData({
         state: '具体分摊',
         isSpecificState: true,
-        input_value: ''
+        input_value: '',
+        isShowDialog: true
       })
     } else {
       this.setData({
         state: '平均分摊',
-        isSpecificState: false
+        isSpecificState: false,
       })
     }
 
@@ -604,7 +612,7 @@ Page({
           var bill = res.data.data
           self.setData({
             bill_content: bill.content,
-            input_value: bill.bill_total,
+            input_value: '¥'+bill.bill_total,
             date: util.formatTime2(bill.created_at, 'Y-M-D'),
             text_date: '',
             payerID: bill.payer_id,
@@ -660,7 +668,7 @@ Page({
   ShowCheckboxDialog: function(e) {
     this.setData({
       isShowdialogCheckbox: true,
-      isShowInput: false
+      isShowInput: false,
     })
 
     var animation = wx.createAnimation({
@@ -669,6 +677,8 @@ Page({
       timingFunction: "ease"
     })
 
+    var height = wx.getSystemInfoSync().windowHeight
+    var h = height/100
     animation.translate(0, -630).step()
 
     this.setData({
@@ -717,7 +727,6 @@ Page({
         isSelectAll: true,
         isChecked: true,
         people_list_item: item,
-
       })
       console.log(this.data.people_list_item)
     }

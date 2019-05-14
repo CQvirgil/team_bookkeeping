@@ -30,12 +30,38 @@ Page({
     isShwoWrite_a_bill: true,
     page_state: '',
     isLoad: false,
-    dialog_animation: null
+    dialog_animation: null,
+    isShowChangActivityName: false,
+    chang_activity_name_animation: null
+  },
+  bindActivityName: function(e) {
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#7f7f7f',
+    })
+    var c = this.data.isShowChangActivityName
+    this.setData({
+      isShowChangActivityName: true
+    })
   },
   ListItemTap: function(e) {
     wx.navigateTo({
       url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id + '&act_id=' + this.data.act_id,
     })
+  },
+  onFinishInput: function(e) {//点击输入弹窗的确定按钮时出发
+    var self = this
+
+    setTimeout(function () {
+      var c = self.data.isShowChangActivityName
+      self.setData({
+        isShowChangActivityName: false
+      })
+      wx.setNavigationBarColor({
+        frontColor: '#000000',
+        backgroundColor: '#ffffff',
+      })
+    }, 400)
   },
   //记一笔账按钮页面
   gotoWrite_a_bill: function(e) {
@@ -105,8 +131,8 @@ Page({
         isShowLine: false
       })
     }
-   
-    
+
+
   },
 
   /**

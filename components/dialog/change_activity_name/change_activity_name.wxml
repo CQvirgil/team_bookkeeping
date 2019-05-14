@@ -1,0 +1,12 @@
+<!--components/dialog/change_activity_name/change_activity_name.wxml-->
+<view class='dialog-background container' animation='{{animation}}'>
+  <input type='text' bindinput='BindInput' maxlength='10' class='text-bolder' placeholder='请输入活动名称'/>
+  <view >
+    <text class='{{text_style}}'>{{text_count}}/10</text>
+  </view>
+
+  <button class='button-ok' bindtap='finishInput'>
+  <text>确</text>
+  定
+  </button>
+</view> 
