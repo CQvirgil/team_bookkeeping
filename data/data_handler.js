@@ -27,15 +27,17 @@ const handleLogInData = function(data) {
   const http_request = require('../network/http_request.js')
   app.globalData.userInfo = data
   app.globalData.unionid = data.unionid
-  console.log('user_nickname:  ' + app.globalData.userInfo.nickname)
-  http_request.getActivityIdArray();
+  //console.log('user_nickname:  ' + app.globalData.userInfo.nickname)
+  //http_request.getActivityIdArray();
 }
 
 //处理活动id列表
 const handleActivityIdArray = function(data) {
   const http_request = require('../network/http_request.js')
   console.log(data)
-  http_request.getActivityById(data.act_id[0])
+  // http_request.getActivityById(data.act_id[0]).then(
+   
+  // )
 }
 
 //处理活动数据
