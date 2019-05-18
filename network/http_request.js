@@ -8,22 +8,34 @@ const request_type = {
   GET: 'GET'
 }
 
-var ActivityByIdPromise = null
+var mPromise = {}
 
 //请求服务
 const request_server = function(lastUrl, postData, method, handletype) {
-  wx.request({
-    url: server_url + lastUrl,
-    data: postData,
-    method: method,
-    success: function(res) {
-      if (res.statusCode == 200) {
-        if (res.data.code == 0) {
-          data_handler.handlInternetData(res, handletype)
+  console.log('request_server')
+  mPromise = new Promise(function(resolve, reject) {
+    wx.request({
+      url: server_url + lastUrl,
+      data: postData,
+      method: method,
+      success: function(res) {
+        if (res.statusCode == 200) {
+          if (res.data.code == 0) {
+            data_handler.handlInternetData(res, handletype)
+            resolve(handletype);
+          }
+        } else {
+          reject('请求失败');
         }
       }
-    }
+    })
   })
+  app.globalData.mPromise = mPromise
+}
+
+const getmPromise = function() {
+  console.log(mPromise)
+  return mPromise
 }
 
 const getPromise = function() {
@@ -50,53 +62,53 @@ const wxLogIn = function(encryptedData, iv) {
     "iv": iv
   }
   var method = request_type.POST
-  //request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.LOGIN)
+  request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.LOGIN)
 
-  var p = new Promise(function(resolve, reject) {
-    wx.request({
-      url: server_url + lastUrl,
-      data: postData,
-      method: method,
-      success: function(res) {
-        if (res.statusCode == 200) {
-          if (res.data.code == 0) {
-            data_handler.handlInternetData(res, data_handler.HANDLE_TYPE.LOGIN)
-            resolve(data_handler.HANDLE_TYPE.LOGIN)
-          }
-        }
-      }
-    })
-  });
-  return p;
+  // var p = new Promise(function(resolve, reject) {
+  //   wx.request({
+  //     url: server_url + lastUrl,
+  //     data: postData,
+  //     method: method,
+  //     success: function(res) {
+  //       if (res.statusCode == 200) {
+  //         if (res.data.code == 0) {
+  //           data_handler.handlInternetData(res, data_handler.HANDLE_TYPE.LOGIN)
+  //           resolve(data_handler.HANDLE_TYPE.LOGIN)
+  //         }
+  //       }
+  //     }
+  //   })
+  // });
+  // return p;
 }
 
 //获取活动ID的列表
 const getActivityIdArray = function() {
   var lastUrl = '/activity/get_all'
   var postData = {
-    "user_id": app.globalData.unionid
+    "user_id": app.globalData.userData.id
   }
   var method = request_type.POST
-  //request_server(lasturl, postData, method, data_handler.HANDLE_TYPE.GET_ACTIVITY_ID_ARRAY)
-  var p = new Promise(function(resolve, reject) {
-    wx.request({
-      url: server_url + lastUrl,
-      data: postData,
-      method: method,
-      success: function(res) {
-        if (res.statusCode == 200) {
-          if (res.data.code == 0) {
-            data_handler.handlInternetData(res, data_handler.HANDLE_TYPE.GET_ACTIVITY_ID_ARRAY)
-            resolve(data_handler.HANDLE_TYPE.GET_ACTIVITY_ID_ARRAY)
-          }
-        }
-      },
-      fail() {
-        reject('网络请求失败');
-      }
-    })
-  });
-  return p
+  request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.GET_ACTIVITY_ID_ARRAY)
+  // var p = new Promise(function(resolve, reject) {
+  //   wx.request({
+  //     url: server_url + lastUrl,
+  //     data: postData,
+  //     method: method,
+  //     success: function(res) {
+  //       if (res.statusCode == 200) {
+  //         if (res.data.code == 0) {
+  //           data_handler.handlInternetData(res, data_handler.HANDLE_TYPE.GET_ACTIVITY_ID_ARRAY)
+  //           resolve(data_handler.HANDLE_TYPE.GET_ACTIVITY_ID_ARRAY)
+  //         }
+  //       }
+  //     },
+  //     fail() {
+  //       reject('网络请求失败');
+  //     }
+  //   })
+  // });
+  // return p
 }
 
 //使用活动id获取某个活动
@@ -104,29 +116,40 @@ const getActivityById = function(act_id) {
   var lastUrl = '/activity/get'
   var postData = {
     "act_id": act_id,
-    "user_id": app.globalData.unionid
+    "user_id": app.globalData.userData.id
   }
   var method = request_type.POST
-  //request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.GET_ACTIVITY_BY_ID)
-  ActivityByIdPromise = new Promise(function(resolve, reject) {
-    wx.request({
-      url: server_url + lastUrl,
-      data: postData,
-      method: method,
-      success: function(res) {
-        if (res.statusCode == 200) {
-          if (res.data.code == 0) {
-            data_handler.handlInternetData(res, data_handler.HANDLE_TYPE.GET_ACTIVITY_BY_ID)
-            resolve(data_handler.HANDLE_TYPE.GET_ACTIVITY_BY_ID)
-          }
-        }
-      }
-    })
-  })
-  return ActivityByIdPromise
+  request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.GET_ACTIVITY_BY_ID)
+  // ActivityByIdPromise = new Promise(function(resolve, reject) {
+  //   wx.request({
+  //     url: server_url + lastUrl,
+  //     data: postData,
+  //     method: method,
+  //     success: function(res) {
+  //       if (res.statusCode == 200) {
+  //         if (res.data.code == 0) {
+  //           data_handler.handlInternetData(res, data_handler.HANDLE_TYPE.GET_ACTIVITY_BY_ID)
+  //           resolve(data_handler.HANDLE_TYPE.GET_ACTIVITY_BY_ID)
+  //         }
+  //       }
+  //     }
+  //   })
+  // })
+  // return ActivityByIdPromise
 }
 
-const getActivityByIdPromise = function(){
+const createActivity = function(text){
+  var lastUrl = '/activity/create'
+  var postData = {
+    "act_name": text,
+    "user_id": app.globalData.userData.id
+  }
+  var method = request_type.POST
+  request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.CREATE_ACTIVITY)
+}
+
+
+const getActivityByIdPromise = function() {
   return ActivityByIdPromise
 }
 
@@ -136,5 +159,8 @@ module.exports = {
   getActivityById: getActivityById,
   getActivityIdArray: getActivityIdArray,
   wxLogIn: wxLogIn,
-  getActivityByIdPromise: getActivityByIdPromise
+  getActivityByIdPromise: getActivityByIdPromise,
+  getmPromise: getmPromise,
+  mPromise: mPromise,
+  createActivity: createActivity
 }

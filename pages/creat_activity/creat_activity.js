@@ -2,6 +2,7 @@
 //创建活动页面
 const app = getApp()
 const page_state = require('../../utils/page_state.js')
+const http_request = require('../../network/http_request.js')
 
 Page({
 
@@ -16,22 +17,22 @@ Page({
     activity_id: ''
   },
   //文本输入框输入时触发
-  gettext: function(e){
+  gettext: function(e) {
     var text_length = e.detail.value.length
-    if(text_length == 10){
+    if (text_length == 10) {
       this.setData({
         text_amount_style: 'text-amount-red',
         text_amount: text_length,
         activity_name: e.detail.value
       })
-    } else if (text_length == 0){
+    } else if (text_length == 0) {
       this.setData({
         text_amount_style: 'text-amount-red',
         btn_creat_activity_style: 'btn-creat-activity-opacity',
         text_amount: text_length,
         activity_name: e.detail.value
       })
-    }else{
+    } else {
       this.setData({
         text_amount_style: 'text-amount',
         btn_creat_activity_style: 'btn-creat-activity',
@@ -42,8 +43,8 @@ Page({
     console.log(this.data.activity_name)
   },
   //点击创建活动按钮时触发
-  gotoInvite: function(e){
-    if (this.data.text_amount>0){
+  gotoInvite: function(e) {
+    if (this.data.text_amount > 0) {
 
       // app.globalData.activity[app.globalData.activity.length] = {
       //   activity_name: this.data.activity_name,
@@ -60,30 +61,23 @@ Page({
       // }
       var self = this
       var text = this.data.activity_name
-      wx.request({
-        url: app.globalData.url+'/activity/create',
-        method: 'POST',
-        data: {
-          "act_name": text,
-          "user_id": app.globalData.unionid
-        },
-        success(res){
-          app.globalData.create_act_id = res.data.data.act_id
+
+      http_request.createActivity(text)
+      app.globalData.mPromise.then(
+        function(data) {
+          console.log(data)
           wx.navigateTo({
             url: '../invite/invite?activity_name=' + text + '&page_state=' + page_state.FROM_CREATE_ACTIVITY,
           })
-          console.log(app.globalData.create_act_id)
         }
-      })
+      )
 
-     
-     
     }
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.setNavigationBarTitle({
       title: '创建活动',
     })
@@ -92,49 +86,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })

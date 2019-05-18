@@ -3,7 +3,7 @@
 <view class='container details'>
   <view class='top-view'>
     <view class='title-container' bindtap='bindActivityName'>
-      <text class='title'>{{activity_name}}</text>
+      <text class='title'>{{activity.name}}</text>
       <image class='title-image' src='/res/btn_start_normal.png'></image>
     </view>
 
@@ -12,7 +12,7 @@
 
   <view class='state'>
     <text class='text text-gray'>{{Finish}}</text>
-    <text class='text text-gray state-right'>共{{people_acount}}人参与</text>
+    <text class='text text-gray state-right'>共{{activity.members.length}}人参与</text>
   </view>
 
   <view class='person-headimgs' bindtap='gotoPeople'>
@@ -22,17 +22,17 @@
 
   <view class='mine-acount'>
     <text class='text'>我的总消费</text>
-    <text class='title'>¥{{my_consume}}</text>
+    <text class='title'>¥{{activity.my_expend}}</text>
   </view>
 
   <view class='all-acount' wx:if="{{isShowDetail}}" id='all-acount'>
     <text class='text'>全员总消费</text>
-    <text class='text text-gray'>¥{{all_acount}}</text>
+    <text class='text text-gray'>¥{{activity.act_total}}</text>
   </view>
 
   <view class='all-acount' wx:if="{{isShowDetail}}" id='mypay'>
     <text class='text'>我已支出</text>
-    <text class='text text-gray'>¥{{my_pay}}</text>
+    <text class='text text-gray'>¥{{activity.my_total}}</text>
   </view>
 
   <view class='buttons'>
@@ -51,8 +51,8 @@
 
   <scroll-view scroll-y class='list'>
 
-    <view class='list-item' wx:for="{{bill}}" wx:key="bill" bindtap='ListItemTap' data-bill_id='{{item.bill_id}}'>
-
+    <view class='list-item' wx:for="{{activity.all_bills}}" wx:key="bill"
+     bindtap='ListItemTap' data-bill_id='{{item.bill_id}}'>
       <text class='text time text-gray'>{{item.created_at}}</text>
       <view class='text-container'>
         <text class='text'>{{item.content}}</text>

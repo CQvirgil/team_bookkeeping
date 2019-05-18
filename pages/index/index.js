@@ -22,6 +22,7 @@ Page({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         var code = res.code
         app.globalData.code = code
+        app.globalData.userData.code = code
         console.log('res.code: ' + app.globalData.code)
         wx.getSetting({
           success: res => {
@@ -36,16 +37,38 @@ Page({
                   app.globalData.userInfo = res.userInfo
                   var encryptedData = res.encryptedData
                   var iv = res.iv
-                  http_request.wxLogIn(encryptedData, iv).then(
+                  http_request.wxLogIn(encryptedData, iv)
+                  app.globalData.mPromise.then(
                     function (data) {
                       console.log('resolved');
                       console.log(data);
+                      app.globalData.mPromise.then(
+                        function (data){
+                          console.log('resolved2');
+                          console.log(data);
+                          app.globalData.mPromise.then(
+                            function(data){
+                              console.log('resolved3');
+                              console.log(data);
+                              app.globalData.userData.all_activities = util.
+                              bubble_sort_timestamp(app.globalData.userData.all_activities)
+                              app.globalData.userData.all_activities = util.
+                              bubble_sort(app.globalData.userData.all_activities)
+                              self.setData({
+                                list: app.globalData.userData.all_activities
+                              })
+                              console.log(app.globalData.userData)
+                            }
+                          )
+                        }
+                      )
                     },
                     function (reason, data) {
                       console.log('rejected');
                       console.log(reason);
                     }
                   )
+                  //console.log(app.globalData.mPromise)
                 },
                 fail(res) {
                   console.log('获取用户数据失败')
@@ -70,16 +93,7 @@ Page({
   },
 
   onReady() {
-    console.log('onReady')
-    var self = this
-    setTimeout(function() {
-      self.setData({
-        list: app.globalData.activity
-      })
-    }, 2000)
-    this.setData({
-      list: app.globalData.activity
-    })
+    console.log(app.globalData.userData.code)
   },
   onShow() {
     //console.log('onShow')

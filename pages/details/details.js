@@ -147,81 +147,16 @@ Page({
       page_state: options.page_state,
       isLoad: true
     })
-    if (options.activity_name) { //从创建页面进入
-      var self = this
-      wx.request({
-        url: app.globalData.url + '/activity/get',
-        method: 'POST',
-        data: {
-          "act_id": app.globalData.create_act_id,
-          "user_id": app.globalData.unionid
-        },
-        success(res) {
-          self.setData({
-            activity: res.data.data,
-            activity_name: res.data.data.name,
-            people_acount: res.data.data.members.length,
-            all_acount: res.data.data.act_total,
-            my_pay: res.data.data.my_expend,
-            bill: res.data.data.bills,
-            head_img: app.globalData.userInfo.avatarUrl,
-            my_consume: res.data.data.my_total,
-            activity: res.data.data
-          })
 
-          self.CheckIsEnd()
-          self.setState()
-          self.onReady()
-          console.log(res.data)
-        }
-      })
-    }
+    var activity = app.globalData.userData.findActivityById(options.act_id)
+    console.log(activity)
+    
+    this.setData({
+      act_id: options.act_id,
+      activity: activity
+    })
 
-    if (options.index) { //从首页进入
-      this.setData({
-        index: options.index,
-        act_id: options.act_id
-      })
-      console.log(options.act_id)
-      console.log(this.data.index)
-      var self = this
-      var act_id = options.act_id
-      wx.request({
-        url: app.globalData.url + '/activity/get',
-        method: 'POST',
-        data: {
-          "act_id": self.data.act_id,
-          "user_id": app.globalData.unionid
-        },
-        success(res) {
-          var activity = res.data.data
-          var activity_over_at = util.formatTime2(activity.over_at, 'Y-M-D')
-          activity.over_at = activity_over_at
-
-          self.setData({
-            activity_name: res.data.data.name,
-            people_acount: res.data.data.members.length,
-            all_acount: res.data.data.act_total,
-            my_pay: res.data.data.my_expend,
-            bill: res.data.data.bills,
-            head_img: app.globalData.userInfo.avatarUrl,
-            my_consume: res.data.data.my_total,
-            activity: activity
-          })
-          console.log(self.data.activity)
-          self.setState()
-          self.CheckIsEnd()
-          console.log(res.data)
-        }
-      })
-    }
-
-    if (this.data.people_acount == 1) {
-      this.setData({
-        isShowDetail: false,
-        isShowLine: false,
-      })
-    }
+    
   },
   QrCloseHandler: function(e) {
     this.setData({
@@ -332,101 +267,20 @@ Page({
 
   },
 
-  setState: function() {
-    //判断已结束且成员大于一
-    if (!this.data.activity.state && this.data.activity.members.length > 1) {
-      this.setData({
-        Finish: this.data.activity.over_at + '已结束',
-        isEndTally: false,
-        isShowDetail: true,
-        isShowLine: false
-      })
-    }
-
-    if (this.data.activity.members.length <= 1 && !this.data.activity.state) {
-      this.setData({
-        isEndTally: false,
-        isShowDetail: false,
-        isShowLine: false
-      })
-    } else if (this.data.activity.members.length <= 1 && this.data.activity.state) {
-      this.setData({
-        isEndTally: true,
-        isShowDetail: false,
-        isShowLine: false
-      })
-    }
-  },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    var state_from_index = page_state.FROM_INDEX
-    var state_from_create_activity = page_state.FROM_CREATE_ACTIVITY
-    var state = this.data.page_state
-    var self = this
-    if (this.data.isLoad) {
-      switch (state) {
-        case state_from_index:
-          wx.request({
-            url: app.globalData.url + '/activity/get',
-            method: 'POST',
-            data: {
-              "act_id": self.data.act_id,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
-              var activity = res.data.data
-              var activity_over_at = util.formatTime2(activity.over_at, 'Y-M-D')
-              activity.over_at = activity_over_at
-
-              self.setData({
-                activity_name: res.data.data.name,
-                people_acount: res.data.data.members.length,
-                all_acount: res.data.data.act_total,
-                my_pay: res.data.data.my_expend,
-                bill: res.data.data.bills,
-                head_img: app.globalData.userInfo.avatarUrl,
-                my_consume: res.data.data.my_total,
-                activity: activity
-              })
-              console.log(self.data.activity)
-              self.setState()
-              self.CheckIsEnd()
-              console.log(res.data)
-            }
-          })
-          break;
-        case state_from_create_activity:
-          wx.request({
-            url: app.globalData.url + '/activity/get',
-            method: 'POST',
-            data: {
-              "act_id": app.globalData.create_act_id,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
-              self.setData({
-                activity: res.data.data,
-                activity_name: res.data.data.name,
-                people_acount: res.data.data.members.length,
-                all_acount: res.data.data.act_total,
-                my_pay: res.data.data.my_expend,
-                bill: res.data.data.bills,
-                head_img: app.globalData.userInfo.avatarUrl,
-                my_consume: res.data.data.my_total,
-                activity: res.data.data
-              })
-
-              self.CheckIsEnd()
-              self.setState()
-              self.onReady()
-              console.log(res.data)
-            }
-          })
-          break;
-      }
+    if (this.data.activity.members.length == 1) {
+      this.setData({
+        isShowDetail: false,
+        isShowLine: false,
+      })
+    }
+    if(!this.data.activity.state){
+      this.setData({
+        Finish: this.data.activity.over_at + '已结束',
+      })
     }
   },
 

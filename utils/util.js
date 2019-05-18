@@ -11,6 +11,13 @@ const formatTime = date => {
   return [year, month, day].map(formatNumber).join('-')
 }
 
+//把时间转成时间戳
+const timeTampToStr = function timeTampToStr() {
+  // 当前时间戳
+  var timestamp = parseInt(new Date().getTime() / 1000);
+  return timestamp
+}
+
 /** 
  * 时间戳转化为年 月 日 时 分 秒 
  * number: 传入时间戳 
@@ -36,6 +43,7 @@ const formatTime2 = function formatTime(number, format) {
   return format;
 }
 
+//按状态排序
 const bubble_sort = function bubble_sort(list) {
   var n = 0
   for (var i = 0; i < list.length - n; i++) {
@@ -55,6 +63,7 @@ const bubble_sort = function bubble_sort(list) {
   return list
 }
 
+//按时间戳排序
 const bubble_sort_timestamp = function bubble_sort_timestamp(list) {
   for (var i = 0; i < list.length - 1; i++) {
     for (var j = 0; j < list.length - 1 - i; j++) {

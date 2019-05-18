@@ -1,5 +1,5 @@
 //app.js
-
+const app_data = require('./data/data.js')
 
 App({
 
@@ -24,6 +24,8 @@ App({
     openid: '',
     session_key: '',
     unionid: '',
-    isShowChangActivityName: false
+    isShowChangActivityName: false,
+    mPromise: null,
+    userData: new app_data.UserData()
   }
 })
