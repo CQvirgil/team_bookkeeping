@@ -7,11 +7,17 @@ const HANDLE_TYPE = {
   LOGIN: 1000,
   GET_ACTIVITY_ID_ARRAY: 1001,
   GET_ACTIVITY_BY_ID: 1002,
-  CREATE_ACTIVITY: 1003
+  CREATE_ACTIVITY: 1003,
+  END_TALLY: 1004,
+  EXIT_ACTIVITY: 1005,
+  GET_BILLDETAilS: 1006,
+  DELET_BILL: 1007,
+  CREATE_BILL: 1008,
+  UPDATA_BILL: 1009
 }
 
 const handlInternetData = function(res, type) {
-  console.log(res)
+  //console.log(res)
   var data = res.data.data
   switch (type) {
     case HANDLE_TYPE.LOGIN:
@@ -26,6 +32,24 @@ const handlInternetData = function(res, type) {
     case HANDLE_TYPE.CREATE_ACTIVITY:
       handleCreateActivityData(data)
       break;
+    case HANDLE_TYPE.END_TALLY:
+      handleEndTallyData(data)
+      break;
+    case HANDLE_TYPE.EXIT_ACTIVITY:
+      handleExitActivityData(data)
+      break;
+    case HANDLE_TYPE.GET_BILLDETAilS:
+      handleGetBillDetails(data)
+      break;
+    case HANDLE_TYPE.DELET_BILL:
+      handleDeletBill(data)
+      break;
+    case HANDLE_TYPE.CREATE_BILL:
+      handleCreateBillData(data)
+      break;
+    case HANDLE_TYPE.UPDATA_BILL:
+      handleUpdataBillData(data)
+      break
   }
 }
 
@@ -67,8 +91,36 @@ const handleActivity = function(data) {
 }
 
 //创建活动数据处理
-const handleCreateActivityData = function (data){
+const handleCreateActivityData = function(data) {
+  const http_request = require('../network/http_request.js')
   app.globalData.create_act_id = data.act_id
+  //console.log(data)
+  http_request.getActivityById(data.act_id)
+}
+
+const handleEndTallyData = function(data) {
+  console.log(data)
+}
+
+const handleExitActivityData = function(data) {
+  console.log(data)
+}
+
+const handleGetBillDetails = function(data) {
+  console.log(data)
+  app.globalData.cBillDetails = data
+}
+
+const handleDeletBill = function(data) {
+  console.log(data)
+}
+
+const handleCreateBillData = function(data) {
+  console.log(data)
+  app.globalData.cBill_id = data.bill_id
+}
+
+const handleUpdataBillData = function(data){
   console.log(data)
 }
 

@@ -1,6 +1,7 @@
 // pages/write_a_bill/write_a_bill.js
 var util = require('../../utils/util.js')
 var app = getApp()
+var http_request = require('../../network/http_request.js')
 
 Page({
 
@@ -8,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    activity: null,
     isChecked: true,
     state: '平均分摊',
     isSpecificState: false, //是否为平均分摊
@@ -28,7 +30,7 @@ Page({
     dialog_input_text: '',
     isSelectAll: true,
     dialgo_animation: null, //弹窗动画
-    isShowPeopleDialog: false, //控制成员列表的弹窗
+    isShowPeopleDialog: false, //控制成员列表弹窗的显示
     money_acount: 0,
     members: [], //成员列表
     payer: null, //付款人信息
@@ -36,7 +38,7 @@ Page({
     people_list_postion: 0, //参与成员的下标
     people_list_item: [], //成员金额和信息
     act_id: '',
-    isShowdialogCheckbox: false, //控制参与成员弹窗
+    isShowdialogCheckbox: false, //控制参与成员弹窗的显示
     isShowerr_hint: false,
     pages_state: '',
     btn: '记一笔',
@@ -44,7 +46,7 @@ Page({
     btn_write_state_disable: '',
     dialog_payer_animation: null,
     dialog_members_animation: null,
-    isShowDialog:false,
+    isShowDialog: false,
     radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
@@ -162,112 +164,129 @@ Page({
   write: function(e) {
     var self = this
     console.log(self.data.people_list_item)
-    console.log('payer= ' + self.data.payer.user)
+    console.log('payer= ' + this.data.payer)
     if (!this.data.isShowerr_hint) {
       switch (this.data.pages_state) {
         case 'default':
           //console.log(self.data.people_list_item)
           //具体分摊状态
           if (this.data.isSpecificState) {
-            wx.request({
-              url: app.globalData.url + '/bill/create',
-              method: 'POST',
-              data: {
-                "activity_id": self.data.act_id,
-                "content": self.data.bill_content,
-                "members": self.data.people_list_item,
-                "payer_id": self.data.payer.user_id,
-                "total": self.data.money_acount,
-                "user_id": app.globalData.unionid
-              },
-              success(res) {
+            http_request.cretateBill(self.data.act_id,
+              self.data.bill_content,
+              self.data.people_list_item, self.data.payer.user_id, self.data.money_acount)
+            app.globalData.mPromise.then(
+              function(data) {
                 wx.navigateBack({
                   delta: 1
                 })
               }
-            })
+            )
           } else {
+
             var money = parseFloat(self.data.money)
-            wx.request({
-              url: app.globalData.url + '/bill/create',
-              method: 'POST',
-              data: {
-                "activity_id": self.data.act_id,
-                "bill_id": self.data.bill_id,
-                "content": self.data.bill_content,
-                "members": self.data.people_list_item,
-                "payer_id": self.data.payer.user_id,
-                "total": money,
-                "user_id": app.globalData.unionid
-              },
-              success(res) {
+            console.log(self.data.people_list_item)
+            http_request.cretateBill(self.data.act_id,
+              self.data.bill_content,
+              self.data.people_list_item, self.data.payer.user_id, money)
+            app.globalData.mPromise.then(
+              function(data) {
+                var money = parseFloat(self.data.money)
+                var bill = {
+                  bill_id: app.globalData.cBill_id,
+                  bill_total: money,
+                  content: self.data.bill_content,
+                  count: self.data.people_list_item.length,
+                  my_total: money
+                }
+                console.log(self.data.act_id)
+                app.globalData.userData.addBill(self.data.act_id, bill)
                 wx.navigateBack({
                   delta: 1
                 })
               }
-            })
+            )
           }
           break;
         case 'change_bill':
-          console.log('bill_id= ' + self.data.bill_id)
-          console.log('content= ' + self.data.bill_content)
-          console.log(this.data.people_list_item)
-          console.log('pyer_id= ' + this.data.payer.user_id)
-          console.log("money= " + this.data.money)
-          var money = parseFloat(self.data.money)
           if (!this.data.isSpecificState) {
-            wx.request({
-              url: app.globalData.url + '/bill/update',
-              method: 'POST',
-              data: {
-                "bill_id": self.data.bill_id,
-                "content": self.data.bill_content,
-                "members": self.data.people_list_item,
-                "payer_id": self.data.payer.user_id,
-                "total": money,
-                "user_id": app.globalData.unionid
-              },
-              success(res) {
-                console.log(res.data)
-                if (res.data.code == 0) {
-                  wx.showToast({
-                    title: '修改成功',
+            http_request.updataBill(self.data.bill_id, self.data.bill_content,
+              self.data.people_list_item, self.data.payer.user_id, money)
+            app.globalData.mPromise.then(
+              function(data) {
+                wx.showToast({
+                  title: '修改成功',
+                })
+                setTimeout(function() {
+                  wx.navigateBack({
+                    delta: 2
                   })
-                  setTimeout(function() {
-                    wx.navigateBack({
-                      delta: 2
-                    })
 
-                  }, 1500)
-                }
-
+                }, 1500)
               }
-            })
+            )
+            // wx.request({
+            //   url: app.globalData.url + '/bill/update',
+            //   method: 'POST',
+            //   data: {
+            //     "bill_id": self.data.bill_id,
+            //     "content": self.data.bill_content,
+            //     "members": self.data.people_list_item,
+            //     "payer_id": self.data.payer.user_id,
+            //     "total": money,
+            //     "user_id": app.globalData.unionid
+            //   },
+            //   success(res) {
+            //     console.log(res.data)
+            //     if (res.data.code == 0) {
+            //       wx.showToast({
+            //         title: '修改成功',
+            //       })
+            //       setTimeout(function() {
+            //         wx.navigateBack({
+            //           delta: 2
+            //         })
+
+            //       }, 1500)
+            //     }
+
+            //   }
+            // })
           } else {
-            console.log('bill_id= ' + self.data.bill_id)
-            console.log('content= ' + self.data.bill_content)
-            console.log(this.data.people_list_item)
-            console.log('pyer_id= ' + this.data.payer.user_id)
-            console.log("money= " + this.data.money)
-            wx.request({
-              url: app.globalData.url + '/bill/update',
-              method: 'POST',
-              data: {
-                "bill_id": self.data.bill_id,
-                "content": self.data.bill_content,
-                "members": self.data.people_list_item,
-                "payer_id": self.data.payer.user_id,
-                "total": self.data.money_acount,
-                "user_id": app.globalData.unionid
-              },
-              success(res) {
-                if (res.data.code == 0) {
-                  wx.showToast({
-                    title: '修改成功',
+            http_request.updataBill(self.data.bill_id, self.data.bill_content,
+              self.data.people_list_item, self.data.payer.user_id, self.data.money_acount)
+            app.globalData.mPromise.then(
+              function (data) {
+                wx.showToast({
+                  title: '修改成功',
+                })
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 2
                   })
-                }
+
+                }, 1500)
               }
-            })
+            )
+
+            // wx.request({
+            //   url: app.globalData.url + '/bill/update',
+            //   method: 'POST',
+            //   data: {
+            //     "bill_id": self.data.bill_id,
+            //     "content": self.data.bill_content,
+            //     "members": self.data.people_list_item,
+            //     "payer_id": self.data.payer.user_id,
+            //     "total": self.data.money_acount,
+            //     "user_id": app.globalData.unionid
+            //   },
+            //   success(res) {
+            //     if (res.data.code == 0) {
+            //       wx.showToast({
+            //         title: '修改成功',
+            //       })
+            //     }
+            //   }
+            // })
           }
 
           break;
@@ -321,7 +340,7 @@ Page({
     this.setData({
       isShowInput: false,
       isShowDialog1: true,
-      dialog_input_text:'',
+      dialog_input_text: '',
       isShowDialog: false
     })
     var animation = wx.createAnimation({
@@ -397,7 +416,7 @@ Page({
     animation.translate(0, 800).step()
     this.setData({
       dialog_payer_animation: animation.export(),
-      
+
     })
 
     setTimeout(function() {
@@ -494,7 +513,7 @@ Page({
         isShowerr_hint: true,
         btn_write_state_disable: 'btn-disable'
       })
-    }else{
+    } else {
       this.setData({
         isShowerr_hint: false,
         btn_write_state_disable: ''
@@ -575,76 +594,21 @@ Page({
       this.setData({
         act_id: act_id
       })
-      wx.request({
-        url: app.globalData.url + '/activity/get',
-        method: 'POST',
-        data: {
-          "act_id": act_id,
-          "user_id": app.globalData.userInfo.nickName
-        },
-        success(res) {
-          self.setData({
-            members: res.data.data.members,
-            payer: res.data.data.members[0],
-          })
-          self.setPayersListDefault()
-          console.log(res.data.data.members)
-        }
+      var activity = app.globalData.userData.findActivityById(act_id)
+      this.setData({
+        members: activity.members,
+        payer: activity.members[0],
       })
+      self.setPayersListDefault()
+      console.log(activity.members[0])
     }
 
 
     if (bill_id && pages_state === 'change_bill') {
       console.log('bill_id=  ' + bill_id)
-      this.setData({
-        btn: '确认修改',
-        bill_id: bill_id
-      })
-      wx.request({
-        url: app.globalData.url + '/bill/get',
-        method: 'POST',
-        data: {
-          "bill_id": bill_id,
-          "user_id": app.globalData.unionid
-        },
-        success(res) {
-          console.log(res.data.data)
-          var bill = res.data.data
-          self.setData({
-            bill_content: bill.content,
-            input_value: '¥'+bill.bill_total,
-            date: util.formatTime2(bill.created_at, 'Y-M-D'),
-            text_date: '',
-            payerID: bill.payer_id,
-            people_list_item: bill.members,
-            money: bill.bill_total
-          })
-          if (self.data.payerID != '') {
-            wx.request({
-              url: app.globalData.url + '/user/info',
-              method: 'POST',
-              data: {
-                "user_id": self.data.payerID
-              },
-              success(res) {
-                console.log(res.data.data)
-                var payer_nickname = res.data.data.nickname
-                var payer_headimgurl = res.data.data.head_img
-                var payer = {
-                  nickname: payer_nickname,
-                  headimgurl: payer_headimgurl,
-                  user_id: self.data.payerID
-                }
-                self.setData({
-                  payer: payer
-                })
-              }
-            })
-          }
-        }
-      })
+      this.setChaneBillStaet(bill_id)
     }
-   
+
     this.setData({
       date: util.formatTime(),
       pages_state: pages_state
@@ -652,6 +616,50 @@ Page({
     console.log('state: ' + this.data.pages_state)
   },
 
+  setChaneBillStaet: function(bill_id) {
+    var bill = app.globalData.cBillDetails
+    this.setData({
+      btn: '确认修改',
+      bill_id: bill_id,
+      bill: app.globalData.cBillDetails
+    })
+    this.setData({
+      bill_content: bill.content,
+      input_value: '¥' + bill.bill_total,
+      date: util.formatTime2(bill.created_at, 'Y-M-D'),
+      text_date: '',
+      payerID: bill.payer_id,
+      people_list_item: bill.members,
+      money: bill.bill_total
+    })
+    this.setPayer(bill)
+  },
+
+  setPayer: function(bill) {
+    var self = this
+    if (bill.payerID != '') {
+      wx.request({
+        url: app.globalData.url + '/user/info',
+        method: 'POST',
+        data: {
+          "user_id": this.data.bill.payer_id
+        },
+        success(res) {
+          console.log(res.data.data)
+          var payer_nickname = res.data.data.nickname
+          var payer_headimgurl = res.data.data.head_img
+          var payer = {
+            nickname: payer_nickname,
+            headimgurl: payer_headimgurl,
+            user_id: self.data.payerID
+          }
+          self.setData({
+            payer: payer
+          })
+        }
+      })
+    }
+  },
   setPayersListDefault: function() {
     console.log(this.data.members)
     var item = []
@@ -678,7 +686,7 @@ Page({
     })
 
     var height = wx.getSystemInfoSync().windowHeight
-    var h = height/100
+    var h = height / 100
     animation.translate(0, -630).step()
 
     this.setData({

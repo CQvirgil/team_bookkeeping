@@ -16,7 +16,7 @@
   </view>
 
   <view class='person-headimgs' bindtap='gotoPeople'>
-    <image class='headimg' wx:for='{{activity.members}}' src='{{item.headimgurl}}'></image>
+    <image class='headimg' wx:for='{{activity.members}}' wx:key="headimg" src='{{item.headimgurl}}'></image>
     <image class='btn-start-normal' src='/res/btn_members_normal.png'></image>
   </view>
 
@@ -36,7 +36,7 @@
   </view>
 
   <view class='buttons'>
-    <view class='endtally' bindtap='EndTally' wx:if="{{isEndTally}}">
+    <view class='endtally' bindtap='EndTally' wx:if="{{activity.state}}">
       <image class='button-icon' src='/res/icon_finish_normal.png'></image>
       <text class='text'>结束活动</text>
     </view>
@@ -52,7 +52,7 @@
   <scroll-view scroll-y class='list'>
 
     <view class='list-item' wx:for="{{activity.all_bills}}" wx:key="bill"
-     bindtap='ListItemTap' data-bill_id='{{item.bill_id}}'>
+     bindtap='ListItemTap' data-index='{{index}}' data-bill_id='{{item.bill_id}}'>
       <text class='text time text-gray'>{{item.created_at}}</text>
       <view class='text-container'>
         <text class='text'>{{item.content}}</text>

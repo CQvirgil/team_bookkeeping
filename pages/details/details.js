@@ -3,6 +3,7 @@
 var util = require('../../utils/util.js')
 var app = getApp()
 var page_state = require('../../utils/page_state.js')
+var http_request = require('../../network/http_request.js')
 
 Page({
 
@@ -10,29 +11,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isShowTime: false,
-    isQRDialogShow: false,
-    isShowDetail: true,
-    isShowDiaLog: false,
+    isQRDialogShow: false,//控制二维码组件的显示
+    isShowDetail: true,//控制多人记账时显示的内容
+    isShowDiaLog: false,//控制隐藏菜单的显示
     Finish: '进行中',
-    activity_name: '',
-    people_acount: '',
-    my_consume: '',
-    all_acount: '',
-    my_pay: '',
-    bill: [],
     isEndTally: true,
     isShowLine: true,
-    head_img: '',
-    index: null,
-    act_id: '',
+    index: null,//活动列表索引
     activity: null,
     isShwoWrite_a_bill: true,
     page_state: '',
     isLoad: false,
     dialog_animation: null,
     isShowChangActivityName: false,
-    chang_activity_name_animation: null
+    chang_activity_name_animation: null,
+    act_id: null
   },
   bindActivityName: function(e) {
     wx.setNavigationBarColor({
@@ -44,15 +37,19 @@ Page({
       isShowChangActivityName: true
     })
   },
+  //点击账单列表响应
   ListItemTap: function(e) {
+    app.globalData.bill_index = e.currentTarget.dataset.index
+    console.log(e.currentTarget.dataset)
     wx.navigateTo({
-      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id + '&act_id=' + this.data.act_id,
+      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id
+       + '&act_id=' + this.data.activity.act_id,
     })
   },
-  onFinishInput: function(e) {//点击输入弹窗的确定按钮时出发
+  onFinishInput: function(e) { //点击输入弹窗的确定按钮时出发
     var self = this
 
-    setTimeout(function () {
+    setTimeout(function() {
       var c = self.data.isShowChangActivityName
       self.setData({
         isShowChangActivityName: false
@@ -67,28 +64,21 @@ Page({
   gotoWrite_a_bill: function(e) {
     if (this.data.activity.state) {
       wx.navigateTo({
-        url: '../write_a_bill/write_a_bill?index=' + this.data.index + '&state=' + 'default' + '&act_id=' + this.data.activity.act_id
+        url: '../write_a_bill/write_a_bill?index=' + this.data.index +
+          '&state=' + 'default' + '&act_id=' + this.data.activity.act_id
       })
     }
   },
   gotoPeople: function(e) {
-    switch (this.data.page_state) {
-      case page_state.FROM_CREATE_ACTIVITY:
-        wx.navigateTo({
-          url: '../people/people?act_id=' + app.globalData.create_act_id,
-        })
-        break;
-      case page_state.FROM_INDEX:
-        wx.navigateTo({
-          url: '../people/people?act_id=' + this.data.act_id,
-        })
-        break;
-    }
+
+    wx.navigateTo({
+      url: '../people/people?act_id=' + this.data.activity.act_id,
+    })
 
   },
   gotoFinancial: function(e) {
     wx.navigateTo({
-      url: '../financial/financial?act_id=' + this.data.act_id,
+      url: '../financial/financial?act_id=' + this.activity.act_id,
     })
   },
   EndTally: function(e) {
@@ -98,23 +88,25 @@ Page({
     app.globalData.activity.isunderway = false
     console.log(this.data.activity.state)
     var self = this
+    var length = this.data.activity.members.length
     if (this.data.activity.state) {
-      wx.request({
-        url: app.globalData.url + '/activity/state',
-        method: 'POST',
-        data: {
-          "act_id": this.data.activity.act_id,
-          "user_id": app.globalData.unionid
-        },
-        success(res) {
-          console.log('结束成功')
-          if (self.data.activity.members.length != 1) {
+      http_request.endTally(this.data.activity.act_id)
+      app.globalData.mPromise.then(
+        function(d) {
+          if (length > 1) {
             wx.navigateTo({
               url: '../financial/financial',
             })
+          } else {
+            wx.showToast({
+              title: '结束成功',
+            })
           }
+          console.log()
+          app.globalData.userData.all_activities[self.data.index].state = 0
         }
-      })
+      )
+
     }
     if (this.data.activity.members.length > 1) {
       self.setData({
@@ -143,20 +135,16 @@ Page({
       title: '活动详情',
     })
     console.log(options.page_state)
+    console.log(app.globalData.activity_index)
     this.setData({
       page_state: options.page_state,
-      isLoad: true
+      index: options.index,
+      isLoad: true,
     })
 
-    var activity = app.globalData.userData.findActivityById(options.act_id)
-    console.log(activity)
-    
     this.setData({
       act_id: options.act_id,
-      activity: activity
     })
-
-    
   },
   QrCloseHandler: function(e) {
     this.setData({
@@ -231,19 +219,15 @@ Page({
       confirmText: '退出',
       success(res) {
         if (res.confirm) {
-          wx.request({
-            url: app.globalData.url + '/activity/exit',
-            method: 'POST',
-            data: {
-              "act_id": self.data.act_id,
-              "user_id": app.globalData.unionid
-            },
-            success(res) {
+          http_request.exitActivity(self.data.activity.act_id)
+          app.globalData.mPromise.then(
+            function(data) {
               wx.showToast({
                 title: '退出成功',
                 icon: 'success',
                 duration: 2000
               })
+              app.globalData.userData.all_activities.splice(self.data.index, 1)
               self.setData({
                 isShowDiaLog: false
               })
@@ -252,9 +236,8 @@ Page({
                   delta: 2
                 })
               }, 2000)
-
             }
-          })
+          )
         }
       }
     })
@@ -271,13 +254,20 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+
+    var activity = app.globalData.userData.findActivityById(this.data.act_id)
+    console.log(activity)
+    this.setData({
+      activity: activity
+    })
+
     if (this.data.activity.members.length == 1) {
       this.setData({
         isShowDetail: false,
         isShowLine: false,
       })
     }
-    if(!this.data.activity.state){
+    if (!this.data.activity.state) {
       this.setData({
         Finish: this.data.activity.over_at + '已结束',
       })

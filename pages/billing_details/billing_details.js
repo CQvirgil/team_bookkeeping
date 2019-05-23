@@ -1,6 +1,8 @@
 // pages/billing_details/billing_details.js
 const app = getApp()
 const util = require('../../utils/util.js')
+const http_request = require('../../network/http_request.js')
+
 Page({
 
   /**
@@ -9,7 +11,8 @@ Page({
   data: {
     bill_id: '',
     bill: null,
-    act_id: ''
+    act_id: '',
+    date: ''
   },
 
   /**
@@ -23,22 +26,17 @@ Page({
     console.log(options.bill_id)
     console.log('act_id=  ' + options.act_id)
     var self = this
-    wx.request({
-      url: app.globalData.url + '/bill/get',
-      method: 'POST',
-      data: {
-        "bill_id": this.data.bill_id,
-        "user_id": app.globalData.unionid
-      },
-      success(res) {
-        console.log(res)
-        var bill = res.data.data
-        bill.created_at = util.formatTime2(bill.created_at, 'Y-M-D')
+    http_request.getBillDetails(options.bill_id)
+    app.globalData.mPromise.then(
+      function(data) {
+        var cbill = app.globalData.cBillDetails
+        console.log(cbill)
+        cbill.created_at = util.formatTime2(cbill.created_at, 'Y-M-D')
         self.setData({
-          bill: bill
+          bill: cbill,
         })
       }
-    })
+    )
   },
   DeletBill: function(e) {
     var self = this
@@ -57,14 +55,22 @@ Page({
               "user_id": app.globalData.unionid
             },
             success(res) {
-              wx.showToast({
-                title: '删除成功',
-              })
-              setTimeout(function(){
-                wx.navigateBack({
-                  
+              if (res.data.code == 0) {
+                wx.showToast({
+                  title: '删除成功',
                 })
-              },1500)
+                app.globalData.userData.removeBill(self.data.act_id, self.data.bill_id)
+                setTimeout(function() {
+                  wx.navigateBack({
+
+                  })
+                }, 1500)
+              } else {
+                wx.showToast({
+                  icon: 'none',
+                  title: '你不是创建人',
+                })
+              }
               console.log(res.data)
             }
           })
@@ -83,7 +89,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    console.log()
   },
 
   /**

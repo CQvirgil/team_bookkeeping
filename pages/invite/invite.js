@@ -7,7 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: [], //用户列表
     isWXFriendShow: false, //是否显示小的微信好友邀请按钮
     isShowWXFriendBig: false, //是否显示大的微信好友邀请按钮
     list_style: 'list3', //列表样式，传入css类名
@@ -19,12 +18,11 @@ Page({
     start_tally_style: 'bg-color-fdedbe', //开始记账按钮样式
     wxfriend: '邀请微信好友',
     wxfriend_style: '', //邀请微信好友样式
-    activity_name: '',
     is_show_qr_invite: false,
     headimg_url: '',
     user_name: '',
-    act_id: '',
-    page_state: ''
+    page_state: '',
+    activity: null
   },
   /**
    * 生命周期函数--监听页面加载
@@ -34,68 +32,11 @@ Page({
       title: '邀请成员',
     })
     console.log(options.page_state)
-    this.setData({
-      list: '',
-      headimg_url: app.globalData.userInfo.avatarUrl,
-      user_name: app.globalData.userInfo.nickName,
-      act_id: app.globalData.create_act_id,
-      page_state: options.page_state
-    })
-    this.setData({
-      activity_name: options.activity_name
-    })
+    var act = app.globalData.userData.findActivityById(app.globalData.create_act_id)
     console.log("activity_name = " + options.activity_name);
-
-    //当列表满员时修改小的邀请微信好友按钮样式
-    if (this.data.list.length >= 20) {
+    if(act){
       this.setData({
-        username_style: 'lucid', //列表item中username样式
-        img_bg_style: 'bg-color-bbbbbb', //小的邀请微信好友样式 
-        start_tally_style: 'bg-color-f7c429', //开始记账按钮样式
-        wxfriend: '活动已满20人',
-        wxfriend_style: 'color-bbbbbb'
-      })
-    } else {
-      this.setData({
-        username_style: '', //列表item中username样式
-        img_bg_style: '', //小的邀请微信好友样式 
-        start_tally_style: 'bg-color-fdedbe', //开始记账按钮样式
-        wxfriend: '邀请微信好友'
-      })
-    }
-
-    //判断列表是否为空，非空显示小的微信邀请按钮，空时显示大的微信邀请按钮
-    if (this.data.list.length > 0) {
-      this.setData({
-        isWXFriendShow: true,
-        isShowWXFriendBig: false
-      })
-    } else
-    if (this.data.list.length <= 0) {
-      this.setData({
-        isWXFriendShow: false,
-        isShowWXFriendBig: true
-      })
-    }
-    //列表为空时调整列表上边距
-    if (!this.data.isWXFriendShow) {
-      this.setData({
-        list_style: 'list2'
-      })
-    } else {
-      this.setData({
-        list_style: '',
-      })
-    }
-    //判断是否接受邀请，true为未接受，false为接受，未接受时修改列表item的透明度为0.7
-    if (this.data.isAccept) {
-      this.setData({
-        list_item_style: 'lucid',
-        username_style: 'lucid'
-      })
-    } else {
-      this.setData({
-        list_style: '',
+        activity: act
       })
     }
   },
@@ -154,7 +95,7 @@ Page({
   gotoDetails: function(e) {
     var activity_name = this.data.activity_name
     wx.navigateTo({
-      url: '../details/details?activity_name=' + activity_name + '&page_state=' + this.data.page_state,
+      url: '../details/details?act_id=' + this.data.activity.act_id+ '&page_state=' + this.data.page_state,
     })
   },
 
@@ -162,7 +103,58 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+    //当列表满员时修改小的邀请微信好友按钮样式
+    if (this.data.activity.members.length >= 20) {
+      this.setData({
+        username_style: 'lucid', //列表item中username样式
+        img_bg_style: 'bg-color-bbbbbb', //小的邀请微信好友样式 
+        start_tally_style: 'bg-color-f7c429', //开始记账按钮样式
+        wxfriend: '活动已满20人',
+        wxfriend_style: 'color-bbbbbb'
+      })
+    } else {
+      this.setData({
+        username_style: '', //列表item中username样式
+        img_bg_style: '', //小的邀请微信好友样式 
+        start_tally_style: 'bg-color-fdedbe', //开始记账按钮样式
+        wxfriend: '邀请微信好友'
+      })
+    }
 
+    //判断列表是否为1，非空显示小的微信邀请按钮，空时显示大的微信邀请按钮
+    if (this.data.activity.members.length  > 1) {
+      this.setData({
+        isWXFriendShow: true,
+        isShowWXFriendBig: false
+      })
+    } else
+      if (this.data.activity.members.length  <= 1) {
+      this.setData({
+        isWXFriendShow: false,
+        isShowWXFriendBig: true
+      })
+    }
+    //列表为空时调整列表上边距
+    if (!this.data.isWXFriendShow) {
+      this.setData({
+        list_style: 'list2'
+      })
+    } else {
+      this.setData({
+        list_style: '',
+      })
+    }
+    //判断是否接受邀请，true为未接受，false为接受，未接受时修改列表item的透明度为0.7
+    if (this.data.isAccept) {
+      this.setData({
+        list_item_style: 'lucid',
+        username_style: 'lucid'
+      })
+    } else {
+      this.setData({
+        list_style: '',
+      })
+    }
   },
 
   /**
@@ -205,8 +197,9 @@ Page({
    */
   onShareAppMessage: function() {
     return {
-      title: '加入huodon',
-      path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id + '&page_state=' + this.data.pages_state,
+      title: '加入活动'+this.data.activity.name,
+      path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id + '&page_state='
+       + this.data.pages_state,
       success(res) {
         console.log('分享成功')
       }

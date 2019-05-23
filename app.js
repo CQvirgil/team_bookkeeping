@@ -26,6 +26,10 @@ App({
     unionid: '',
     isShowChangActivityName: false,
     mPromise: null,
-    userData: new app_data.UserData()
+    cBillDetails: null,
+    userData: new app_data.UserData(),
+    activity_index: 0,
+    bill_index: 0,
+    cBill_id: 0
   }
 })

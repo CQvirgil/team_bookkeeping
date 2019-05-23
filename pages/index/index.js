@@ -55,7 +55,8 @@ Page({
                               app.globalData.userData.all_activities = util.
                               bubble_sort(app.globalData.userData.all_activities)
                               self.setData({
-                                list: app.globalData.userData.all_activities
+                                list: app.globalData.userData.all_activities,
+                                isonLoad: true
                               })
                               console.log(app.globalData.userData)
                             }
@@ -98,19 +99,13 @@ Page({
   onShow() {
     //console.log('onShow')
     if (this.data.isonLoad) {
-      this.getallActivity()
-    }
-    console.log(app.globalData.activity)
-
-    if (app.globalData.activity.end_time != null) {
+      console.log(app.globalData.userData.all_activities)
+      // app.globalData.userData.all_activities = util.
+      //   bubble_sort_timestamp(app.globalData.userData.all_activities)
+      // app.globalData.userData.all_activities = util.
+      //   bubble_sort(app.globalData.userData.all_activities)
       this.setData({
-        Finish: app.globalData.activity.end_time + '已结束'
-      })
-    }
-    console.log(this.data.list.length)
-    if (this.data.list.length > 0) {
-      this.setData({
-        hasActivity: false
+        list: app.globalData.userData.all_activities
       })
     }
   },
@@ -130,89 +125,28 @@ Page({
   gotoDetails: function(e) {
     console.log(e.currentTarget.dataset.index)
     console.log(e.currentTarget.dataset.actid)
+    app.globalData.activity_index = e.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid + '&page_state=' + page_state.FROM_INDEX,
+      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid
+       + '&page_state=' + page_state.FROM_INDEX,
     })
   },
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    wx.stopPullDownRefresh()
-    this.getallActivity()
-  },
-  getallActivity: function() {
-
     var self = this
-    var x = 0
-    //请求获取活动列表，返回活动id
-    wx.request({
-      url: app.globalData.url + '/activity/get_all',
-      method: 'POST',
-      data: {
-        "user_id": app.globalData.unionid
-      },
-      success(res) {
+    //app.globalData.userData.all_activities = []
+    http_request.getActivityIdArray()
+    app.globalData.mPromise.then(
+      function(data){
+        console.log(data)
+        wx.stopPullDownRefresh()
         self.setData({
-          list: []
+          list: app.globalData.userData.all_activities
         })
-        app.globalData.activity = []
-        //遍历获取到的活动id并查询活动详情
-
-        app.globalData.activityID = res.data.data.act_id
-        console.log(app.globalData.activityID)
-
-        if (app.globalData.activityID != null) {
-          for (var i = 0; i < app.globalData.activityID.length; i++) {
-
-            wx.request({
-              url: app.globalData.url + '/activity/get',
-              method: 'POST',
-              data: {
-                "act_id": app.globalData.activityID[i],
-                "user_id": app.globalData.unionid
-              },
-              success(res) {
-
-                var activity = res.data.data;
-                var activity_over_at = activity.over_at
-
-                activity.over_at = util.formatTime2(activity_over_at, 'Y-M-D')
-                app.globalData.activity[app.globalData.activity.length] = activity
-
-
-
-                var heads = [app.globalData.userInfo.avatarUrl]
-                for (var n = 0; n < res.data.data.members.length; n++) {
-                  heads[n] = res.data.data.members[n].headimgurl
-                  //console.log()
-                }
-                //console.log(x)
-                if (x === app.globalData.activityID.length - 1) {
-                  //按时间戳排序
-                  app.globalData.activity = util.bubble_sort_timestamp(app.globalData.activity)
-                  //按状态排序
-                  app.globalData.activity = util.bubble_sort(app.globalData.activity)
-                }
-                self.setData({
-                  list: app.globalData.activity,
-                  headimgs: heads
-                })
-                x++
-                //console.log(res.data.data)
-                //console.log(app.globalData.activity[0].members[0].headimgurl)
-                //console.log(app.globalData.userInfo.avatarUrl)
-              }
-            })
-          }
-        }
-
-      },
-      fail(res) {
-        console.log('网络请求失败：' + app.globalData.url + '/activity/get_all')
       }
-    })
-    console.log('getallActivity')
+    )
   },
   bindscrolltoupper: function(e) {}
 })
