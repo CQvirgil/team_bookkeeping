@@ -131,19 +131,23 @@ Page({
     }
   },
   HoverInput: function(e) {
-    var input_value = parseFloat(e.detail.value)
-    if (input_value > 9999.99) {
+    var input = parseFloat(e.detail.value)
+    if (input > 9999.99) {
       this.setData({
         isShowerr_hint: true,
+        btn_write_state_disable: 'btn-disable'
+      })
+    } else if (!input && !this.data.isSpecificState) {
+      this.setData({
+        isShowerr_hint: false,
         btn_write_state_disable: 'btn-disable'
       })
     } else {
       this.setData({
         isShowerr_hint: false,
-        btn_write_state_disable: ''
+        btn_write_state_disable: 'btn-able'
       })
     }
-    //console.log(this.data.money)
   },
   //日期选择器事件
   bindDateChange: function(e) {
@@ -163,9 +167,7 @@ Page({
   //记一笔按钮响应
   write: function(e) {
     var self = this
-    console.log(self.data.people_list_item)
-    console.log('payer= ' + this.data.payer)
-    if (!this.data.isShowerr_hint) {
+    if (!this.data.isShowerr_hint && this.data.money != 0 || this.data.money_acount != 0) {
       switch (this.data.pages_state) {
         case 'default':
           //console.log(self.data.people_list_item)
@@ -182,7 +184,6 @@ Page({
               }
             )
           } else {
-
             var money = parseFloat(self.data.money)
             console.log(self.data.people_list_item)
             http_request.cretateBill(self.data.act_id,
@@ -198,7 +199,7 @@ Page({
                   count: self.data.people_list_item.length,
                   my_total: money
                 }
-                console.log(self.data.act_id)
+                console.log(self.data.people_list_item.length)
                 app.globalData.userData.addBill(self.data.act_id, bill)
                 wx.navigateBack({
                   delta: 1
@@ -208,11 +209,22 @@ Page({
           }
           break;
         case 'change_bill':
+          var money = parseFloat(self.data.money)
           if (!this.data.isSpecificState) {
-            http_request.updataBill(self.data.bill_id, self.data.bill_content,
+            http_request.updataBill(self.data.act_id, self.data.bill_id, self.data.bill_content,
               self.data.people_list_item, self.data.payer.user_id, money)
+            console.log(money)
             app.globalData.mPromise.then(
               function(data) {
+                var money = parseFloat(self.data.money)
+                var bill = {
+                  bill_id: self.data.bill_id,
+                  bill_total: money,
+                  content: self.data.bill_content,
+                  count: self.data.people_list_item.length,
+                  my_total: money
+                }
+                app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
                 wx.showToast({
                   title: '修改成功',
                 })
@@ -220,73 +232,33 @@ Page({
                   wx.navigateBack({
                     delta: 2
                   })
-
                 }, 1500)
               }
             )
-            // wx.request({
-            //   url: app.globalData.url + '/bill/update',
-            //   method: 'POST',
-            //   data: {
-            //     "bill_id": self.data.bill_id,
-            //     "content": self.data.bill_content,
-            //     "members": self.data.people_list_item,
-            //     "payer_id": self.data.payer.user_id,
-            //     "total": money,
-            //     "user_id": app.globalData.unionid
-            //   },
-            //   success(res) {
-            //     console.log(res.data)
-            //     if (res.data.code == 0) {
-            //       wx.showToast({
-            //         title: '修改成功',
-            //       })
-            //       setTimeout(function() {
-            //         wx.navigateBack({
-            //           delta: 2
-            //         })
-
-            //       }, 1500)
-            //     }
-
-            //   }
-            // })
           } else {
             http_request.updataBill(self.data.bill_id, self.data.bill_content,
               self.data.people_list_item, self.data.payer.user_id, self.data.money_acount)
             app.globalData.mPromise.then(
-              function (data) {
+              function(data) {
+                var bill = {
+                  bill_id: self.data.bill_id,
+                  bill_total: self.data.money_acount,
+                  content: self.data.bill_content,
+                  count: self.data.people_list_item.length,
+                  my_total: self.data.money_acount
+                }
+                app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
+
                 wx.showToast({
                   title: '修改成功',
                 })
-                setTimeout(function () {
+                setTimeout(function() {
                   wx.navigateBack({
                     delta: 2
                   })
-
                 }, 1500)
               }
             )
-
-            // wx.request({
-            //   url: app.globalData.url + '/bill/update',
-            //   method: 'POST',
-            //   data: {
-            //     "bill_id": self.data.bill_id,
-            //     "content": self.data.bill_content,
-            //     "members": self.data.people_list_item,
-            //     "payer_id": self.data.payer.user_id,
-            //     "total": self.data.money_acount,
-            //     "user_id": app.globalData.unionid
-            //   },
-            //   success(res) {
-            //     if (res.data.code == 0) {
-            //       wx.showToast({
-            //         title: '修改成功',
-            //       })
-            //     }
-            //   }
-            // })
           }
 
           break;
@@ -513,6 +485,11 @@ Page({
         isShowerr_hint: true,
         btn_write_state_disable: 'btn-disable'
       })
+    } else if(this.data.money_acount && this.data.isSpecificState){
+      this.setData({
+        isShowerr_hint: false,
+        btn_write_state_disable: 'btn-disable'
+      })
     } else {
       this.setData({
         isShowerr_hint: false,
@@ -579,12 +556,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // this.setData({
-    //   date: util.formatTime(),
-    //   end_date: util.formatTime(),
-    //   person_name: app.globalData.userInfo.nickName,
-    //   person_headimg: app.globalData.userInfo.avatarUrl
-    // })
     var self = this
     var act_id = options.act_id
     var bill_id = options.bill_id
@@ -751,7 +722,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    // this.setData({
+    //   btn_write_state_disable: 'btn-disable'
+    // })
   },
 
   /**

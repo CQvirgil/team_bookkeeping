@@ -100,10 +100,10 @@ Page({
     //console.log('onShow')
     if (this.data.isonLoad) {
       console.log(app.globalData.userData.all_activities)
-      // app.globalData.userData.all_activities = util.
-      //   bubble_sort_timestamp(app.globalData.userData.all_activities)
-      // app.globalData.userData.all_activities = util.
-      //   bubble_sort(app.globalData.userData.all_activities)
+      app.globalData.userData.all_activities = util.
+        bubble_sort_timestamp(app.globalData.userData.all_activities)
+      app.globalData.userData.all_activities = util.
+        bubble_sort(app.globalData.userData.all_activities)
       this.setData({
         list: app.globalData.userData.all_activities
       })

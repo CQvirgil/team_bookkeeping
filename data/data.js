@@ -28,6 +28,7 @@ var Activity = function() {
   this.all_bills = {} //所以账单简略信息
   this.over_at = 0 //结束时间
   this.result = [] // 结束活动时成员之间相互转账情况
+  this.style = ''// 文字样式
 }
 
 var UserData = function() {
@@ -131,10 +132,39 @@ UserData.prototype.updataBill = function(act_id, bill_id, bill){
       for(var j in this.all_activities[i].all_bills){
         if(this.all_activities[i].all_bills[j].bill_id == bill_id){
           this.all_activities[i].all_bills[j] = bill
+          this.all_activities[i].act_total = this.all_totalCount(act_id)
+          this.all_activities[i].my_total = this.my_totalCount(act_id)
+          this.all_activities[i].my_expend = this.my_totalCount(act_id)
         }
       }
     }
   }
+}
+
+//计算所以账单的总数
+UserData.prototype.all_totalCount = function(act_id){
+  var count = 0;
+  for(var i in this.all_activities){
+    if(this.all_activities[i].act_id == act_id){
+      for (var j in this.all_activities[i].all_bills){
+        count += this.all_activities[i].all_bills[j].bill_total
+      }
+    }
+  }
+  return count
+}
+
+//计算所以账单的我的总数
+UserData.prototype.my_totalCount = function (act_id) {
+  var count = 0;
+  for (var i in this.all_activities) {
+    if (this.all_activities[i].act_id == act_id) {
+      for (var j in this.all_activities[i].all_bills) {
+        count += this.all_activities[i].all_bills[j].my_total
+      }
+    }
+  }
+  return count
 }
 
 module.exports = {

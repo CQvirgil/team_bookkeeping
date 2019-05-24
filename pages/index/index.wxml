@@ -12,7 +12,7 @@
       <view class='item-title'>
         <view class='text-bolder activity-underway'> 
           <text class='text-bolder activity-underway' wx:if='{{item.state}}'>进行中</text>
-          <text class='text-bolder activity-underway' wx:if='{{!item.state}}'>{{item.over_at}}已结束</text>
+          <text class='activity-underway-end' wx:if='{{!item.state}}'>{{item.over_at}}已结束</text>
         </view>
         
         <text class='activity-sum'>{{item.members.length}}人共消费¥{{item.act_total}}</text>

@@ -11,13 +11,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isQRDialogShow: false,//控制二维码组件的显示
-    isShowDetail: true,//控制多人记账时显示的内容
-    isShowDiaLog: false,//控制隐藏菜单的显示
+    isQRDialogShow: false, //控制二维码组件的显示
+    isShowDetail: true, //控制多人记账时显示的内容
+    isShowDiaLog: false, //控制隐藏菜单的显示
     Finish: '进行中',
     isEndTally: true,
     isShowLine: true,
-    index: null,//活动列表索引
+    index: null, //活动列表索引
     activity: null,
     isShwoWrite_a_bill: true,
     page_state: '',
@@ -42,8 +42,8 @@ Page({
     app.globalData.bill_index = e.currentTarget.dataset.index
     console.log(e.currentTarget.dataset)
     wx.navigateTo({
-      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id
-       + '&act_id=' + this.data.activity.act_id,
+      url: '/pages/billing_details/billing_details?bill_id=' + e.currentTarget.dataset.bill_id +
+        '&act_id=' + this.data.activity.act_id,
     })
   },
   onFinishInput: function(e) { //点击输入弹窗的确定按钮时出发
@@ -78,7 +78,7 @@ Page({
   },
   gotoFinancial: function(e) {
     wx.navigateTo({
-      url: '../financial/financial?act_id=' + this.activity.act_id,
+      url: '../financial/financial?act_id=' + this.data.activity.act_id,
     })
   },
   EndTally: function(e) {
@@ -99,8 +99,13 @@ Page({
             })
           } else {
             wx.showToast({
-              title: '结束成功',
+              title: '已结束',
             })
+            setTimeout(function() {
+              wx.navigateBack({
+
+              })
+            }, 200)
           }
           console.log()
           app.globalData.userData.all_activities[self.data.index].state = 0
@@ -270,6 +275,8 @@ Page({
     if (!this.data.activity.state) {
       this.setData({
         Finish: this.data.activity.over_at + '已结束',
+        isShowDetail: false,
+        isShowLine: false,
       })
     }
   },
@@ -316,7 +323,7 @@ Page({
    */
   onShareAppMessage: function() {
     return {
-      title: '加入' + this.data.activity_name + '活动',
+      title: '加入' + this.data.activity.name + '活动',
       path: '/pages/join_activity/join_activity?act_id=' + this.data.activity.act_id,
       success: function(res) {
         console.log('分享成功')

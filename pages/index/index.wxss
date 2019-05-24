@@ -1,25 +1,27 @@
 /**index.wxss**/
-page{
-  background: #ededed
+
+page {
+  background: #ededed;
 }
-.getUserInfo{
+
+.getUserInfo {
   position: absolute;
   top: 200rpx;
 }
 
-.bg{
+.bg {
   background: #ededed;
 }
 
-.text{
+.text {
   font-size: 28rpx;
-	letter-spacing: 0rpx;
-	color: #bbbbbb;
+  letter-spacing: 0rpx;
+  color: #bbb;
   position: absolute;
   top: 484rpx;
 }
 
-.buttons{
+.buttons {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -28,16 +30,16 @@ page{
   bottom: 120rpx;
 }
 
-.button{
+.button {
   width: 280rpx;
-	height: 112rpx;
-  background-color: #ffffff;
-	border-radius: 56px;
+  height: 112rpx;
+  background-color: #fff;
+  border-radius: 56px;
 }
 
-.join-activity{
-  color: #000000;
-  border: solid 1rpx #bbbbbb;
+.join-activity {
+  color: #000;
+  border: solid 1rpx #bbb;
   margin-left: 32rpx;
   display: flex;
   align-items: center;
@@ -45,7 +47,7 @@ page{
   justify-content: center;
 }
 
-.create-activity{
+.create-activity {
   background-color: #f7c429;
   margin-right: 32rpx;
   display: flex;
@@ -53,20 +55,20 @@ page{
   justify-content: center;
 }
 
-.create-activity image{
+.create-activity image {
   width: 24rpx;
   height: 24rpx;
 }
 
-.create-activity text{
+.create-activity text {
   font-size: 28rpx;
   font-weight: bolder;
 }
 
-.img-container{
+.img-container {
   width: 64rpx;
   height: 64rpx;
-  background: #ffffff;
+  background: #fff;
   border-radius: 50rpx;
   display: flex;
   align-items: center;
@@ -74,59 +76,67 @@ page{
   margin-right: 15rpx;
 }
 
-.list-container{
+.list-container {
   width: 100%;
   height: 100vh;
 }
 
-.list-item{
+.list-item {
   height: 344rpx;
   width: 100%;
-  background: #ffffff;
+  background: #fff;
   position: relative;
 }
 
-.item-title{
+.item-title {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.activity-name{
+.activity-name {
   font-weight: bolder;
   font-size: 48rpx;
   margin-top: 56rpx;
   margin-left: 31rpx;
 }
 
-.activity-money{
-  color: #000000;
+.activity-money {
+  color: #000;
   font-size: 48rpx;
   font-weight: bolder;
   margin-top: 60rpx;
   margin-right: 31rpx;
 }
 
-.activity-underway{
+.activity-underway {
   font-size: 28rpx;
   color: #f7c429;
   margin-left: 15rpx;
   margin-top: 40rpx;
 }
 
-.activity-sum{
+.activity-underway-end {
   font-size: 28rpx;
   color: #bbbbbb;
+  margin-left: 15rpx;
+  margin-top: 40rpx;
+  font-weight: normal;
+}
+
+.activity-sum {
+  font-size: 28rpx;
+  color: #bbb;
   margin-right: 32rpx;
   margin-top: 40rpx;
 }
 
-.item-headimgs{
+.item-headimgs {
   margin-left: 16rpx;
   margin-top: 40rpx;
 }
 
-.headimgs{
+.headimgs {
   width: 48rpx;
   height: 48rpx;
   background: #dfdfdf;
@@ -134,7 +144,7 @@ page{
   border-radius: 8rpx;
 }
 
-.line{
+.line {
   width: 100%;
   height: 16rpx;
   background: #ededed;

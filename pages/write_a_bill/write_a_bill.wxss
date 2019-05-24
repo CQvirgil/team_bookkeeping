@@ -66,7 +66,7 @@
   margin-top: 44rpx;
 }
 #date-jiantou{
-  margin-left: 0rpx;
+  margin-left: 10rpx;
 }
 
 .title {
@@ -189,13 +189,22 @@ button {
   background: none;
 }
 
+.btn-display{
+  opacity: 0.7
+}
+
 button::after {
   border: none;
 }
 
-.input-container {
-  
+.btn-disable{
+  opacity: 0.5
 }
+
+.btn-able{
+  opacity: 1
+}
+
 
 .yuan {
   color: #bbb;

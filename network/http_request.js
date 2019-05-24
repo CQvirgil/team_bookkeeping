@@ -14,12 +14,20 @@ var mPromise = {}
 const request_server = function(lastUrl, postData, method, handletype) {
   //console.log('request_server')
   mPromise = new Promise(function(resolve, reject) {
+    wx.showLoading({
+      title: '',
+      mask: true,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
     wx.request({
       url: server_url + lastUrl,
       data: postData,
       method: method,
       success: function(res) {
-        console.log(res)
+        //console.log(res)
+        wx.hideLoading()
         if (res.statusCode == 200) {
           if (res.data.code == 0) {
             data_handler.handlInternetData(res, handletype)
@@ -142,9 +150,11 @@ const cretateBill = function(act_id, bill_content, members, payer_id, total) {
   request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.CREATE_BILL)
 }
 
-const updataBill = function (bill_id, content, members, payer_id, total) {
+//修改账单
+const updataBill = function (act_id, bill_id, content, members, payer_id, total) {
   var lastUrl = '/bill/update'
   var postData = {
+    "act_id": act_id,
     "bill_id": bill_id,
     "content": content,
     "members": members,
@@ -153,7 +163,7 @@ const updataBill = function (bill_id, content, members, payer_id, total) {
     "user_id": app.globalData.userData.id
   }
   var method = request_type.POST
-  request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.CREATE_BILL)
+  request_server(lastUrl, postData, method, data_handler.HANDLE_TYPE.UPDATA_BILL)
 }
 
 module.exports = {
