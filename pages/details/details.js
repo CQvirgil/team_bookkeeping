@@ -70,7 +70,6 @@ Page({
     }
   },
   gotoPeople: function(e) {
-
     wx.navigateTo({
       url: '../people/people?act_id=' + this.data.activity.act_id,
     })
@@ -105,9 +104,8 @@ Page({
               wx.navigateBack({
 
               })
-            }, 200)
+            }, 2000)
           }
-          console.log()
           app.globalData.userData.all_activities[self.data.index].state = 0
         }
       )
@@ -120,6 +118,7 @@ Page({
         isShowDetail: true,
         isShowLine: false
       })
+      app.userData.setOverTime(this.data.act_id, util.formatTime())
     } else {
       self.setData({
         Finish: util.formatTime() + '已结束',
@@ -127,6 +126,7 @@ Page({
         isShowDetail: false,
         isShowLine: false
       })
+      app.globalData.userData.setOverTime(this.data.act_id, util.formatTime())
     }
 
 

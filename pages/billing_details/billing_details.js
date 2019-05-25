@@ -62,7 +62,6 @@ Page({
                 app.globalData.userData.removeBill(self.data.act_id, self.data.bill_id)
                 setTimeout(function() {
                   wx.navigateBack({
-
                   })
                 }, 1500)
               } else {
@@ -82,7 +81,8 @@ Page({
   },
   ChangeBill: function(e) {
     wx.navigateTo({
-      url: '/pages/write_a_bill/write_a_bill?bill_id=' + this.data.bill_id + '&act_id=' + this.data.act_id + '&state=' + 'change_bill',
+      url: '/pages/write_a_bill/write_a_bill?bill_id=' + this.data.bill_id + '&act_id='
+       + this.data.act_id + '&state=' + 'change_bill',
     })
   },
   /**

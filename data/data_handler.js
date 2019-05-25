@@ -86,6 +86,9 @@ const handleActivity = function(data) {
   act.over_at = util.formatTime2(data.over_at, 'Y-M-D')
   act.updated_at = data.updated_at
   act.all_bills = data.bills
+  if (!data.bills){
+    act.all_bills = []
+  }
   app.globalData.userData.add_activity(act)
   //console.log(app.globalData.activity)
 }

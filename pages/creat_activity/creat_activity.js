@@ -45,20 +45,6 @@ Page({
   //点击创建活动按钮时触发
   gotoInvite: function(e) {
     if (this.data.text_amount > 0) {
-
-      // app.globalData.activity[app.globalData.activity.length] = {
-      //   activity_name: this.data.activity_name,
-      //   my_pay: 0,
-      //   my_consume: 0,
-      //   people_acount: 0,
-      //   people: [
-      //   ],
-      //   isunderway: true,
-      //   pay_acount: 0,
-      //   headimgs: [1],
-      //   end_time: null,
-      //   bill: []
-      // }
       var self = this
       var text = this.data.activity_name
 

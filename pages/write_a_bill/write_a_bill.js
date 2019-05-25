@@ -86,16 +86,6 @@ Page({
     ]
   },
 
-  // BindPeopleListInput: function(e) {
-  //   var money = this.data.money_acount
-  //   var value = e.detail.value
-  //   value *= 1
-  //   money += value
-  //   this.setData({
-  //     money_acount: money
-  //   })
-  //   console.log(e.detail.value)
-  // },
   StartInput: function(e) {
     var input_value = this.data.input_value
     if (this.data.input_value != null) {
@@ -178,9 +168,24 @@ Page({
               self.data.people_list_item, self.data.payer.user_id, self.data.money_acount)
             app.globalData.mPromise.then(
               function(data) {
-                wx.navigateBack({
-                  delta: 1
+
+                var bill = {
+                  bill_id: app.globalData.cBill_id,
+                  bill_total: self.data.money_acount,
+                  content: self.data.bill_content,
+                  count: self.data.people_list_item.length,
+                  my_total: self.data.money_acount
+                }
+                app.globalData.userData.addBill(self.data.act_id, bill)
+                wx.showToast({
+                  title: '记账成功',
                 })
+                setTimeout(function() {
+                  wx.navigateBack({
+                    delta: 1
+                  })
+                }, 2000)
+
               }
             )
           } else {
@@ -199,7 +204,6 @@ Page({
                   count: self.data.people_list_item.length,
                   my_total: money
                 }
-                console.log(self.data.people_list_item.length)
                 app.globalData.userData.addBill(self.data.act_id, bill)
                 wx.navigateBack({
                   delta: 1
@@ -224,6 +228,7 @@ Page({
                   count: self.data.people_list_item.length,
                   my_total: money
                 }
+                console.log()
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
                 wx.showToast({
                   title: '修改成功',
@@ -485,7 +490,7 @@ Page({
         isShowerr_hint: true,
         btn_write_state_disable: 'btn-disable'
       })
-    } else if(this.data.money_acount && this.data.isSpecificState){
+    } else if (this.data.money_acount && this.data.isSpecificState) {
       this.setData({
         isShowerr_hint: false,
         btn_write_state_disable: 'btn-disable'
@@ -566,6 +571,7 @@ Page({
         act_id: act_id
       })
       var activity = app.globalData.userData.findActivityById(act_id)
+      console.log(activity)
       this.setData({
         members: activity.members,
         payer: activity.members[0],

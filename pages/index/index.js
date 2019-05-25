@@ -123,8 +123,6 @@ Page({
     })
   },
   gotoDetails: function(e) {
-    console.log(e.currentTarget.dataset.index)
-    console.log(e.currentTarget.dataset.actid)
     app.globalData.activity_index = e.currentTarget.dataset.index
     wx.navigateTo({
       url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid

@@ -49,7 +49,7 @@ const bubble_sort = function bubble_sort(list) {
   for (var i = 0; i < list.length - n; i++) {
     
     if (list[i].state === 0) {
-      n++
+      
       //console.log(list[i])
       for (var j = i; j < list.length - 1; j++) {
         var tepm = list[j]
@@ -57,6 +57,7 @@ const bubble_sort = function bubble_sort(list) {
         list[j + 1] = tepm
       }
       i = 0
+      n++
     }
   }
 

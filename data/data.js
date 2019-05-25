@@ -25,7 +25,7 @@ var Activity = function() {
   this.created_at = 0 // 创建时间
   this.create_user_id = ''
   this.updated_at = 0 //更新时间
-  this.all_bills = {} //所以账单简略信息
+  this.all_bills = [] //所以账单简略信息
   this.over_at = 0 //结束时间
   this.result = [] // 结束活动时成员之间相互转账情况
   this.style = ''// 文字样式
@@ -101,10 +101,11 @@ UserData.prototype.findBillById = function(act_id, bill_id) {
 UserData.prototype.addBill = function(act_id, bill) {
   for (var i in this.all_activities) {
     if (this.all_activities[i].act_id == act_id) {
-      this.all_activities[i].all_bills.push(bill)
-      this.all_activities[i].act_total += bill.bill_total
-      this.all_activities[i].my_total += bill.my_total
-      this.all_activities[i].my_expend += bill.my_total
+      this.all_activities[i].all_bills.unshift(bill)
+      //this.all_activities.reverse()
+      this.all_activities[i].act_total = this.all_totalCount(act_id)
+      this.all_activities[i].my_total = this.my_totalCount(act_id)
+      this.all_activities[i].my_expend = this.my_totalCount(act_id)
     }
   }
 }
@@ -115,10 +116,11 @@ UserData.prototype.removeBill = function(act_id, bill_id) {
     if (this.all_activities[i].act_id == act_id) {
       for (var j in this.all_activities[i].all_bills) {
         if (this.all_activities[i].all_bills[j].bill_id == bill_id) {
-          this.all_activities[i].act_total -= this.all_activities[i].all_bills[j].bill_total
-          this.all_activities[i].my_total -= this.all_activities[i].all_bills[j].my_total
-          this.all_activities[i].my_expend -= this.all_activities[i].all_bills[j].my_total
           this.all_activities[i].all_bills.splice(j, 1)
+          this.all_activities[i].act_total = this.all_totalCount(act_id)
+          this.all_activities[i].my_total = this.my_totalCount(act_id)
+          this.all_activities[i].my_expend = this.my_totalCount(act_id)
+          
         }
       }
     }
@@ -167,6 +169,13 @@ UserData.prototype.my_totalCount = function (act_id) {
   return count
 }
 
+UserData.prototype.setOverTime = function(act_id,date){
+  for(var i in this.all_activities){
+    if(this.all_activities[i].act_id == act_id){
+      this.all_activities[i].over_at = date
+    }
+  }
+}
 module.exports = {
   setActivityArray: setActivityArray,
   getActivityArray: getActivityArray,

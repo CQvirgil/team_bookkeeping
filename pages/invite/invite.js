@@ -93,7 +93,7 @@ Page({
 
   },
   gotoDetails: function(e) {
-    var activity_name = this.data.activity_name
+    console.log(this.data.activity.act_id)
     wx.navigateTo({
       url: '../details/details?act_id=' + this.data.activity.act_id+ '&page_state=' + this.data.page_state,
     })
