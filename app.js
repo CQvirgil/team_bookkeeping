@@ -30,6 +30,7 @@ App({
     userData: new app_data.UserData(),
     activity_index: 0,
     bill_index: 0,
-    cBill_id: 0
+    cBill_id: 0,
+    cActivityName: null
   }
 })

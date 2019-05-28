@@ -35,6 +35,7 @@ var UserData = function() {
   this.id = '' // 用户的id，团队记账小程序目前使用的是unionID
   this.code = ''
   this.all_activities = []
+  this.userInfo = {}
 }
 
 UserData.prototype.add_activity = function(act) {

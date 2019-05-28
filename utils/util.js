@@ -18,6 +18,10 @@ const timeTampToStr = function timeTampToStr() {
   return timestamp
 }
 
+const getTimeStamp = function(){
+  return new Date().getTime();
+} 
+
 /** 
  * 时间戳转化为年 月 日 时 分 秒 
  * number: 传入时间戳 
@@ -87,5 +91,6 @@ module.exports = {
   formatTime: formatTime,
   formatTime2: formatTime2,
   bubble_sort: bubble_sort,
-  bubble_sort_timestamp: bubble_sort_timestamp
+  bubble_sort_timestamp: bubble_sort_timestamp,
+  getTimeStamp: getTimeStamp
 }

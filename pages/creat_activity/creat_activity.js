@@ -49,10 +49,11 @@ Page({
       var text = this.data.activity_name
 
       http_request.createActivity(text)
+      app.globalData.cActivityName = text
       app.globalData.mPromise.then(
         function(data) {
           console.log(data)
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../invite/invite?activity_name=' + text + '&page_state=' + page_state.FROM_CREATE_ACTIVITY,
           })
         }

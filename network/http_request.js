@@ -32,6 +32,9 @@ const request_server = function(lastUrl, postData, method, handletype) {
           if (res.data.code == 0) {
             data_handler.handlInternetData(res, handletype)
             resolve(handletype);
+          }else{
+            console.log(res)
+            reject(res.data.code);
           }
         } else {
           console.log(res)

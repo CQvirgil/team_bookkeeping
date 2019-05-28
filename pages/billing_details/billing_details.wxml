@@ -9,7 +9,7 @@
     <text class='text text-gray'>创建时间 {{bill.created_at}}</text>
     <text class='text text-gray'>总消费</text>
   </view>
-  <text class='text-bolder state'>{{bill.members.length}}人具体</text>
+  <text class='text-bolder state'>{{bill.members.length}}人</text>
 
   <scroll-view class='mlist' scroll-y>
   

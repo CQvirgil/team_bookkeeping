@@ -35,19 +35,20 @@ Page({
                   // 可以将 res 发送给后台解码出 unionId
                   //console.log(res)
                   app.globalData.userInfo = res.userInfo
+                  app.globalData.userData.userInfo = res.userInfo
                   var encryptedData = res.encryptedData
                   var iv = res.iv
                   http_request.wxLogIn(encryptedData, iv)
                   app.globalData.mPromise.then(
-                    function (data) {
+                    function(data) {
                       console.log('resolved');
                       console.log(data);
                       app.globalData.mPromise.then(
-                        function (data){
+                        function(data) {
                           console.log('resolved2');
                           console.log(data);
                           app.globalData.mPromise.then(
-                            function(data){
+                            function(data) {
                               console.log('resolved3');
                               console.log(data);
                               app.globalData.userData.all_activities = util.
@@ -58,13 +59,13 @@ Page({
                                 list: app.globalData.userData.all_activities,
                                 isonLoad: true
                               })
-                              console.log(app.globalData.userData)
+                              console.log(app.globalData.userInfo)
                             }
                           )
                         }
                       )
                     },
-                    function (reason, data) {
+                    function(reason, data) {
                       console.log('rejected');
                       console.log(reason);
                     }
@@ -101,9 +102,9 @@ Page({
     if (this.data.isonLoad) {
       console.log(app.globalData.userData.all_activities)
       app.globalData.userData.all_activities = util.
-        bubble_sort_timestamp(app.globalData.userData.all_activities)
+      bubble_sort_timestamp(app.globalData.userData.all_activities)
       app.globalData.userData.all_activities = util.
-        bubble_sort(app.globalData.userData.all_activities)
+      bubble_sort(app.globalData.userData.all_activities)
       this.setData({
         list: app.globalData.userData.all_activities
       })
@@ -125,8 +126,8 @@ Page({
   gotoDetails: function(e) {
     app.globalData.activity_index = e.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid
-       + '&page_state=' + page_state.FROM_INDEX,
+      url: '../details/details?index=' + e.currentTarget.dataset.index + '&act_id=' + e.currentTarget.dataset.actid +
+        '&page_state=' + page_state.FROM_INDEX,
     })
   },
   /**
@@ -134,17 +135,26 @@ Page({
    */
   onPullDownRefresh: function() {
     var self = this
-    //app.globalData.userData.all_activities = []
+    app.globalData.userData.all_activities.splice(0, app.globalData.userData.all_activities.length)
     http_request.getActivityIdArray()
     app.globalData.mPromise.then(
-      function(data){
-        console.log(data)
-        wx.stopPullDownRefresh()
-        self.setData({
-          list: app.globalData.userData.all_activities
-        })
+      function(data) {
+        app.globalData.mPromise.then(
+          function(data) {
+            console.log(data)
+            app.globalData.userData.all_activities = util.
+              bubble_sort_timestamp(app.globalData.userData.all_activities)
+            app.globalData.userData.all_activities = util.
+              bubble_sort(app.globalData.userData.all_activities)
+            self.setData({
+              list: app.globalData.userData.all_activities
+            })
+            wx.stopPullDownRefresh()
+          }
+        )
       }
     )
+    console.log(app.globalData.userData.all_activities)
   },
   bindscrolltoupper: function(e) {}
 })

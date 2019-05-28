@@ -86,19 +86,58 @@ const handleActivity = function(data) {
   act.over_at = util.formatTime2(data.over_at, 'Y-M-D')
   act.updated_at = data.updated_at
   act.all_bills = data.bills
-  if (!data.bills){
+  if (!data.bills) {
     act.all_bills = []
+  }
+  if (!app.globalData.userData.all_activities) {
+    app.globalData.userData.all_activities = []
   }
   app.globalData.userData.add_activity(act)
   //console.log(app.globalData.activity)
+}
+
+const createActivity = function(name, act_id, act_total, created_at, members,
+  my_expend, updated_at, my_total, state, over_at, all_bills) {
+  var act = new app_data.Activity()
+  act.name = name
+  act.act_id = act_id
+  act.act_total = act_total
+  act.created_at = created_at
+  act.members = members
+  act.my_expend = my_expend
+  act.my_total = my_total
+  act.state = state
+  act.over_at = over_at
+  act.updated_at = updated_at
+  act.all_bills = all_bills
+  return act
 }
 
 //创建活动数据处理
 const handleCreateActivityData = function(data) {
   const http_request = require('../network/http_request.js')
   app.globalData.create_act_id = data.act_id
-  //console.log(data)
-  http_request.getActivityById(data.act_id)
+  console.log(data)
+  var members = [{
+    headimgurl: app.globalData.userInfo.headimgurl,
+    nickname: app.globalData.userInfo.nickname,
+    user_id: app.globalData.userInfo.unionid
+  }]
+  var act = createActivity(
+    app.globalData.cActivityName,
+    data.act_id,
+    0,
+    util.getTimeStamp(), 
+    members,
+    0,
+    util.getTimeStamp(),
+    0,
+    1,
+    0,
+    [],
+  )
+  app.globalData.userData.add_activity(act)
+  //http_request.getActivityById(data.act_id)
 }
 
 const handleEndTallyData = function(data) {
@@ -123,7 +162,7 @@ const handleCreateBillData = function(data) {
   app.globalData.cBill_id = data.bill_id
 }
 
-const handleUpdataBillData = function(data){
+const handleUpdataBillData = function(data) {
   console.log(data)
 }
 

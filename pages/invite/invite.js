@@ -33,8 +33,8 @@ Page({
     })
     console.log(options.page_state)
     var act = app.globalData.userData.findActivityById(app.globalData.create_act_id)
-    console.log("activity_name = " + options.activity_name);
-    if(act){
+    console.log(act);
+    if (act) {
       this.setData({
         activity: act
       })
@@ -94,8 +94,8 @@ Page({
   },
   gotoDetails: function(e) {
     console.log(this.data.activity.act_id)
-    wx.navigateTo({
-      url: '../details/details?act_id=' + this.data.activity.act_id+ '&page_state=' + this.data.page_state,
+    wx.redirectTo({
+      url: '../details/details?act_id=' + this.data.activity.act_id + '&page_state=' + this.data.page_state,
     })
   },
 
@@ -103,6 +103,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+    console.log(this.data.activity.members)
+    if(this.data.activity.members){
+      this.setState()
+    }else{
+
+    }
+  },
+  setState: function() {
     //当列表满员时修改小的邀请微信好友按钮样式
     if (this.data.activity.members.length >= 20) {
       this.setData({
@@ -122,13 +130,13 @@ Page({
     }
 
     //判断列表是否为1，非空显示小的微信邀请按钮，空时显示大的微信邀请按钮
-    if (this.data.activity.members.length  > 1) {
+    if (this.data.activity.members.length > 1) {
       this.setData({
         isWXFriendShow: true,
         isShowWXFriendBig: false
       })
     } else
-      if (this.data.activity.members.length  <= 1) {
+    if (this.data.activity.members.length <= 1) {
       this.setData({
         isWXFriendShow: false,
         isShowWXFriendBig: true
@@ -156,7 +164,6 @@ Page({
       })
     }
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -197,9 +204,9 @@ Page({
    */
   onShareAppMessage: function() {
     return {
-      title: '加入活动'+this.data.activity.name,
-      path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id + '&page_state='
-       + this.data.pages_state,
+      title: '加入活动' + this.data.activity.name,
+      path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id + '&page_state=' +
+        this.data.pages_state,
       success(res) {
         console.log('分享成功')
       }

@@ -82,14 +82,15 @@ Page({
   },
   EndTally: function(e) {
     var self = this
-    console.log(util.formatTime())
+    //console.log(util.formatTime())
     app.globalData.activity.end_time = util.formatTime()
     app.globalData.activity.isunderway = false
-    console.log(this.data.activity.state)
+    //console.log(this.data.activity.members.length)
     var self = this
     var length = this.data.activity.members.length
     if (this.data.activity.state) {
       http_request.endTally(this.data.activity.act_id)
+      console.log(this.data.activity.act_id)
       app.globalData.mPromise.then(
         function(d) {
           if (length > 1) {
@@ -107,20 +108,21 @@ Page({
             }, 2000)
           }
           app.globalData.userData.all_activities[self.data.index].state = 0
+        },
+        function (reason, data) {
+          if(reason == 20201){
+            wx.showToast({
+              title: '非创建者',
+            })
+          }
         }
       )
 
     }
     if (this.data.activity.members.length > 1) {
-      self.setData({
-        Finish: util.formatTime() + '已结束',
-        isEndTally: false,
-        isShowDetail: true,
-        isShowLine: false
-      })
-      app.userData.setOverTime(this.data.act_id, util.formatTime())
+      app.globalData.userData.setOverTime(this.data.act_id, util.formatTime())
     } else {
-      self.setData({
+      this.setData({
         Finish: util.formatTime() + '已结束',
         isEndTally: false,
         isShowDetail: false,
