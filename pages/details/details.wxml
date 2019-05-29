@@ -83,7 +83,7 @@
         <text class='text'>分享活动给朋友</text>
       </button>
       <button bindtap='ExitAcitivity'>
-        <text class='text text-red'>退出活动</text>
+        <text class='text text-red'>删除活动</text>
       </button>
       <view class='dialog-line'></view>
       <button class='dialog-cancel' bindtap='DialogCancel'>

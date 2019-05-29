@@ -14,12 +14,9 @@ Page({
     state: '平均分摊',
     isSpecificState: false, //是否为平均分摊
     input_value: '',
-    yuan: 'yuan',
     average: '全员平摊',
-    concreteness: '具体分摊',
     date: '',
     text_date: '今天',
-    end_date: '',
     isShowInput: true, //控制input组件
     isShowDialog1: false, //控制隐藏菜单
     money: 0, //平均状态下的总数
@@ -47,6 +44,7 @@ Page({
     dialog_payer_animation: null,
     dialog_members_animation: null,
     isShowDialog: false,
+    my_total: 0,
     radio_button_data: [{ //账单内容弹窗数据
         id: 1,
         value: '一般',
@@ -168,13 +166,12 @@ Page({
               self.data.people_list_item, self.data.payer.user_id, self.data.money_acount)
             app.globalData.mPromise.then(
               function(data) {
-
                 var bill = {
                   bill_id: app.globalData.cBill_id,
                   bill_total: self.data.money_acount,
                   content: self.data.bill_content,
                   count: self.data.people_list_item.length,
-                  my_total: self.data.money_acount
+                  my_total: self.data.my_total
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
                 wx.showToast({
@@ -202,7 +199,7 @@ Page({
                   bill_total: money,
                   content: self.data.bill_content,
                   count: self.data.people_list_item.length,
-                  my_total: money
+                  my_total: self.data.average_money
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
                 wx.navigateBack({
@@ -226,9 +223,8 @@ Page({
                   bill_total: money,
                   content: self.data.bill_content,
                   count: self.data.people_list_item.length,
-                  my_total: money
+                  my_total: self.data.average_money
                 }
-                console.log()
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
                 wx.showToast({
                   title: '修改成功',
@@ -241,7 +237,7 @@ Page({
               }
             )
           } else {
-            http_request.updataBill(self.data.bill_id, self.data.bill_content,
+            http_request.updataBill(self.data.act_id, self.data.bill_id, self.data.bill_content,
               self.data.people_list_item, self.data.payer.user_id, self.data.money_acount)
             app.globalData.mPromise.then(
               function(data) {
@@ -250,7 +246,7 @@ Page({
                   bill_total: self.data.money_acount,
                   content: self.data.bill_content,
                   count: self.data.people_list_item.length,
-                  my_total: self.data.money_acount
+                  my_total: self.data.my_total
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
 
@@ -481,7 +477,7 @@ Page({
     this.setData({
       people_list_postion: e.currentTarget.dataset.index
     })
-    console.log("BindPeopleListTap: " + e.currentTarget.dataset.index)
+    //console.log("BindPeopleListTap: " + e.currentTarget.dataset.index)
   },
   BindSpecificListInput: function(e) {
     var input = parseFloat(e.detail.value)
@@ -507,23 +503,27 @@ Page({
 
     if (!this.data.isShowerr_hint) {
       var input = parseFloat(e.detail.value)
-
+      if(!input){
+        input = 0
+      }
       var item = this.data.people_list_item
       item[this.data.people_list_postion].Money = input
       this.setData({
         people_list_item: item
       })
-      console.log(item[this.data.people_list_postion])
 
+      if (item[this.data.people_list_postion].user_id == app.globalData.userData.id){
+        this.setData({
+          my_total: input
+        })
+      }
 
       var money = 0
       for (var i = 0; i < this.data.people_list_item.length; i++) {
         money += this.data.people_list_item[i].Money
+        console.log(money)
       }
-      console.log(money)
-      if (e.detail.value == '') {
-        money = 0
-      }
+      console.log(this.data.people_list_item)
 
       this.setData({
         money_acount: money

@@ -98,15 +98,22 @@ UserData.prototype.findBillById = function(act_id, bill_id) {
   }
 }
 
+UserData.prototype.findactivityIndexById = function(act_id){
+  for (var i in this.all_activities) {
+    if (this.all_activities[i].act_id == act_id){
+      return i
+    }
+  }
+}
+
 //添加账单
 UserData.prototype.addBill = function(act_id, bill) {
   for (var i in this.all_activities) {
     if (this.all_activities[i].act_id == act_id) {
       this.all_activities[i].all_bills.unshift(bill)
-      //this.all_activities.reverse()
       this.all_activities[i].act_total = this.all_totalCount(act_id)
       this.all_activities[i].my_total = this.my_totalCount(act_id)
-      this.all_activities[i].my_expend = this.my_totalCount(act_id)
+      //this.all_activities[i].my_expend = this.my_totalCount(act_id)
     }
   }
 }
@@ -135,9 +142,10 @@ UserData.prototype.updataBill = function(act_id, bill_id, bill){
       for(var j in this.all_activities[i].all_bills){
         if(this.all_activities[i].all_bills[j].bill_id == bill_id){
           this.all_activities[i].all_bills[j] = bill
+          console.log(this.all_activities[i].all_bills[j])
           this.all_activities[i].act_total = this.all_totalCount(act_id)
           this.all_activities[i].my_total = this.my_totalCount(act_id)
-          this.all_activities[i].my_expend = this.my_totalCount(act_id)
+          //this.all_activities[i].my_expend = this.my_totalCount(act_id)
         }
       }
     }

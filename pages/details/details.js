@@ -109,8 +109,8 @@ Page({
           }
           app.globalData.userData.all_activities[self.data.index].state = 0
         },
-        function (reason, data) {
-          if(reason == 20201){
+        function(reason, data) {
+          if (reason == 20201) {
             wx.showToast({
               title: '非创建者',
             })
@@ -152,6 +152,14 @@ Page({
     this.setData({
       act_id: options.act_id,
     })
+
+    if (!this.data.isLoad) {
+      var activity = app.globalData.userData.findActivityById(this.data.act_id)
+      //console.log(activity)
+      this.setData({
+        activity: activity
+      })
+    }
   },
   QrCloseHandler: function(e) {
     this.setData({
@@ -261,9 +269,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
     var activity = app.globalData.userData.findActivityById(this.data.act_id)
-    console.log(activity)
+    console.log("onshow:activity")
     this.setData({
       activity: activity
     })
