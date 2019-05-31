@@ -113,7 +113,14 @@ UserData.prototype.addBill = function(act_id, bill) {
       this.all_activities[i].all_bills.unshift(bill)
       this.all_activities[i].act_total = this.all_totalCount(act_id)
       this.all_activities[i].my_total = this.my_totalCount(act_id)
-      //this.all_activities[i].my_expend = this.my_totalCount(act_id)
+    }
+  }
+}
+
+UserData.prototype.updateAddExpend = function(act_id, my_expend){
+  for (var i in this.all_activities) {
+    if (this.all_activities[i].act_id == act_id) {
+      this.all_activities[i].my_expend += my_expend
     }
   }
 }

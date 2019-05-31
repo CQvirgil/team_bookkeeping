@@ -41,32 +41,23 @@ Page({
                   http_request.wxLogIn(encryptedData, iv)
                   app.globalData.mPromise.then(
                     function(data) {
-                      console.log('resolved');
-                      console.log(data);
+                     console.log('获取登陆信息')
                       app.globalData.mPromise.then(
                         function(data) {
-                          console.log('resolved2');
-                          console.log(data);
+                          console.log('获取活动列表')
                           app.globalData.mPromise.then(
                             function(data) {
-                              console.log('resolved3');
-                              console.log(data);
-                              app.globalData.userData.all_activities = util.
-                              bubble_sort_timestamp(app.globalData.userData.all_activities)
-                              app.globalData.userData.all_activities = util.
-                              bubble_sort(app.globalData.userData.all_activities)
+                              console.log('加载列表数据')
                               self.setData({
-                                list: app.globalData.userData.all_activities,
                                 isonLoad: true
                               })
-                              console.log(app.globalData.userInfo)
+                              self.setListData()
                             }
                           )
                         }
                       )
                     },
                     function(reason, data) {
-                      console.log('rejected');
                       console.log(reason);
                     }
                   )
@@ -86,28 +77,15 @@ Page({
         })
       }
     })
-  },
-
-  bindGetUserInfo(e) {
-    if (e.detail.userInfo) {
-      console.log(e.detail.userInfo)
-    }
+    
   },
 
   onReady() {
-    console.log(app.globalData.userData.code)
   },
   onShow() {
-    //console.log('onShow')
     if (this.data.isonLoad) {
-      console.log(app.globalData.userData.all_activities)
-      app.globalData.userData.all_activities = util.
-      bubble_sort_timestamp(app.globalData.userData.all_activities)
-      app.globalData.userData.all_activities = util.
-      bubble_sort(app.globalData.userData.all_activities)
-      this.setData({
-        list: app.globalData.userData.all_activities
-      })
+      console.log('更新页面')
+      this.setListData()
     }
   },
   gotoCreatActivity(event) {
@@ -141,20 +119,22 @@ Page({
       function(data) {
         app.globalData.mPromise.then(
           function(data) {
-            console.log(data)
-            app.globalData.userData.all_activities = util.
-              bubble_sort_timestamp(app.globalData.userData.all_activities)
-            app.globalData.userData.all_activities = util.
-              bubble_sort(app.globalData.userData.all_activities)
-            self.setData({
-              list: app.globalData.userData.all_activities
-            })
+            self.setListData()
             wx.stopPullDownRefresh()
           }
         )
       }
     )
-    console.log(app.globalData.userData.all_activities)
+  },
+  //设置列表
+  setListData: function(){
+    app.globalData.userData.all_activities = util.
+      bubble_sort_timestamp(app.globalData.userData.all_activities)
+    app.globalData.userData.all_activities = util.
+      bubble_sort(app.globalData.userData.all_activities)
+    this.setData({
+      list: app.globalData.userData.all_activities
+    })
   },
   bindscrolltoupper: function(e) {}
 })

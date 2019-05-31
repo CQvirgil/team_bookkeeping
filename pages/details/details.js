@@ -259,35 +259,43 @@ Page({
     console.log('ExitAcitivity')
   },
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
     var activity = app.globalData.userData.findActivityById(this.data.act_id)
-    console.log("onshow:activity")
     this.setData({
       activity: activity
     })
 
-    if (this.data.activity.members.length == 1) {
-      this.setData({
-        isShowDetail: false,
-        isShowLine: false,
-      })
-    }
     if (!this.data.activity.state) {
-      this.setData({
-        Finish: this.data.activity.over_at + '已结束',
-        isShowDetail: false,
-        isShowLine: false,
-      })
+      this.setOverTime()
     }
+
+    if (this.data.activity.members.length <= 1) {
+      this.setSingleMember()
+    } else {
+      this.setManyMember()
+    }
+  },
+
+  setOverTime: function(){
+    this.setData({
+      Finish: this.data.activity.over_at + '已结束',
+    })
+  },
+
+  setManyMember: function(){
+    this.setData({
+      isShowDetail: true,
+      isShowLine: false,
+    })
+  },
+
+  setSingleMember: function(){
+    this.setData({
+      isShowDetail: false,
+      isShowLine: false,
+    })
   },
 
   CheckIsEnd: function() {
@@ -297,34 +305,6 @@ Page({
       })
     }
     //console.log(this.data.activity.state)
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
   },
 
   /**

@@ -174,6 +174,7 @@ Page({
                   my_total: self.data.my_total
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
+                app.globalData.userData.updateAddExpend(self.data.act_id, self.data.my_total)
                 wx.showToast({
                   title: '记账成功',
                 })
@@ -202,6 +203,7 @@ Page({
                   my_total: self.data.average_money
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
+                app.globalData.userData.updateAddExpend(self.data.act_id, self.data.average_money)
                 wx.navigateBack({
                   delta: 1
                 })
@@ -226,6 +228,7 @@ Page({
                   my_total: self.data.average_money
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
+                
                 wx.showToast({
                   title: '修改成功',
                 })
@@ -249,7 +252,7 @@ Page({
                   my_total: self.data.my_total
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
-
+                
                 wx.showToast({
                   title: '修改成功',
                 })
