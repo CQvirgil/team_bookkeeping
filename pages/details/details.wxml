@@ -74,7 +74,7 @@
 
   </view>
 
-  <view class='dialog container' bindtap='closeDialog' wx:if="{{isShowDiaLog}}">
+  <view class='dialog container' bindtap='closeDialog' wx:if="{{false}}">
     <view class='dialog-content' animation="{{dialog_animation}}">
       <button bindtap='ShowQrHadler'>
         <text class='text'>活动二维码</text>
@@ -100,4 +100,10 @@
 
 <view class='dialog' wx:if='{{isShowChangActivityName}}'>
   <chang_activity_name id='chang_activity_name' bind:FinishInput='onFinishInput'></chang_activity_name>
+</view>
+
+<view class='dialog' wx:if='{{isShowDiaLog}}'>
+  <menu bind:ShowQrHadler = 'ShowQrHadler'
+   bind:ExitAcitivity = 'ExitAcitivity'
+  bind:DialogCancel = 'DialogCancel'/>
 </view>

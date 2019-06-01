@@ -330,11 +330,7 @@ Page({
       dialgo_animation: animation.export(),
     })
     setTimeout(function() {
-      var animation = wx.createAnimation({
-        delay: 0,
-        duration: 500,
-        timingFunction: 'ease',
-      })
+      var animation = self.createDiaLogAinmation()
       animation.translateY(0).step()
       self.setData({
         dialgo_animation: animation.export(),
@@ -353,11 +349,7 @@ Page({
       })
     }
 
-    var animation = wx.createAnimation({
-      delay: 0,
-      duration: 500,
-      timingFunction: 'ease',
-    })
+    var animation = this.createDiaLogAinmation()
     animation.translateY(800).step()
     this.setData({
       dialgo_animation: animation.export(),
@@ -383,11 +375,7 @@ Page({
     var index = e.currentTarget.dataset.index
     console.log(index)
 
-    var animation = wx.createAnimation({
-      duration: 500,
-      delay: 0,
-      timingFunction: "ease"
-    })
+    var animation = this.createDiaLogAinmation()
 
     animation.translate(0, 800).step()
     this.setData({
@@ -411,11 +399,7 @@ Page({
   //付款人条目点击事件
   clickPayer: function(e) {
     var self = this
-    var animation = wx.createAnimation({
-      duration: 500,
-      delay: 0,
-      timingFunction: "ease",
-    })
+    var animation = this.createDiaLogAinmation()
 
     animation.translate(0, 1000).step()
 
@@ -425,11 +409,7 @@ Page({
     })
 
     setTimeout(function() {
-      var animation = wx.createAnimation({
-        duration: 500,
-        delay: 0,
-        timingFunction: "ease"
-      })
+      var animation = self.createDiaLogAinmation()
 
       animation.translate(0, 0).step()
 
@@ -538,13 +518,9 @@ Page({
   CloseCheckBoxDialog: function(e) {
     var self = this
     if (this.data.people_list_item.length > 0) {
-      var animation = wx.createAnimation({
-        duration: 500,
-        delay: 0,
-        timingFunction: "ease"
-      })
+      var animation = this.createDiaLogAinmation()
 
-      animation.translate(0, 0).step()
+      animation.translate(0, 800).step()
 
       this.setData({
         dialog_members_animation: animation.export()
@@ -659,15 +635,22 @@ Page({
       isShowInput: false,
     })
 
-    var animation = wx.createAnimation({
-      duration: 500,
+    var frianim = wx.createAnimation({
+      duration: 0,
       delay: 0,
       timingFunction: "ease"
     })
+    frianim.translate(0,800).step()
+
+    this.setData({
+      dialog_members_animation: frianim.export()
+    })
+
+    var animation = this.createDiaLogAinmation()
 
     var height = wx.getSystemInfoSync().windowHeight
     var h = height / 100
-    animation.translate(0, -630).step()
+    animation.translate(0, 0).step()
 
     this.setData({
       dialog_members_animation: animation.export()
@@ -719,6 +702,14 @@ Page({
       console.log(this.data.people_list_item)
     }
 
+  },
+  createDiaLogAinmation: function(){
+    var animation = wx.createAnimation({
+      duration: 500,
+      delay: 0,
+      timingFunction: "ease"
+    })
+    return animation
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

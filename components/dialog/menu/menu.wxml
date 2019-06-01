@@ -1,0 +1,16 @@
+<!-- 详情页面隐藏菜单 -->
+<view class='dialog-content' animation="{{dialog_animation}}">
+  <button bindtap='ShowQrHadler'>
+    <text class='text'>活动二维码</text>
+  </button>
+  <button open-type='share'>
+    <text class='text'>分享活动给朋友</text>
+  </button>
+  <button bindtap='ExitAcitivity'>
+    <text class='text text-red'>删除活动</text>
+  </button>
+  <view class='dialog-line'></view>
+  <button class='dialog-cancel' bindtap='DialogCancel'>
+    <text class='text'>取消</text>
+  </button>
+</view>

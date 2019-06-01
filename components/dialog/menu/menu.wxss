@@ -1,0 +1,29 @@
+.dialog-line{
+  width: 100%;
+  height: 8rpx;
+  margin-left: 0rpx;
+  background: #ededed;
+  margin: 15rpx, 0;
+}
+
+.dialog-content button{
+  width: 100%;
+  text-align: center;
+  padding: 0 0;
+}
+
+.dialog-content{
+  width: 100%;
+  height: 413rpx;
+  background: #ffffff;
+  position: absolute;
+  bottom: -32vh;
+}
+
+.text{
+  font-size: 28rpx;
+}
+
+.text-red{
+  color: #eb4c4c
+}

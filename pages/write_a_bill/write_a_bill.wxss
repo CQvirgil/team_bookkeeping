@@ -221,7 +221,7 @@ button::after {
 
 .dialog-content{
   width: 100%;
-  height: 98vh;
+  height: 1400rpx;
   position: absolute;
   border-radius: 20rpx 20rpx 0rpx 0rpx;
   bottom: 0rpx;
@@ -437,5 +437,4 @@ button::after {
 
 #dialog-members{
   position: absolute;
-  bottom: -1200rpx;
 }

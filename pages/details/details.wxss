@@ -202,7 +202,7 @@
   height: 8rpx;
   margin-left: 0rpx;
   background: #ededed;
-  margin: 15rpx;
+  margin: 15rpx, 0;
 }
 
 .dialog-cancel{

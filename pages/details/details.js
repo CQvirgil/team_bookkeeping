@@ -176,46 +176,22 @@ Page({
     //   isShowDiaLog: false
     // })
   },
+  //隐藏菜单的触发
   SwitchDiaLog: function(e) {
     var self = this
-    var animation = wx.createAnimation({
-      duration: 1000,
-      delay: 0,
-      timingFunction: "ease"
-    })
 
-    animation.translate(0, 210).step()
     this.setData({
       isShowDiaLog: true,
-      dialog_animation: animation.export()
     })
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#7f7f7f',
     })
-    setTimeout(function() {
-      var animation2 = wx.createAnimation({
-        duration: 400,
-        delay: 0,
-        timingFunction: "ease"
-      })
-      animation2.translate(0, 0).step()
-      self.setData({
-        dialog_animation: animation2.export()
-      })
-    }, 100)
   },
+  //点击取消时触发
   DialogCancel: function(e) {
     var self = this
-    var animation2 = wx.createAnimation({
-      duration: 400,
-      delay: 0,
-      timingFunction: "ease"
-    })
-    animation2.translate(0, 210).step()
-    self.setData({
-      dialog_animation: animation2.export()
-    })
+    
     setTimeout(function() {
       self.setData({
         isShowDiaLog: false
@@ -226,6 +202,7 @@ Page({
       })
     }, 400)
   },
+  //点击退出活动时触发
   ExitAcitivity: function(e) {
     var self = this
     wx.showModal({
@@ -287,7 +264,7 @@ Page({
   setManyMember: function(){
     this.setData({
       isShowDetail: true,
-      isShowLine: false,
+      isShowLine: true,
     })
   },
 

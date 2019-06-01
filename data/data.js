@@ -120,7 +120,7 @@ UserData.prototype.addBill = function(act_id, bill) {
 UserData.prototype.updateAddExpend = function(act_id, my_expend){
   for (var i in this.all_activities) {
     if (this.all_activities[i].act_id == act_id) {
-      this.all_activities[i].my_expend += my_expend
+      this.all_activities[i].my_expend += Math.round(my_expend * 100) / 100
     }
   }
 }
