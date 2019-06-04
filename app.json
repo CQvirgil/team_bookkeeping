@@ -11,7 +11,8 @@
     "pages/join_activity/join_activity",
     "pages/write_a_bill/write_a_bill",
     "pages/login/login",
-    "pages/change_bill/change_bill"
+    "pages/change_bill/change_bill",
+    "pages/test/test"
   ],
   "window": {
     "backgroundTextStyle": "light",

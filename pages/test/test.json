@@ -1,6 +1,5 @@
 {
   "usingComponents": {
     "members_participate_in": "/components/dialog/members_participate_in/members_participate_in"
-  },
-  "enablePullDownRefresh": false
+  }
 }

@@ -19,6 +19,7 @@ page {
   color: #bbb;
   position: absolute;
   top: 484rpx;
+  left: 320rpx;
 }
 
 .buttons {

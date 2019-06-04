@@ -38,12 +38,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 0,
 			"list": [
 				{
-					"id": -1,
+					"id": 0,
 					"name": "test",
-					"pathName": "pages/billing_details/billing_details",
+					"pathName": "pages/test/test",
 					"query": "",
 					"scene": null
 				},
@@ -58,6 +58,7 @@
 					"id": -1,
 					"name": "write_a_bill",
 					"pathName": "pages/write_a_bill/write_a_bill",
+					"query": "",
 					"scene": null
 				}
 			]

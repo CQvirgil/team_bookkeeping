@@ -1,0 +1,31 @@
+<!-- 参与成员 -->
+<view class='container dialog-content' id='dialog-members' animation='{{dialog_members_animation}}'>
+  <view class='fill-width dialog-top'>
+    <text class='text-bolder'>参与成员</text>
+  </view>
+
+  <scroll-view scroll-y  class='list'>
+    <checkbox-group bindchange = "onCheckAllMembersChange">
+      <view class='list-item' wx:key='list' wx:for="{{list}}">
+        <view class='list-item-checkbox'>
+          <checkbox  value = "{{item.user_id}}" checked='{{isCheckAllMember}}'/>
+          <image src='{{item.headimgurl}}'/>
+          <text class='text'>{{item.nickname}}</text>
+        </view>
+        <text class='text'>¥{{average_money}}</text>
+      </view>
+    </checkbox-group>
+    <button class='btn text-bolder'>确 <text class='btn-text'>定</text> </button>
+  </scroll-view>
+
+  <view class='dialog-bottom'>
+    <view>
+      <checkbox checked='{{isCheckAll}}' bindtap='onCheckAllClick'/>
+      <text class='text text-golden'>全选</text>
+    </view>
+    <view class='text-bolder'>
+      <text>共</text>
+      <text class='money-count'>¥856.23</text>
+    </view>
+  </view>
+</view>

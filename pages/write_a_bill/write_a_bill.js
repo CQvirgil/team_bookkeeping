@@ -410,7 +410,6 @@ Page({
 
     setTimeout(function() {
       var animation = self.createDiaLogAinmation()
-
       animation.translate(0, 0).step()
 
       self.setData({
@@ -528,6 +527,10 @@ Page({
 
 
       setTimeout(function() {
+        wx.setNavigationBarColor({
+          frontColor: '#000000',
+          backgroundColor: '#ffffff',
+        })
         self.setData({
           isShowdialogCheckbox: false,
           isShowInput: true
@@ -633,6 +636,11 @@ Page({
     this.setData({
       isShowdialogCheckbox: true,
       isShowInput: false,
+    })
+
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#7f7f7f',
     })
 
     var frianim = wx.createAnimation({

@@ -51,17 +51,19 @@ scroll-view {
   -ms-flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  margin: 0 auto;
 }
 
 .left {
   position: absolute;
   left: 120rpx;
+  top: 80rpx;
 }
 
 .right {
   position: absolute;
   right: 120rpx;
+  top: 80rpx;
 }
 
 .money-state-my {
@@ -77,9 +79,11 @@ scroll-view {
 .text-left {
   position: absolute;
   left: 0rpx;
+  top: 100rpx;
 }
 
 .text-right {
   position: absolute;
   right: 0rpx;
+  top: 100rpx;
 }

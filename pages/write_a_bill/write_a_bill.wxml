@@ -88,11 +88,12 @@
     </view>
   </scroll-view>
 
+  <!-- 账单内容弹窗 -->
   <view class='dialog container' wx:if="{{isShowDialog1}}">
     <view class='container dialog-content' animation="{{dialgo_animation}}">
       <view class='radio-group'>
 
-        <text class='text {{item.radio_button_style}}' bindtap='radio_check' wx:for="{{radio_button_data}}"       wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
+        <text class='text {{item.radio_button_style}}' bindtap='radio_check' wx:for="{{radio_button_data}}" wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
          </text>
 
       </view>
@@ -173,4 +174,10 @@
 
     </view>
   </view>
+</view>
+
+<view class='dialog' wx:if="{{false}}">
+
+  <members_participate_in list='{{members}}' average_money="{{average_money}}" />
+
 </view>

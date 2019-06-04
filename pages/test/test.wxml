@@ -1,0 +1,3 @@
+<view class='dialog'>
+  <members_participate_in list="{{members}}"/>
+</view>
