@@ -1,1 +1,4 @@
 /* pages/login/login.wxss */
+.getUserInfo{
+  margin: 50vh 45vh;
+}

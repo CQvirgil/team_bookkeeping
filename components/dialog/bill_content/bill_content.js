@@ -3,9 +3,7 @@ Component({
   /**
    * 组件的属性列表
    */
-  properties: {
-
-  },
+  properties: {},
 
   /**
    * 组件的初始数据
@@ -47,7 +45,11 @@ Component({
         checked: false,
         radio_button_style: 'radio-button'
       }
-    ]
+    ],
+    length: 0,
+    text_class: '',
+    radio_value: '一般',
+    ocAnimation: null
   },
 
   /**
@@ -56,7 +58,7 @@ Component({
   methods: {
     //单选按钮点击事件
     radio_check: function(e) {
-      console.log(e.currentTarget.dataset.id)
+      //console.log(e.currentTarget.dataset.id)
       var data = this.data.radio_button_data
       var text = ''
       //遍历按钮数据
@@ -77,9 +79,67 @@ Component({
         }
         this.setData({
           radio_button_data: data,
-          bill_content: text
+          radio_value: text
         })
       }
+      this.triggerEvent('onBillContentChange', text)
+    },
+    onInPut: function(e) {
+      var length = e.detail.cursor
+      var value = e.detail.value
+      this.setData({
+        length: length
+      })
+      this.setInPutLengthMax(length)
+
+      if (length > 0) {
+        this.triggerEvent('onBillContentChange', value)
+      } else {
+        this.triggerEvent('onBillContentChange', this.data.radio_value)
+      }
+    },
+    setInPutLengthMax: function(length) {
+      if (length == 10) {
+        this.setData({
+          text_class: 'text-red'
+        })
+      } else {
+        this.setData({
+          text_class: ''
+        })
+      }
+    },
+    onBtnClick: function(e){
+      var self = this
+      this.setTranslateAnimation(false)
+      setTimeout(function(){
+        self.triggerEvent('Close')
+      },400)
+    },
+    setTranslateAnimation: function (isOpen) {
+      var animation = wx.createAnimation({
+        duration: 400,
+        delay: 0,
+        timingFunction: "ease"
+      })
+      var window_width = wx.getSystemInfoSync().windowWidth
+      var window_height = wx.getSystemInfoSync().windowHeight
+      //屏幕高度的百分之一 
+      var hundredth = window_height / 100
+      if (isOpen) {
+        animation.translate(0, -(hundredth * 98)).step()
+      } else {
+        animation.translate(0, (hundredth * 98)).step()
+      }
+
+      this.setData({
+        ocAnimation: animation.export()
+      })
+    }
+  },
+  lifetimes: {
+    attached() {
+      this.setTranslateAnimation(true)
     },
   }
 })

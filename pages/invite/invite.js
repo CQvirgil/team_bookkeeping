@@ -31,9 +31,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '邀请成员',
     })
-    console.log(options.page_state)
     var act = app.globalData.userData.findActivityById(app.globalData.create_act_id)
-    console.log(act);
     if (act) {
       this.setData({
         activity: act
@@ -93,7 +91,6 @@ Page({
 
   },
   gotoDetails: function(e) {
-    console.log(this.data.activity.act_id)
     wx.redirectTo({
       url: '../details/details?act_id=' + this.data.activity.act_id + '&page_state=' + this.data.page_state,
     })
@@ -103,7 +100,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    console.log(this.data.activity.members)
     if(this.data.activity.members){
       this.setState()
     }else{

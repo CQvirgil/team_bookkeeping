@@ -8,7 +8,15 @@ Page({
     members:[{
       nickname: 'virgil',
       money: 123
-    }]
+    }],
+    bill_content: '一般'
+  },
+
+  onBillContentChange: function(e){
+    this.setData({
+      bill_content: e.detail
+    })
+    console.log(this.data.bill_content)
   },
 
   /**

@@ -27,7 +27,6 @@ Page({
     var act_id = options.act_id
     //var act_id = 'b52eeab6-df04-4ef7-8082-4f993caa7ef9'
     var self = this
-    console.log(act_id)
     this.setData({
       act_id: act_id
     })
@@ -45,7 +44,6 @@ Page({
               withCredentials: true,
               success(res) {
                 // 可以将 res 发送给后台解码出 unionId
-                console.log(res)
                 app.globalData.userInfo = res.userInfo
                 var encryptedData = res.encryptedData
                 var iv = res.iv
@@ -53,7 +51,6 @@ Page({
                 wx.login({
                   success(res) {
                     var code = res.code
-                    console.log(res)
                     wx.request({
                       url: app.globalData.url + '/auth/wxlogin',
                       method: 'POST',
@@ -64,7 +61,6 @@ Page({
                       },
                       success(res) {
                         if (res.data.code == 0) {
-                          console.log(res.data)
                           app.globalData.unionid = res.data.data.unionid
                           wx.request({
                             url: app.globalData.url + '/activity/get',
@@ -74,7 +70,6 @@ Page({
                               "user_id": app.globalData.unionid
                             },
                             success(res) {
-                              console.log(res)
                               if (res.data.code == 0) {
                                 var created = res.data.data.created_at
                                 var sub_created = new Date(created)
@@ -96,7 +91,6 @@ Page({
                                     self.setBtnState('btn_unclickable', '加入活动')
                                   }
                                 }
-                                //console.log(self.data.activity)
                               }
                             }
                           })
@@ -163,7 +157,6 @@ Page({
               url: '/pages/index/index',
             })
           }
-          console.log(res)
         }
       })
     } else {

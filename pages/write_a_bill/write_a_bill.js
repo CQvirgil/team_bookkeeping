@@ -18,15 +18,12 @@ Page({
     date: '',
     text_date: '今天',
     isShowInput: true, //控制input组件
-    isShowDialog1: false, //控制隐藏菜单
+    isShowDialog1: false, //控制账单内容弹出显示
     money: 0, //平均状态下的总数
     average_money: 0, //平均状态下的平均值
     bill_content: '一般',
-    radio_button_style: 'radio-button',
-    dialog_input_length: 0,
-    dialog_input_text: '',
     isSelectAll: true,
-    dialgo_animation: null, //弹窗动画
+    dialgo_animation: null, //账单内容弹窗动画
     isShowPeopleDialog: false, //控制成员列表弹窗的显示
     money_acount: 0,
     members: [], //成员列表
@@ -45,45 +42,28 @@ Page({
     dialog_members_animation: null,
     isShowDialog: false,
     my_total: 0,
-    radio_button_data: [{ //账单内容弹窗数据
-        id: 1,
-        value: '一般',
-        checked: false,
-        radio_button_style: 'radio-button-check'
-      },
-      {
-        id: 2,
-        value: '餐饮',
-        checked: false,
-        radio_button_style: 'radio-button'
-      },
-      {
-        id: 3,
-        value: '住宿',
-        checked: false,
-        radio_button_style: 'radio-button'
-      },
-      {
-        id: 4,
-        value: '交通',
-        checked: false,
-        radio_button_style: 'radio-button'
-      },
-      {
-        id: 5,
-        value: '门票',
-        checked: false,
-        radio_button_style: 'radio-button'
-      },
-      {
-        id: 6,
-        value: '购物',
-        checked: false,
-        radio_button_style: 'radio-button'
-      }
-    ]
   },
-
+  onBillContentChange: function(e){
+    var value = e.detail
+    this.setData({
+      bill_content: value
+    })
+    //console.log(this.data.bill_content)
+  },
+  onBillContentDiaLogClose: function(e){
+    this.setNavigetiobBarDefault()
+    this.setData({
+      isShowDialog1: false,
+      isShowInput: true,
+      isShowDialog: false
+    })
+  },
+  setNavigetiobBarDefault: function(){
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#fff',
+    })
+  },
   StartInput: function(e) {
     var input_value = this.data.input_value
     if (this.data.input_value != null) {
@@ -115,7 +95,6 @@ Page({
         average_money: average,
         money: e.detail.value
       })
-      console.log(this.data.people_list_item)
     }
   },
   HoverInput: function(e) {
@@ -158,7 +137,6 @@ Page({
     if (!this.data.isShowerr_hint && this.data.money != 0 || this.data.money_acount != 0) {
       switch (this.data.pages_state) {
         case 'default':
-          //console.log(self.data.people_list_item)
           //具体分摊状态
           if (this.data.isSpecificState) {
             http_request.cretateBill(self.data.act_id,
@@ -188,7 +166,6 @@ Page({
             )
           } else {
             var money = parseFloat(self.data.money)
-            console.log(self.data.people_list_item)
             http_request.cretateBill(self.data.act_id,
               self.data.bill_content,
               self.data.people_list_item, self.data.payer.user_id, money)
@@ -203,7 +180,7 @@ Page({
                   my_total: self.data.average_money
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
-                app.globalData.userData.updateAddExpend(self.data.act_id, self.data.average_money)
+                app.globalData.userData.updateAddExpend(self.data.act_id, money)
                 wx.navigateBack({
                   delta: 1
                 })
@@ -216,7 +193,6 @@ Page({
           if (!this.data.isSpecificState) {
             http_request.updataBill(self.data.act_id, self.data.bill_id, self.data.bill_content,
               self.data.people_list_item, self.data.payer.user_id, money)
-            console.log(money)
             app.globalData.mPromise.then(
               function(data) {
                 var money = parseFloat(self.data.money)
@@ -228,7 +204,8 @@ Page({
                   my_total: self.data.average_money
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
-                
+                app.globalData.userData.subExpend(self.data.act_id, self.data.bill.my_expend)
+                app.globalData.userData.updateAddExpend(self.data.act_id, money)
                 wx.showToast({
                   title: '修改成功',
                 })
@@ -252,7 +229,8 @@ Page({
                   my_total: self.data.my_total
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
-                
+                app.globalData.userData.subExpend(self.data.act_id, self.data.bill.my_expend)
+                app.globalData.userData.updateAddExpend(self.data.act_id, self.data.my_total)
                 wx.showToast({
                   title: '修改成功',
                 })
@@ -271,43 +249,8 @@ Page({
 
 
   },
-  //单选按钮点击事件
-  radio_check: function(e) {
-    //console.log(e.currentTarget.dataset.id)
-    var data = this.data.radio_button_data
-    var text = ''
-    //遍历按钮数据
-    for (var i = 0; i < this.data.radio_button_data.length; i++) {
-      //判断传回的id是否等于当前遍历的id
-      if (e.currentTarget.dataset.id == this.data.radio_button_data[i].id) {
-        //设置当前遍历的数据为已点击状态
-        data[i].checked = true
-        text = data[i].value
-      } else {
-        data[i].checked = false
-      }
-      //判断是否为点击状态
-      if (data[i].checked) {
-        data[i].radio_button_style = 'radio-button-check'
-      } else {
-        data[i].radio_button_style = 'radio-button'
-      }
-      this.setData({
-        radio_button_data: data,
-        bill_content: text
-      })
-    }
-  },
 
-  dialog_input: function(e) {
-    var text = e.detail.value
-    this.setData({
-      dialog_input_length: text.length,
-      dialog_input_text: text
-    })
-  },
-
-  clicktBillContent: function(e) {
+  onBillContentClick: function(e) {
     var self = this
     wx.setNavigationBarColor({
       frontColor: '#000000',
@@ -316,64 +259,14 @@ Page({
     this.setData({
       isShowInput: false,
       isShowDialog1: true,
-      dialog_input_text: '',
       isShowDialog: false
     })
-    var animation = wx.createAnimation({
-      delay: 0,
-      duration: 0,
-      timingFunction: 'ease',
-    })
-
-    animation.translateY(800).step()
-    this.setData({
-      dialgo_animation: animation.export(),
-    })
-    setTimeout(function() {
-      var animation = self.createDiaLogAinmation()
-      animation.translateY(0).step()
-      self.setData({
-        dialgo_animation: animation.export(),
-      })
-    }, 100)
-
-
-  },
-
-  clickDialogQueding: function(e) {
-    var self = this
-    if (this.data.dialog_input_text.length != 0) {
-      var text = this.data.dialog_input_text
-      this.setData({
-        bill_content: text
-      })
-    }
-
-    var animation = this.createDiaLogAinmation()
-    animation.translateY(800).step()
-    this.setData({
-      dialgo_animation: animation.export(),
-    })
-    setTimeout(function() {
-      //console.log(self.data.dialog_input_text.length)
-      self.setData({
-        isShowInput: true,
-        isShowDialog1: false,
-        isShowDialog: true
-      })
-      wx.setNavigationBarColor({
-        frontColor: '#000000',
-        backgroundColor: '#ffffff',
-      })
-    }, 500)
-
   },
 
   clickPeopleItem: function(e) {
     var self = this
 
     var index = e.currentTarget.dataset.index
-    console.log(index)
 
     var animation = this.createDiaLogAinmation()
 
@@ -439,7 +332,6 @@ Page({
           people_list_item: item
         })
       }
-      console.log(this.data.people_list_item)
       this.setData({
         state: '具体分摊',
         isSpecificState: true,
@@ -459,7 +351,6 @@ Page({
     this.setData({
       people_list_postion: e.currentTarget.dataset.index
     })
-    //console.log("BindPeopleListTap: " + e.currentTarget.dataset.index)
   },
   BindSpecificListInput: function(e) {
     var input = parseFloat(e.detail.value)
@@ -503,9 +394,7 @@ Page({
       var money = 0
       for (var i = 0; i < this.data.people_list_item.length; i++) {
         money += this.data.people_list_item[i].Money
-        console.log(money)
       }
-      console.log(this.data.people_list_item)
 
       this.setData({
         money_acount: money
@@ -548,23 +437,19 @@ Page({
     var bill_id = options.bill_id
     var pages_state = options.state
     if (act_id) {
-      console.log(act_id)
       this.setData({
         act_id: act_id
       })
       var activity = app.globalData.userData.findActivityById(act_id)
-      console.log(activity)
       this.setData({
         members: activity.members,
         payer: activity.members[0],
       })
       self.setPayersListDefault()
-      console.log(activity.members[0])
     }
 
 
     if (bill_id && pages_state === 'change_bill') {
-      console.log('bill_id=  ' + bill_id)
       this.setChaneBillStaet(bill_id)
     }
 
@@ -572,7 +457,6 @@ Page({
       date: util.formatTime(),
       pages_state: pages_state
     })
-    console.log('state: ' + this.data.pages_state)
   },
 
   setChaneBillStaet: function(bill_id) {
@@ -604,7 +488,6 @@ Page({
           "user_id": this.data.bill.payer_id
         },
         success(res) {
-          console.log(res.data.data)
           var payer_nickname = res.data.data.nickname
           var payer_headimgurl = res.data.data.head_img
           var payer = {
@@ -620,7 +503,6 @@ Page({
     }
   },
   setPayersListDefault: function() {
-    console.log(this.data.members)
     var item = []
     for (var i = 0; i < this.data.members.length; i++) {
       item[i] = {
@@ -666,7 +548,6 @@ Page({
   },
   //多选按钮状态变化监听
   checkboxChange: function(e) {
-    console.log('checkboxChange')
     var members = []
     var money = this.data.money / e.detail.value.length
     for (var i = 0; i < e.detail.value.length; i++) {
@@ -681,7 +562,6 @@ Page({
       people_list_item: members,
       average_money: money
     })
-    console.log(members)
   },
   selectAll: function(e) {
     if (this.data.isChecked) {
@@ -691,7 +571,6 @@ Page({
         people_list_item: [],
         average_money: 0
       })
-      console.log(this.data.people_list_item)
     } else {
       var item = []
       var average = e.detail.value / this.data.members.length
@@ -707,7 +586,6 @@ Page({
         isChecked: true,
         people_list_item: item,
       })
-      console.log(this.data.people_list_item)
     }
 
   },
@@ -719,54 +597,4 @@ Page({
     })
     return animation
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-    // this.setData({
-    //   btn_write_state_disable: 'btn-disable'
-    // })
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-    wx.startPullDownRefresh()
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
-  }
 })

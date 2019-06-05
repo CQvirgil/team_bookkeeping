@@ -117,10 +117,20 @@ UserData.prototype.addBill = function(act_id, bill) {
   }
 }
 
+//加上新增账单的消费
 UserData.prototype.updateAddExpend = function(act_id, my_expend){
   for (var i in this.all_activities) {
     if (this.all_activities[i].act_id == act_id) {
       this.all_activities[i].my_expend += Math.round(my_expend * 100) / 100
+    }
+  }
+}
+
+//减去某个账单的消费
+UserData.prototype.subExpend = function(act_id, sub_expend){
+  for(var i in this.all_activities){
+    if(this.all_activities[i].act_id == act_id){
+      this.all_activities[i].my_expend -= sub_expend
     }
   }
 }
@@ -134,8 +144,7 @@ UserData.prototype.removeBill = function(act_id, bill_id) {
           this.all_activities[i].all_bills.splice(j, 1)
           this.all_activities[i].act_total = this.all_totalCount(act_id)
           this.all_activities[i].my_total = this.my_totalCount(act_id)
-          this.all_activities[i].my_expend = this.my_totalCount(act_id)
-          
+          this.all_activities[i].my_expend = this.my_totalCount(act_id)     
         }
       }
     }

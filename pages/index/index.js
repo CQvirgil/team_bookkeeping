@@ -23,7 +23,6 @@ Page({
         var code = res.code
         app.globalData.code = code
         app.globalData.userData.code = code
-        console.log('res.code: ' + app.globalData.code)
         wx.getSetting({
           success: res => {
             if (res.authSetting['scope.userInfo']) {
@@ -33,7 +32,6 @@ Page({
                 withCredentials: true,
                 success(res) {
                   // 可以将 res 发送给后台解码出 unionId
-                  //console.log(res)
                   app.globalData.userInfo = res.userInfo
                   app.globalData.userData.userInfo = res.userInfo
                   var encryptedData = res.encryptedData
@@ -89,7 +87,6 @@ Page({
     }
   },
   gotoCreatActivity(event) {
-    console.log('gotoCreatActivity')
     wx.navigateTo({
       url: '../creat_activity/creat_activity',
     })
@@ -97,7 +94,6 @@ Page({
   joinActivity: function(e) {
     wx.scanCode({
       success(res) {
-        console.log(res)
       }
     })
   },

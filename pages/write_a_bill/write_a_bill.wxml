@@ -32,7 +32,7 @@
 
       <view class='conent top-content'>
         <text class='text'>账单内容</text>
-        <view class='right' bindtap='clicktBillContent'>
+        <view class='right' bindtap='onBillContentClick'>
           <text class='text text-gray'>{{bill_content}}</text>
           <image class='jiantou' src='/res/btn_members_normal.png'></image>
         </view>
@@ -87,28 +87,6 @@
       <button class='text-bolder btn-write {{btn_write_state_disable}}' id='write' bindtap='write'>{{btn}}</button>
     </view>
   </scroll-view>
-
-  <!-- 账单内容弹窗 -->
-  <view class='dialog container' wx:if="{{isShowDialog1}}">
-    <view class='container dialog-content' animation="{{dialgo_animation}}">
-      <view class='radio-group'>
-
-        <text class='text {{item.radio_button_style}}' bindtap='radio_check' wx:for="{{radio_button_data}}" wx:key="radio_button_data" data-id='{{item.id}}'>{{item.value}}
-         </text>
-
-      </view>
-
-      <view class='dialog-input'>
-        <input maxlength='10' type='text' class='text input' placeholder-class='text-bbb' bindinput='dialog_input' placeholder="点击这里输入自定义内容" value=''></input>
-        <text class='text text-bbb'>{{dialog_input_length}}/10</text>
-      </view>
-
-      <button bindtap='clickDialogQueding' class='text-bolder'>
-        <text class='que'>确</text>
-        <text>定</text>
-      </button>
-    </view>
-  </view>
 
   <view class='dialog container' wx:if="{{isShowPeopleDialog}}">
     <view class='container dialog-content' animation='{{dialog_payer_animation}}'>
@@ -180,4 +158,8 @@
 
   <members_participate_in list='{{members}}' average_money="{{average_money}}" />
 
+</view>
+
+<view class='dialog' wx:if="{{isShowDialog1}}">
+  <bill_content bind:onBillContentChange="onBillContentChange" bind:Close="onBillContentDiaLogClose" animation='{{dialgo_animation}}' />
 </view>
