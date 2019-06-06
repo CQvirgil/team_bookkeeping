@@ -51,8 +51,7 @@
 
   <scroll-view scroll-y class='list'>
 
-    <view class='list-item' wx:for="{{activity.all_bills}}" wx:key="bill"
-     bindtap='ListItemTap' data-index='{{index}}' data-bill_id='{{item.bill_id}}'>
+    <view class='list-item' wx:for="{{activity.all_bills}}" wx:key="bill" bindtap='ListItemTap' data-index='{{index}}' data-bill_id='{{item.bill_id}}'>
       <text class='text time text-gray'>{{item.created_at}}</text>
       <view class='text-container'>
         <text class='text'>{{item.content}}</text>
@@ -92,10 +91,6 @@
     </view>
   </view>
 
-  <view class='dialog container' id='qr' wx:if='{{isQRDialogShow}}'>
-    <qr_invite act_id='{{act_id}}'></qr_invite>
-    <image bindtap='QrCloseHandler' class='qr-close' src='/res/btn_close.png'></image>
-  </view>
 </view>
 
 <view class='dialog' wx:if='{{isShowChangActivityName}}'>
@@ -103,7 +98,11 @@
 </view>
 
 <view class='dialog' wx:if='{{isShowDiaLog}}'>
-  <menu bind:ShowQrHadler = 'ShowQrHadler'
-   bind:ExitAcitivity = 'ExitAcitivity'
-  bind:DialogCancel = 'DialogCancel'/>
+  <menu bind:ShowQrHadler='ShowQrHadler' bind:ExitAcitivity='ExitAcitivity' bind:DialogCancel='DialogCancel' />
+</view>
+
+
+<view class='dialog container' id='qr' wx:if='{{isQRDialogShow}}'>
+  <qr_invite act_id='{{act_id}}'></qr_invite>
+  <image bindtap='QrCloseHandler' class='qr-close' src='/res/btn_close.png'></image>
 </view>

@@ -50,27 +50,15 @@ Page({
     this.setData({
       act_id: options.act_id
     })
-    wx.request({
-      url: app.globalData.url +'/activity/get',
-      method: 'POST',
-      data: {
-        "act_id": options.act_id,
-        "user_id": app.globalData.unionid
-      },
-      success(res) {
-        var members = res.data.data.members
-        var people = []
-        for (var i = 1; i < members.length; i++) {
-          people[i - 1] = members[i]
-        }
-        self.setData({
-          list: people,
-          creater: members[0],
-          act_name: res.data.data.name,
-          activity: res.data.data
-        })
-        //console.log(res)
-      }
+
+    var activity =  app.globalData.userData.findActivityById(options.act_id)
+    console.log(activity.members)
+
+    this.setData({
+      list: activity.members,
+      creater: null,
+      act_name: activity.name,
+      activity: activity
     })
 
     //判断是否接受邀请，true为未接受，false为接受，未接受时修改列表item的透明度为0.7

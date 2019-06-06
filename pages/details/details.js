@@ -155,7 +155,7 @@ Page({
 
     if (!this.data.isLoad) {
       var activity = app.globalData.userData.findActivityById(this.data.act_id)
-      //console.log(activity)
+      console.log(activity)
       this.setData({
         activity: activity
       })
@@ -240,6 +240,7 @@ Page({
    */
   onShow: function() {
     var activity = app.globalData.userData.findActivityById(this.data.act_id)
+    console.log(activity)
     this.setData({
       activity: activity
     })

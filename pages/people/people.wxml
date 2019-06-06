@@ -1,10 +1,10 @@
 <!--pages/people/people.wxml-->
 <view class='container people'>
   <scroll-view class='list' scroll-y>
-    <view class='mine'>
+    <!-- <view class='mine'>
       <image class='headimg' src='{{creater.headimgurl}}' />
       <text class='text username'>{{creater.nickname}}</text>
-    </view>
+    </view> -->
     <view class='list-item {{list_item_style}}' wx:for='{{list}}' wx:key='list'>
       <view class='transverse'>
         <image class='headimg' src='{{item.headimgurl}}' />

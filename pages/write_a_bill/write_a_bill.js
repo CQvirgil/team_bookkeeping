@@ -43,14 +43,14 @@ Page({
     isShowDialog: false,
     my_total: 0,
   },
-  onBillContentChange: function(e){
+  onBillContentChange: function(e) {
     var value = e.detail
     this.setData({
       bill_content: value
     })
     //console.log(this.data.bill_content)
   },
-  onBillContentDiaLogClose: function(e){
+  onBillContentDiaLogClose: function(e) {
     this.setNavigetiobBarDefault()
     this.setData({
       isShowDialog1: false,
@@ -58,7 +58,7 @@ Page({
       isShowDialog: false
     })
   },
-  setNavigetiobBarDefault: function(){
+  setNavigetiobBarDefault: function() {
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#fff',
@@ -152,7 +152,9 @@ Page({
                   my_total: self.data.my_total
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
-                app.globalData.userData.updateAddExpend(self.data.act_id, self.data.my_total)
+                if (self.data.payerID == app.globalData.userData.id) {
+                  app.globalData.userData.updateAddExpend(self.data.act_id, self.data.my_total)
+                }
                 wx.showToast({
                   title: '记账成功',
                 })
@@ -180,7 +182,10 @@ Page({
                   my_total: self.data.average_money
                 }
                 app.globalData.userData.addBill(self.data.act_id, bill)
-                app.globalData.userData.updateAddExpend(self.data.act_id, money)
+                if (self.data.payerID == app.globalData.userData.id) {
+                  app.globalData.userData.updateAddExpend(self.data.act_id, money)
+                }
+
                 wx.navigateBack({
                   delta: 1
                 })
@@ -204,8 +209,11 @@ Page({
                   my_total: self.data.average_money
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
-                app.globalData.userData.subExpend(self.data.act_id, self.data.bill.my_expend)
-                app.globalData.userData.updateAddExpend(self.data.act_id, money)
+                if (self.data.payerID == app.globalData.userData.id) {
+                  app.globalData.userData.subExpend(self.data.act_id, self.data.bill.my_expend)
+                  app.globalData.userData.updateAddExpend(self.data.act_id, money)
+                }
+
                 wx.showToast({
                   title: '修改成功',
                 })
@@ -229,8 +237,11 @@ Page({
                   my_total: self.data.my_total
                 }
                 app.globalData.userData.updataBill(self.data.act_id, self.data.bill_id, bill)
-                app.globalData.userData.subExpend(self.data.act_id, self.data.bill.my_expend)
-                app.globalData.userData.updateAddExpend(self.data.act_id, self.data.my_total)
+                if (self.data.payerID == app.globalData.userData.id) {
+                  app.globalData.userData.subExpend(self.data.act_id, self.data.bill.my_expend)
+                  app.globalData.userData.updateAddExpend(self.data.act_id, self.data.my_total)
+                }
+
                 wx.showToast({
                   title: '修改成功',
                 })
@@ -359,7 +370,7 @@ Page({
         isShowerr_hint: true,
         btn_write_state_disable: 'btn-disable'
       })
-    } else if (this.data.money_acount && this.data.isSpecificState) {
+    } else if (this.data.money_acount <= 0 && this.data.isSpecificState) {
       this.setData({
         isShowerr_hint: false,
         btn_write_state_disable: 'btn-disable'
@@ -376,7 +387,7 @@ Page({
 
     if (!this.data.isShowerr_hint) {
       var input = parseFloat(e.detail.value)
-      if(!input){
+      if (!input) {
         input = 0
       }
       var item = this.data.people_list_item
@@ -385,24 +396,50 @@ Page({
         people_list_item: item
       })
 
-      if (item[this.data.people_list_postion].user_id == app.globalData.userData.id){
+      if (item[this.data.people_list_postion].user_id == app.globalData.userData.id) {
         this.setData({
           my_total: input
         })
       }
 
-      var money = 0
-      for (var i = 0; i < this.data.people_list_item.length; i++) {
-        money += this.data.people_list_item[i].Money
-      }
-
-      this.setData({
-        money_acount: money
-      })
     }
 
+    this.setSpecififListMoneyCount()
+
+    this.setWriteBtnUnDisable()
 
   },
+
+  onSpecificListFocus: function(e) {
+    this.setSpecififListMoneyCount()
+    this.setWriteBtnUnDisable()
+  },
+
+  setWriteBtnUnDisable: function() {
+    if (this.data.money_acount <= 0 && this.data.isSpecificState) {
+      this.setData({
+        isShowerr_hint: false,
+        btn_write_state_disable: 'btn-disable'
+      })
+    } else {
+      this.setData({
+        isShowerr_hint: false,
+        btn_write_state_disable: ''
+      })
+    }
+  },
+
+  setSpecififListMoneyCount: function() {
+    var money = 0
+    for (var i = 0; i < this.data.people_list_item.length; i++) {
+      money += this.data.people_list_item[i].Money
+    }
+
+    this.setData({
+      money_acount: money
+    })
+  },
+
   CloseCheckBoxDialog: function(e) {
     var self = this
     if (this.data.people_list_item.length > 0) {
@@ -530,7 +567,7 @@ Page({
       delay: 0,
       timingFunction: "ease"
     })
-    frianim.translate(0,800).step()
+    frianim.translate(0, 800).step()
 
     this.setData({
       dialog_members_animation: frianim.export()
@@ -589,7 +626,7 @@ Page({
     }
 
   },
-  createDiaLogAinmation: function(){
+  createDiaLogAinmation: function() {
     var animation = wx.createAnimation({
       duration: 500,
       delay: 0,

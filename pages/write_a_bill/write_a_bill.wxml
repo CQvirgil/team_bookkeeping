@@ -75,7 +75,7 @@
               <text class='text'>{{item.nickname}}</text>
             </view>
             <view class='person-msg'>
-              <input type='digit' class='text' placeholder='0.00' bindinput='BindSpecificListInput' bindblur='Bindblur'></input>
+              <input type='digit' class='text' placeholder='0.00' bindinput='BindSpecificListInput' bindblur='Bindblur' bindfocus='onSpecificListFocus'></input>
               <text class='text'>¥</text>
             </view>
           </view>
