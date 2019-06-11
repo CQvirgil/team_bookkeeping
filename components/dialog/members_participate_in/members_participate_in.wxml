@@ -1,5 +1,5 @@
 <!-- 参与成员 -->
-<view class='container dialog-content' id='dialog-members' animation='{{dialog_members_animation}}'>
+<view class='container dialog-content' id='dialog-members' animation='{{animation}}'>
   <view class='fill-width dialog-top'>
     <text class='text-bolder'>参与成员</text>
   </view>
@@ -15,7 +15,7 @@
         <text class='text'>¥{{average_money}}</text>
       </view>
     </checkbox-group>
-    <button class='btn text-bolder'>确 <text class='btn-text'>定</text> </button>
+    <button bindtap='onButtonClick' class='btn text-bolder'>确 <text class='btn-text'>定</text> </button>
   </scroll-view>
 
   <view class='dialog-bottom'>
@@ -25,7 +25,7 @@
     </view>
     <view class='text-bolder'>
       <text>共</text>
-      <text class='money-count'>¥856.23</text>
+      <text class='money-count'>¥{{money_count}}</text>
     </view>
   </view>
 </view>

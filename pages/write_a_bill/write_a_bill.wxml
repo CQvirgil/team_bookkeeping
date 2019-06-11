@@ -60,7 +60,7 @@
 
       <view class='conent'>
         <text class='text'>参与成员</text>
-        <view class='right' wx:if='{{!isSpecificState}}' bindtap='ShowCheckboxDialog'>
+        <view class='right' wx:if='{{!isSpecificState}}' bindtap='onShowMemberDialog'>
           <text class='text text-gray'>{{people_list_item.length}}人平摊</text>
           <image class='jiantou' src='/res/btn_members_normal.png'></image>
         </view>
@@ -68,14 +68,14 @@
       </view>
 
       <view class='people-list' wx:if="{{isSpecificState && isShowDialog}}">
-        <view class='people-item-container' data-index='{{index}}' bindtap='BindPeopleListTap' wx:for="{{members}}" wx:key="members">
+        <view class='people-item-container' data-index='{{index}}' bindtap='onSpecificListTap' wx:for="{{members}}" wx:key="members">
           <view class='people-item'>
             <view class='person-msg'>
               <image class='headimg-72' src='{{item.headimgurl}}'></image>
               <text class='text'>{{item.nickname}}</text>
             </view>
             <view class='person-msg'>
-              <input type='digit' class='text' placeholder='0.00' bindinput='BindSpecificListInput' bindblur='Bindblur' bindfocus='onSpecificListFocus'></input>
+              <input type='digit' class='text' placeholder='0.00' bindinput='onSpecificListInput' bindblur='onSpecificListBlur' bindfocus='onSpecificListFocus'></input>
               <text class='text'>¥</text>
             </view>
           </view>
@@ -110,7 +110,7 @@
 </view>
 
 <!-- 参与成员 -->
-<view class='dialog container' wx:if='{{isShowdialogCheckbox}}'>
+<view class='dialog container' wx:if='{{false}}'>
   <view class='container dialog-content' id='dialog-members' animation='{{dialog_members_animation}}'>
     <view class='fill-width dialog-top'>
       <text class='text-bolder'>参与成员</text>
@@ -154,12 +154,12 @@
   </view>
 </view>
 
-<view class='dialog' wx:if="{{false}}">
+<view class='dialog' wx:if="{{isShowdialogCheckbox}}">
 
-  <members_participate_in list='{{members}}' average_money="{{average_money}}" />
+  <members_participate_in list='{{members}}' money_count="{{money}}" average_money="{{average_money}}" bind:ButtonClick = "onMemberDialogClose" bind:CheckALL = "onCheckAll" bind:CheckBoxChange = "onMemberDialogListChang"/>
 
 </view>
 
 <view class='dialog' wx:if="{{isShowDialog1}}">
-  <bill_content bind:onBillContentChange="onBillContentChange" bind:Close="onBillContentDiaLogClose" animation='{{dialgo_animation}}' />
+  <bill_content bind:onBillContentChange="onBillContentChange" bind:Close="onBillContentDiaLogClose" />
 </view>

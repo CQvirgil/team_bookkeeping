@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activity: null,
+    activity: null, //活动
     isChecked: true,
     state: '平均分摊',
     isSpecificState: false, //是否为平均分摊
@@ -23,7 +23,6 @@ Page({
     average_money: 0, //平均状态下的平均值
     bill_content: '一般',
     isSelectAll: true,
-    dialgo_animation: null, //账单内容弹窗动画
     isShowPeopleDialog: false, //控制成员列表弹窗的显示
     money_acount: 0,
     members: [], //成员列表
@@ -62,6 +61,12 @@ Page({
     wx.setNavigationBarColor({
       frontColor: '#000000',
       backgroundColor: '#fff',
+    })
+  },
+  setNavigetiobBarDialog() {
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: '#7f7f7f',
     })
   },
   StartInput: function(e) {
@@ -118,10 +123,11 @@ Page({
   },
   //日期选择器事件
   bindDateChange: function(e) {
+    var mData = e.detail.value //选择的日期
     this.setData({
-      date: e.detail.value
+      date: mData
     })
-    if (e.detail.value === util.formatTime) {
+    if (mData === util.formatTime()) {
       this.setData({
         text_date: '今天'
       })
@@ -263,10 +269,7 @@ Page({
 
   onBillContentClick: function(e) {
     var self = this
-    wx.setNavigationBarColor({
-      frontColor: '#000000',
-      backgroundColor: '#7f7f7f',
-    })
+    this.setNavigetiobBarDialog()
     this.setData({
       isShowInput: false,
       isShowDialog1: true,
@@ -294,10 +297,7 @@ Page({
         payer: self.data.members[index],
         isShowDialog: true
       })
-      wx.setNavigationBarColor({
-        frontColor: '#000000',
-        backgroundColor: '#ffffff',
-      })
+      self.setNavigetiobBarDefault()
     }, 500)
   },
   //付款人条目点击事件
@@ -321,10 +321,7 @@ Page({
       })
     }, 100)
 
-    wx.setNavigationBarColor({
-      frontColor: '#000000',
-      backgroundColor: '#7f7f7f',
-    })
+    this.setNavigetiobBarDialog()
     this.setData({
       isShowInput: false,
       isShowPeopleDialog: true
@@ -332,38 +329,54 @@ Page({
   },
   //切换具体分摊和平均分摊状态
   changeState: function(e) {
+    this.setPeopleListItemDefault()
     if (!this.data.isSpecificState) {
-      var item = []
-      for (var i = 0; i < this.data.members.length; i++) {
-        item[i] = {
-          "Money": 0,
-          "user_id": this.data.members[i].user_id
-        }
-        this.setData({
-          people_list_item: item
-        })
-      }
-      this.setData({
-        state: '具体分摊',
-        isSpecificState: true,
-        input_value: '',
-        isShowDialog: true
-      })
+      this.setSpecificState()
     } else {
-      this.setData({
-        state: '平均分摊',
-        isSpecificState: false,
-      })
+      this.setAverageState()
     }
 
   },
+
+  //设置成员数据为默认状态
+  setPeopleListItemDefault: function() {
+    var item = this.data.people_list_item
+    for (var i = 0; i < this.data.members.length; i++) {
+      item[i].Money = 0
+    }
+
+    this.setData({
+      people_list_item: item,
+      money: 0,
+      money_acount: 0
+    })
+  },
+
+  //设置页面为具体分摊状态
+  setSpecificState: function() {
+    this.setData({
+      state: '具体分摊',
+      isSpecificState: true,
+      input_value: '',
+      isShowDialog: true,
+    })
+  },
+
+  //设置页面为平均分摊状态
+  setAverageState: function() {
+    this.setData({
+      state: '平均分摊',
+      isSpecificState: false,
+    })
+  },
   //点击参与成员列表
-  BindPeopleListTap: function(e) {
+  onSpecificListTap: function(e) {
     this.setData({
       people_list_postion: e.currentTarget.dataset.index
     })
   },
-  BindSpecificListInput: function(e) {
+  //具体分摊状态下输入中触发的事件
+  onSpecificListInput: function(e) {
     var input = parseFloat(e.detail.value)
     if (input > 9999.99) {
       this.setData({
@@ -383,7 +396,7 @@ Page({
     }
   },
   //具体分摊成员列表的input组件失去焦点时触发事件
-  Bindblur: function(e) {
+  onSpecificListBlur: function(e) {
 
     if (!this.data.isShowerr_hint) {
       var input = parseFloat(e.detail.value)
@@ -440,6 +453,31 @@ Page({
     })
   },
 
+  onMemberDialogClose: function(e) {
+    this.setNavigetiobBarDefault()
+    this.setData({
+      isShowdialogCheckbox: false,
+      isShowInput: true
+    })
+  },
+  onMemberDialogListChang: function(e) {
+    var value = e.detail
+    var members = []
+    var money = this.data.money / value.length
+    for (var i = 0; i < value.length; i++) {
+      var user_id = value[i]
+      members[i] = {
+        "Money": money,
+        "user_id": user_id
+      }
+    }
+
+    this.setData({
+      people_list_item: members,
+      average_money: money
+    })
+    console.log(this.data.people_list_item)
+  },
   CloseCheckBoxDialog: function(e) {
     var self = this
     if (this.data.people_list_item.length > 0) {
@@ -453,10 +491,7 @@ Page({
 
 
       setTimeout(function() {
-        wx.setNavigationBarColor({
-          frontColor: '#000000',
-          backgroundColor: '#ffffff',
-        })
+        self.setNavigetiobBarDefault()
         self.setData({
           isShowdialogCheckbox: false,
           isShowInput: true
@@ -551,16 +586,14 @@ Page({
       })
     }
   },
-  ShowCheckboxDialog: function(e) {
+  //参与成员条目点击处理监听函数
+  onShowMemberDialog: function(e) {
     this.setData({
       isShowdialogCheckbox: true,
       isShowInput: false,
     })
 
-    wx.setNavigationBarColor({
-      frontColor: '#000000',
-      backgroundColor: '#7f7f7f',
-    })
+    this.setNavigetiobBarDialog()
 
     var frianim = wx.createAnimation({
       duration: 0,
@@ -599,6 +632,29 @@ Page({
       people_list_item: members,
       average_money: money
     })
+  },
+
+  onCheckAll: function(e) {
+    if (!e.detail) {
+      this.setData({
+        people_list_item: [],
+        average_money: 0
+      })
+    } else {
+      var item = []
+      var average = this.data.money / this.data.members.length
+      for (var i = 0; i < this.data.members.length; i++) {
+        item[i] = {
+          "Money": average,
+          "user_id": this.data.members[i].user_id
+        }
+      }
+
+      this.setData({
+        average_money: average,
+        people_list_item: item,
+      })
+    }
   },
   selectAll: function(e) {
     if (this.data.isChecked) {
