@@ -1,5 +1,5 @@
 <!--pages/write_a_bill/write_a_bill.wxml-->
-
+<!-- 记一笔账 -->
 <view class='container'>
 
   <scroll-view class="fill-height" scroll-y>
@@ -88,6 +88,7 @@
     </view>
   </scroll-view>
 
+<!-- 付款人弹窗 -->
   <view class='dialog container' wx:if="{{isShowPeopleDialog}}">
     <view class='container dialog-content' animation='{{dialog_payer_animation}}'>
       <view class='text-bolder fill-width' id='text-payer'>
@@ -109,54 +110,10 @@
 
 </view>
 
-<!-- 参与成员 -->
-<view class='dialog container' wx:if='{{false}}'>
-  <view class='container dialog-content' id='dialog-members' animation='{{dialog_members_animation}}'>
-    <view class='fill-width dialog-top'>
-      <text class='text-bolder'>参与成员</text>
-    </view>
-    <scroll-view scroll-y class='dialog-checkbox-container'>
-
-      <view class='fill-width dialog-checkbox-item'>
-        <checkbox-group bindchange='checkboxChange' class='fill-width dialog-checkboxgroup'>
-          <view class='checkbox-item' wx:for="{{members}}" wx:key='checkbox'>
-            <view class='dialog-checkbox'>
-              <checkbox checked='{{isChecked}}' value='{{item.user_id}}' />
-              <image class='headimg-72' src='{{item.headimgurl}}'></image>
-              <text class='text'>{{item.nickname}}</text>
-            </view>
-            <text class='text'>¥{{average_money}}</text>
-          </view>
-        </checkbox-group>
-      </view>
-      <view class='btn_queding-con text-bolder'>
-        <button class='btn_queding' bindtap='CloseCheckBoxDialog'>
-          <text class='que'>确</text>
-          <text>定</text>
-        </button>
-      </view>
-    </scroll-view>
-
-
-
-    <view class='dialog-checkbox-bottom'>
-      <checkbox-group bindchange='selectAll'>
-        <checkbox checked='{{isSelectAll}}' />
-        <text class='text-f7c429'>全选</text>
-      </checkbox-group>
-
-      <view>
-        <text class='text-bolder'>共</text>
-        <text class='text-bolder'>¥{{money}}</text>
-      </view>
-
-    </view>
-  </view>
-</view>
-
 <view class='dialog' wx:if="{{isShowdialogCheckbox}}">
 
-  <members_participate_in list='{{members}}' money_count="{{money}}" average_money="{{average_money}}" bind:ButtonClick = "onMemberDialogClose" bind:CheckALL = "onCheckAll" bind:CheckBoxChange = "onMemberDialogListChang"/>
+  <members_participate_in list='{{members}}' money_count="{{money}}" save_data="{{members_dialog_data}}" average_money="{{average_money}}" bind:ButtonClick="onMemberDialogClose" bind:CheckALL="onCheckAll" bind:SaveData="saveMembersDialogData" bind:CheckBoxChange="onMemberDialogListChang"
+  />
 
 </view>
 

@@ -6,13 +6,13 @@
 
   <scroll-view scroll-y  class='list'>
     <checkbox-group bindchange = "onCheckAllMembersChange">
-      <view class='list-item' wx:key='list' wx:for="{{list}}">
-        <view class='list-item-checkbox'>
-          <checkbox  value = "{{item.user_id}}" checked='{{isCheckAllMember}}'/>
+      <view class='list-item' wx:key='list' wx:for="{{members}}">
+        <view class='list-item-checkbox' bindtap='onMembersItemClick' data-index='{{index}}'>
+          <checkbox  value = "{{item.user_id}}" checked='{{item.is_check}}'/>
           <image src='{{item.headimgurl}}'/>
           <text class='text'>{{item.nickname}}</text>
         </view>
-        <text class='text'>¥{{average_money}}</text>
+        <text wx:if="{{item.is_check}}" class='text'>¥{{item.money}}</text>
       </view>
     </checkbox-group>
     <button bindtap='onButtonClick' class='btn text-bolder'>确 <text class='btn-text'>定</text> </button>

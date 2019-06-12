@@ -253,7 +253,7 @@
 .wx-friend-big-button{
   width: 144rpx;
   height: 144rpx;
-  background: #f7c429;
+  border: 1rpx solid #f7c429;
   display: flex;
   justify-content: center;
   align-items: center;

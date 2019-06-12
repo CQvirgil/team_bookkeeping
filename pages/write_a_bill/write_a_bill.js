@@ -41,6 +41,13 @@ Page({
     dialog_members_animation: null,
     isShowDialog: false,
     my_total: 0,
+    members_dialog_data: null
+  },
+  saveMembersDialogData: function(e) {
+    console.log(e)
+    this.setData({
+      members_dialog_data: e.detail
+    })
   },
   onBillContentChange: function(e) {
     var value = e.detail
@@ -478,28 +485,6 @@ Page({
     })
     console.log(this.data.people_list_item)
   },
-  CloseCheckBoxDialog: function(e) {
-    var self = this
-    if (this.data.people_list_item.length > 0) {
-      var animation = this.createDiaLogAinmation()
-
-      animation.translate(0, 800).step()
-
-      this.setData({
-        dialog_members_animation: animation.export()
-      })
-
-
-      setTimeout(function() {
-        self.setNavigetiobBarDefault()
-        self.setData({
-          isShowdialogCheckbox: false,
-          isShowInput: true
-        })
-      }, 500)
-
-    }
-  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -614,23 +599,6 @@ Page({
 
     this.setData({
       dialog_members_animation: animation.export()
-    })
-  },
-  //多选按钮状态变化监听
-  checkboxChange: function(e) {
-    var members = []
-    var money = this.data.money / e.detail.value.length
-    for (var i = 0; i < e.detail.value.length; i++) {
-      var user_id = e.detail.value[i]
-      members[i] = {
-        "Money": money,
-        "user_id": user_id
-      }
-    }
-
-    this.setData({
-      people_list_item: members,
-      average_money: money
     })
   },
 
