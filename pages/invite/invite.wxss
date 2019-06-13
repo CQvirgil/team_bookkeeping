@@ -237,7 +237,8 @@
   width: 187rpx;
   height: 278rpx;
   position: absolute;
-  top: 485rpx;
+  top: 50vh;
+  left: 38vw;
   text-align: center;
   display: flex;
   flex-direction: column;

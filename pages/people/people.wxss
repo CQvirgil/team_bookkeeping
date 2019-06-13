@@ -86,8 +86,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  position: absolute;
-  right: 31rpx;
+  margin-right: 23rpx;
 }
 
 
@@ -106,6 +105,7 @@
   width: 100%;
   margin-top: 39rpx;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   position: absolute;
   bottom: 40rpx;
@@ -120,7 +120,7 @@
 .img-bg{
   width: 72rpx;
 	height: 72rpx;
-	background-color: #f7c429;
+	border: 1rpx solid #f7c429;
   margin-left: 0rpx;
 	border-radius: 8rpx;
   display: flex;

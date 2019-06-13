@@ -38,10 +38,24 @@ Page({
     bill_id: '',
     btn_write_state_disable: '',
     dialog_payer_animation: null,
-    dialog_members_animation: null,
     isShowDialog: false,
     my_total: 0,
     members_dialog_data: null
+  },
+  onMemberSelect: function(e){
+    console.log(e.detail)
+    var select = e.detail
+    this.setData({
+      payer: select
+    })
+  },
+  onMembersListDialogClose: function(e){
+    this.setData({
+      isShowInput: true,
+      isShowPeopleDialog: false,
+      isShowDialog: true
+    })
+    this.setNavigetiobBarDefault()
   },
   saveMembersDialogData: function(e) {
     console.log(e)
@@ -284,29 +298,6 @@ Page({
     })
   },
 
-  clickPeopleItem: function(e) {
-    var self = this
-
-    var index = e.currentTarget.dataset.index
-
-    var animation = this.createDiaLogAinmation()
-
-    animation.translate(0, 800).step()
-    this.setData({
-      dialog_payer_animation: animation.export(),
-
-    })
-
-    setTimeout(function() {
-      self.setData({
-        isShowInput: true,
-        isShowPeopleDialog: false,
-        payer: self.data.members[index],
-        isShowDialog: true
-      })
-      self.setNavigetiobBarDefault()
-    }, 500)
-  },
   //付款人条目点击事件
   clickPayer: function(e) {
     var self = this
@@ -502,7 +493,7 @@ Page({
         members: activity.members,
         payer: activity.members[0],
       })
-      self.setPayersListDefault()
+      self.setMembersDefault()
     }
 
 
@@ -559,7 +550,7 @@ Page({
       })
     }
   },
-  setPayersListDefault: function() {
+  setMembersDefault: function() {
     var item = []
     for (var i = 0; i < this.data.members.length; i++) {
       item[i] = {
@@ -579,27 +570,6 @@ Page({
     })
 
     this.setNavigetiobBarDialog()
-
-    var frianim = wx.createAnimation({
-      duration: 0,
-      delay: 0,
-      timingFunction: "ease"
-    })
-    frianim.translate(0, 800).step()
-
-    this.setData({
-      dialog_members_animation: frianim.export()
-    })
-
-    var animation = this.createDiaLogAinmation()
-
-    var height = wx.getSystemInfoSync().windowHeight
-    var h = height / 100
-    animation.translate(0, 0).step()
-
-    this.setData({
-      dialog_members_animation: animation.export()
-    })
   },
 
   onCheckAll: function(e) {
@@ -623,32 +593,6 @@ Page({
         people_list_item: item,
       })
     }
-  },
-  selectAll: function(e) {
-    if (this.data.isChecked) {
-      this.setData({
-        isChecked: false,
-        isSelectAll: false,
-        people_list_item: [],
-        average_money: 0
-      })
-    } else {
-      var item = []
-      var average = e.detail.value / this.data.members.length
-      for (var i = 0; i < this.data.members.length; i++) {
-        item[i] = {
-          "Money": average,
-          "user_id": this.data.members[i].user_id
-        }
-      }
-
-      this.setData({
-        isSelectAll: true,
-        isChecked: true,
-        people_list_item: item,
-      })
-    }
-
   },
   createDiaLogAinmation: function() {
     var animation = wx.createAnimation({

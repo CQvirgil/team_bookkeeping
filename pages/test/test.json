@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "members_participate_in": "/components/dialog/members_participate_in/members_participate_in",
-    "bill_content": "/components/dialog/bill_content/bill_content"
+    "bill_content": "/components/dialog/bill_content/bill_content",
+    "members_list": "/components/dialog/members_list/members_list"
   }
 }

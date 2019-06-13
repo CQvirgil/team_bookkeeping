@@ -1,1 +1,54 @@
 /* components/dialog/members_list/members_list.wxss */
+
+.dialog-content {
+  width: 100%;
+  height: 98vh;
+  position: absolute;
+  border-radius: 20rpx 20rpx 0rpx 0rpx;
+  bottom: -98vh;
+  background: #fff;
+  padding: 0 23rpx;
+}
+
+.text {
+  font-size: 28rpx;
+  font-weight: bolder;
+  color: #000;
+  margin-top: 40rpx;
+}
+
+.text-name {
+  margin-left: 16rpx;
+  font-size: 28rpx;
+}
+
+.list {
+  width: 94%;
+  height: 80vh;
+  margin-top: 40rpx;
+}
+
+.list-item {
+  width: 100%;
+  margin-bottom: 56rpx;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.headimg {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 8rpx;
+  background: #bbb;
+}
+
+.btn-bottom {
+  width: 89%;
+  margin-top: 0;
+  margin-bottom: 0;
+  position: absolute;
+  bottom: 40rpx;
+}

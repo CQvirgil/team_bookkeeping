@@ -163,6 +163,7 @@
   align-items: center;
   position: absolute;
   bottom: 120rpx;
+  left: 0;
 }
 
 .create-activity{

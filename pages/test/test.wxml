@@ -1,4 +1,5 @@
 <view class='dialog'>
-  <members_participate_in list="{{members}}" average_money="{{average_money}}" wx:if="{{true}}"/>
+  <members_participate_in list="{{members}}" average_money="{{average_money}}" wx:if="{{false}}"/>
   <bill_content wx:if="{{false}}" radio_check = "{{onBillContentChange}}" bind:onBillContentChange = "onBillContentChange"/>
+  <members_list/>
 </view>

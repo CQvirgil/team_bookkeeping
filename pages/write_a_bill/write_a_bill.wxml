@@ -88,26 +88,15 @@
     </view>
   </scroll-view>
 
-<!-- 付款人弹窗 -->
-  <view class='dialog container' wx:if="{{isShowPeopleDialog}}">
-    <view class='container dialog-content' animation='{{dialog_payer_animation}}'>
-      <view class='text-bolder fill-width' id='text-payer'>
-        <text class='fill-width'>付款人</text>
-      </view>
-      <view id='dialog-people-list'>
-        <view id='dialog-people-list-item' wx:for="{{members}}" wx:key='dialog-people-list-item' bindtap='clickPeopleItem' data-index='{{index}}'>
-          <image class='headimg-72' src='{{item.headimgurl}}'></image>
-          <text class='text'>{{item.nickname}}</text>
-        </view>
-      </view>
-    </view>
-  </view>
-
   <view class='acount' wx:if="{{isSpecificState && isShowDialog}}">
     <text class='text'>共</text>
     <text id='acount'>¥{{money_acount}}</text>
   </view>
 
+</view>
+
+<view class='dialog' wx:if="{{isShowPeopleDialog}}">
+  <members_list list="{{members}}" bind:onMemberSelect = "onMemberSelect" bind:onClose = "onMembersListDialogClose"/>
 </view>
 
 <view class='dialog' wx:if="{{isShowdialogCheckbox}}">
