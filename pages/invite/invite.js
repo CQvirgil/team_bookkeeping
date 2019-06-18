@@ -1,4 +1,5 @@
 // pages/invite/invite.js
+//邀请好友
 var app = getApp()
 
 Page({
@@ -18,11 +19,11 @@ Page({
     start_tally_style: 'bg-color-fdedbe', //开始记账按钮样式
     wxfriend: '邀请微信好友',
     wxfriend_style: '', //邀请微信好友样式
-    is_show_qr_invite: false,
-    headimg_url: '',
-    user_name: '',
-    page_state: '',
-    activity: null
+    is_show_qr_invite: false, //控制二维码显示
+    headimg_url: '', //用户头像
+    user_name: '', //用户名
+    page_state: '', //页面状态
+    activity: null //活动
   },
   /**
    * 生命周期函数--监听页面加载
@@ -38,7 +39,6 @@ Page({
       })
     }
   },
-
   outActivity: function(event) {
     wx.showModal({
       title: '',
@@ -100,9 +100,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    if(this.data.activity.members){
+    if (this.data.activity.members) {
       this.setState()
-    }else{
+    } else {
 
     }
   },
@@ -160,53 +160,4 @@ Page({
       })
     }
   },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-    return {
-      title: '加入活动' + this.data.activity.name,
-      path: '/pages/join_activity/join_activity?act_id=' + app.globalData.create_act_id + '&page_state=' +
-        this.data.pages_state,
-      success(res) {
-        console.log('分享成功')
-      }
-    }
-
-  }
 })
